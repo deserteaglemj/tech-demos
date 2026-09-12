@@ -1,2 +1,7 @@
 # tech-demos
-Sticky tech-demos monorepo: one app per X-bookmark pick, Bun, Fable 5 cloud agents, screenshot/video PRs.
+
+Sticky monorepo for daily public-tech playground demos.
+
+Each approved X-bookmark pick lands in `apps/<slug>/` as a self-contained Bun app. Cursor cloud agents (Fable 5) open one PR per pick with screenshot + video validation.
+
+See `AGENTS.md` for agent rules.
