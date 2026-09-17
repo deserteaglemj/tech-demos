@@ -1,11 +1,11 @@
 {
   "proposed": [
     {
-      "id": "2076963534307790926",
-      "title": "Kinetics (spring-physics UI motion)",
-      "url": "https://x.com/tranmautritam/status/2076963534307790926",
-      "date": "2026-09-16",
-      "slug": "kinetics-playground"
+      "id": "2079585032587694582",
+      "title": "LLM Wiki (Karpathy-style agent wiki)",
+      "url": "https://x.com/mem0ai/status/2079585032587694582",
+      "date": "2026-09-17",
+      "slug": "llm-wiki-playground"
     }
   ],
   "approved": [
@@ -31,6 +31,14 @@
       "url": "https://x.com/eptwts/status/2092298910190448727",
       "date": "2026-09-15",
       "slug": "reui-admin-slice"
+    },
+    {
+      "id": "2076963534307790926",
+      "title": "Kinetics (spring-physics UI motion)",
+      "url": "https://x.com/tranmautritam/status/2076963534307790926",
+      "date": "2026-09-16",
+      "slug": "kinetics-playground",
+      "reason": "timed out without reply"
     }
   ]
 }
