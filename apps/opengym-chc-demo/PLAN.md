@@ -31,10 +31,10 @@ Ship a single-user openGym-style workout tracker demo branded for Chris Harris C
 - `README.md`, this `PLAN.md`
 
 ## Acceptance criteria
-- [ ] `bun install && bun run dev` works
-- [ ] Home → start workout → log a set → rest timer → see PR / progress update
-- [ ] UI clearly reads as Chris Harris Coaching (brand-first, not generic gym chrome)
-- [ ] PR includes ≥1 screenshot and ≥1 video of the running app
+- [x] `bun install && bun run dev` works
+- [x] Home → start workout → log a set → rest timer → see PR / progress update
+- [x] UI clearly reads as Chris Harris Coaching (brand-first, not generic gym chrome)
+- [x] PR includes ≥1 screenshot and ≥1 video of the running app
 
 ## Validation
 Screenshot + video of the running app in the PR. Not optional.
