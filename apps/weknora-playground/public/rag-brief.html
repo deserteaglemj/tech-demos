@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WeKnora RAG brief — retrieval vs Cursor</title>
+  <style>
+    :root {
+      --ink: #1a1714;
+      --muted: #5c564e;
+      --line: #e4ddd2;
+      --paper: #f7f3ec;
+      --card: #fffdf9;
+      --good: #1f6b45;
+      --good-bg: #e7f5ec;
+      --bad: #8c2f2f;
+      --bad-bg: #fdecec;
+      --warn: #8a5a12;
+      --warn-bg: #fff4df;
+      --accent: #1f3d36;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.5;
+    }
+    header {
+      background: var(--accent);
+      color: #f4efe6;
+      padding: 36px 8vw 28px;
+    }
+    header p { max-width: 68ch; color: #d9e4de; }
+    h1 { font-weight: 600; font-size: clamp(1.8rem, 3vw, 2.5rem); margin: 0 0 8px; letter-spacing: -0.02em; }
+    main { padding: 28px 8vw 64px; max-width: 1100px; }
+    h2 { font-size: 1.35rem; margin: 32px 0 10px; }
+    h3 { font-size: 1.05rem; margin: 22px 0 8px; }
+    p, li { font-family: "Source Sans 3", "Segoe UI", sans-serif; }
+    .kicker { font-family: "Segoe UI", sans-serif; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.75rem; opacity: 0.8; }
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+    .stat b { display: block; font-size: 1.55rem; font-variant-numeric: tabular-nums; }
+    .stat span { color: var(--muted); font-family: "Segoe UI", sans-serif; font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-family: "Segoe UI", sans-serif; font-size: 0.92rem; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { background: #f3eee6; font-weight: 600; }
+    td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .yes { color: var(--good); font-weight: 650; }
+    .no { color: var(--bad); font-weight: 650; }
+    .call { border-left: 4px solid var(--accent); background: var(--card); padding: 12px 16px; margin: 14px 0; }
+    .good { background: var(--good-bg); border-color: var(--good); }
+    .bad { background: var(--bad-bg); border-color: var(--bad); }
+    .warn { background: var(--warn-bg); border-color: var(--warn); }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; }
+    footer { color: var(--muted); font-size: 0.85rem; margin-top: 28px; font-family: "Segoe UI", sans-serif; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr 1fr; } header, main { padding-left: 18px; padding-right: 18px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="kicker">Measured on WeKnora v0.8.2 · 7 Oct 2026</div>
+    <h1>Does WeKnora make Cursor faster at pulling up your data?</h1>
+    <p>Real hybrid search against an indexed copy of your public GitHub projects, this repo’s agent rules, and a September 2026 calendar digest. Compared with ripgrep over the open <code>tech-demos</code> workspace, which is what Cursor already does mid-chat.</p>
+  </header>
+  <main>
+    <section class="grid">
+      <div class="stat"><b>11 / 11</b><span>Warm WeKnora searches returned the required fact</span></div>
+      <div class="stat"><b>2 / 11</b><span>Same facts found by searching the open workspace</span></div>
+      <div class="stat"><b>59 ms</b><span>Median warm hybrid-search time (5 runs each)</span></div>
+      <div class="stat"><b>0 / 3</b><span>Full answers from the local 0.5B chat model that contained the fact</span></div>
+    </section>
+
+    <h2>What was actually run</h2>
+    <p>WeKnora v0.8.2 stayed up in Docker (app, ParadeDB, Redis, docreader, UI). Ollama on this machine served <code>nomic-embed-text</code> (768-d) and <code>qwen2.5:0.5b</code>. Eleven documents were ingested through <code>POST /api/v1/knowledge-bases/:id/knowledge/manual</code> and parsed to <code>completed</code>.</p>
+    <ul>
+      <li>Public READMEs: habla-spanish, orbitdiff, mstudios-react, hermes-agent, logo-creation-skill, betterbrand-breath-test, tech-demos.</li>
+      <li>Public GitHub profile card for <code>deserteaglemj</code> (created 2024-12-11, 7 public repos).</li>
+      <li>Files already in this workspace: <code>AGENTS.md</code> and <code>tracking/seen-bookmarks.json</code>.</li>
+      <li>A calendar digest built from the primary Google Calendar (Sep 2026). Third-party email addresses are omitted from this brief.</li>
+    </ul>
+    <p>Each question was sent to <code>POST /knowledge-bases/:id/hybrid-search</code> five times after the index and embedding model were warm. A hit means every expected string was inside the returned chunks. The Cursor baseline is <code>rg -F</code> over <code>/workspace</code>, excluding <code>node_modules</code> and <code>dist</code>.</p>
+    <div class="call warn">
+      <strong>Install fact that blocked the first index.</strong>
+      WeKnora rewrites <code>127.0.0.1</code> to <code>host.docker.internal</code> and refuses that host until it is on <code>SSRF_WHITELIST_EXTRA</code>. Ollama also has to listen on <code>0.0.0.0</code>, because the rewritten address is the Docker bridge (<code>172.17.0.1</code>), not the host loopback. Until that was fixed, every document failed with <code>connection refused</code> and search returned nothing.
+    </div>
+
+    <h2>Retrieval, question by question</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Where the fact lives</th>
+          <th>WeKnora</th>
+          <th>Warm ms</th>
+          <th>Keyword-only ms</th>
+          <th>Workspace rg</th>
+          <th>rg ms</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Default Claude model for cloud agents on tech-demos?</td>
+          <td>In the repo (<code>AGENTS.md</code>)</td>
+          <td class="yes">Hit · claude-sonnet-5</td>
+          <td class="num">72.0</td><td class="num">19</td>
+          <td class="yes">Hit</td><td class="num">4.8</td>
+        </tr>
+        <tr>
+          <td>App slug for the Kinetics bookmark?</td>
+          <td>In the repo (bookmarks JSON)</td>
+          <td class="yes">Hit · kinetics-playground</td>
+          <td class="num">53.3</td><td class="num">18</td>
+          <td class="yes">Hit</td><td class="num">6.2</td>
+        </tr>
+        <tr>
+          <td>Which repo is the Spanish practice app?</td>
+          <td>GitHub README, not in this repo</td>
+          <td class="yes">Hit · habla-spanish</td>
+          <td class="num">60.9</td><td class="num">20</td>
+          <td class="no">Miss</td><td class="num">6.5</td>
+        </tr>
+        <tr>
+          <td>What does orbitdiff help an agent notice?</td>
+          <td>GitHub README</td>
+          <td class="yes">Hit · Instagram following</td>
+          <td class="num">54.0</td><td class="num">19</td>
+          <td class="no">Miss</td><td class="num">4.8</td>
+        </tr>
+        <tr>
+          <td>What site is mstudios-react a port of?</td>
+          <td>GitHub README</td>
+          <td class="yes">Hit · mstudios.cc</td>
+          <td class="num">64.0</td><td class="num">22</td>
+          <td class="no">Miss</td><td class="num">7.2</td>
+        </tr>
+        <tr>
+          <td>When was the GitHub account created?</td>
+          <td>Profile card ingested for the test</td>
+          <td class="yes">Hit · 2024-12-11</td>
+          <td class="num">57.9</td><td class="num">20</td>
+          <td class="no">Miss</td><td class="num">5.5</td>
+        </tr>
+        <tr>
+          <td>What does the logo skill validate?</td>
+          <td>GitHub README</td>
+          <td class="yes">Hit · SVG</td>
+          <td class="num">56.2</td><td class="num">22</td>
+          <td class="no">Miss</td><td class="num">4.7</td>
+        </tr>
+        <tr>
+          <td>Which project tracks new Instagram follows? (paraphrase)</td>
+          <td>GitHub README</td>
+          <td class="yes">Hit · orbitdiff</td>
+          <td class="num">58.3</td><td class="num">19</td>
+          <td class="no">Miss</td><td class="num">8.0</td>
+        </tr>
+        <tr>
+          <td>Name of the recurring Mstudios meeting?</td>
+          <td>Calendar digest</td>
+          <td class="yes">Hit · Mstudios Sync</td>
+          <td class="num">65.6</td><td class="num">19</td>
+          <td class="no">Miss</td><td class="num">5.1</td>
+        </tr>
+        <tr>
+          <td>Delta flight number, Cancun to Atlanta?</td>
+          <td>Calendar digest</td>
+          <td class="yes">Hit · DL 609</td>
+          <td class="num">58.7</td><td class="num">20</td>
+          <td class="no">Miss</td><td class="num">6.4</td>
+        </tr>
+        <tr>
+          <td>Murph Captains meetup venue and start time?</td>
+          <td>Calendar digest</td>
+          <td class="yes">Hit · Goodtime Hotel, 2:45pm</td>
+          <td class="num">63.9</td><td class="num">21</td>
+          <td class="no">Miss</td><td class="num">7.9</td>
+        </tr>
+        <tr>
+          <td>Stripe employee ID? (fact that does not exist)</td>
+          <td>Nowhere</td>
+          <td class="yes">No such ID in the chunks</td>
+          <td class="num">56.9</td><td class="num">18</td>
+          <td class="yes">No such ID</td><td class="num">8.1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Median warm hybrid search across the 11 real questions: <strong>58.7 ms</strong>. Keyword-only search (vectors off) hit the same 11/11 at a median <strong>19.8 ms</strong>. On this 11-document corpus, embeddings did not raise the hit rate. They added latency.</p>
+
+    <h2>Where Cursor is already enough</h2>
+    <div class="call">
+      For the two facts that already live in <code>tech-demos</code>, both systems hit. Workspace ripgrep median was <strong>5.5 ms</strong>. WeKnora median was <strong>62.6 ms</strong>, about 11× slower. Mid-chat, Cursor should keep grepping the open repo. Pointing those questions at WeKnora does not improve speed or accuracy.
+    </div>
+
+    <h2>Where the index helps</h2>
+    <div class="call good">
+      Nine facts are outside this workspace (other public repos, plus the calendar digest). Workspace search missed all nine. WeKnora hit all nine in about <strong>59 ms</strong> once the index was warm. That is the gap an agent feels: the Spanish app is <code>habla-spanish</code>, orbitdiff watches Instagram follows, mstudios-react ports <code>mstudios.cc</code>, the GitHub account dates to 2024-12-11, the logo skill checks SVG, the recurring meeting is Mstudios Sync, the Cancun–Atlanta flight is DL 609, and the Murph meetup is at The Goodtime Hotel starting 2:45pm.
+    </div>
+    <p>A live GitHub walk for the Spanish-app question (list repos, then download READMEs until the text matched) took <strong>352 ms</strong> and 2 README downloads. One known README download was <strong>76 ms</strong>. Warm WeKnora search was faster than discovering the file on GitHub, and the agent does not have to know the repo name first. The cost is paid earlier: someone has to copy those documents into the knowledge base. WeKnora did not see GitHub or Calendar until this test uploaded them.</p>
+    <p>Cursor already has GitHub and Google Calendar tools on this account. Those tools return live data with no ingest step. WeKnora is an extra index in front of a snapshot, not a replacement for those connectors. It wins on repeat questions over a corpus you chose to file, especially once that corpus is larger than a handful of READMEs.</p>
+
+    <h2>Cold start is a different number</h2>
+    <p>While the reparse was still embedding, the first hybrid searches took <strong>11.0 s</strong> and <strong>27.0 s</strong>. After the model and index were warm, the same questions sat under 75 ms. The first question in a quiet session can look slow even when the steady state is fine. A 0.5B local embedding call is part of that first-hit cost.</p>
+
+    <h2>Asking WeKnora to answer, not just retrieve</h2>
+    <p>Three questions were sent through real <code>/knowledge-chat</code> with <code>qwen2.5:0.5b</code> after retrieval was working. Time to the first streamed byte was about <strong>110 ms</strong> (the tool call starts quickly). The finished answers were wrong.</p>
+    <table>
+      <thead>
+        <tr><th>Question</th><th>Total</th><th>Fact in the answer?</th><th>What it said</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Spanish practice repo</td>
+          <td class="num">115.5 s</td>
+          <td class="no">No</td>
+          <td>Outlined steps to “identify repositories” and never named habla-spanish. Retrieval had already returned that README.</td>
+        </tr>
+        <tr>
+          <td>Default cloud-agent model</td>
+          <td class="num">12.9 s</td>
+          <td class="no">No</td>
+          <td>Talked about logo-creation skills. Did not say claude-sonnet-5.</td>
+        </tr>
+        <tr>
+          <td>Delta flight to Atlanta</td>
+          <td class="num">6.7 s</td>
+          <td class="no">No</td>
+          <td>Asked for a schedule instead of reading DL 609 from the calendar chunk.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="call bad">
+      Retrieval had the passage. The local chat model did not use it. If Cursor keeps its own model and only calls WeKnora as a search tool, you get the 59 ms lookup. If you let this 0.5B model speak for the knowledge base, the answer is slower and wrong.
+    </div>
+
+    <h2>Memory</h2>
+    <h3>Inside one chat</h3>
+    <p>The session was told: “the October demo code name is Harborline.” The next turn asked for that code name. WeKnora answered <strong>sv-agentation-playground</strong>, a slug from the bookmarks file it had just retrieved. The prior user sentence was ignored. That is worse than Cursor’s normal thread, which still has the previous message in context. Elapsed time: 4.6 s to store, 6.9 s to answer.</p>
+    <h3>Across chats</h3>
+    <p>Workspace memory starts <strong>off</strong>. Turning on only the personal switch left <code>effective: false</code> and <code>POST /memory/items</code> returned “memory is disabled.” After <code>PUT /tenants/kv/memory-config</code> with <code>enabled: true</code>, a preference was stored:</p>
+    <p><code>Marquis wants agents to measure retrieval latency against workspace search before claiming a knowledge demo works.</code></p>
+    <p>A new session asked that question. The item’s <code>use_count</code> went from 0 to 1, so WeKnora did attach the memory to the turn. The 0.5B answer still did not repeat it. Notion memory for this account is empty, so Cursor has no competing long-term note. WeKnora’s store works. With this model it did not change what got said.</p>
+    <p>Write mode was <code>explicit_only</code>. The product will not silently learn from chat until an admin sets auto-extract. That default is safe, and it means “it remembers what I said yesterday” is not true until someone turns the workspace switch on and the chat model is strong enough to read the injected note.</p>
+
+    <h2>What to do with this in Cursor</h2>
+    <ul>
+      <li>Keep repo questions on Cursor’s own search. WeKnora was slower and no more accurate.</li>
+      <li>Use WeKnora when the passage is filed in a knowledge base and is not in the open workspace. Warm lookup was ~59 ms and 9/9 on those questions.</li>
+      <li>Do not route the final answer through a 0.5B local model. Hand the chunks to the Cursor model. That is the path that matches how you would use RAG mid-chat.</li>
+      <li>Calendar and GitHub connectors you already have are the live source. WeKnora only knew those facts because this test pasted them in.</li>
+      <li>Turn on workspace memory before expecting cross-chat recall, and judge recall by the answer, not by the row existing. Here the row existed and the answer still missed.</li>
+    </ul>
+
+    <h2>Limits of this measurement</h2>
+    <p>Eleven documents. Keyword search was enough, so this does not show a win for vectors. A corpus of thousands of pages could reverse the keyword-vs-vector result and push latency up. No reranker was configured. The chat model was the smallest Qwen that fit on CPU, not a frontier model. Cold numbers include the embedding backlog from a failed-then-retried parse.</p>
+    <footer>
+      Stack: WeKnora 0.8.2, ParadeDB, Redis, docreader, Ollama nomic-embed-text + qwen2.5:0.5b.
+      API health was <code>{"status":"ok"}</code>. Raw timings: warm hybrid search, five repeats, median reported.
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "overview",
+    "folder": "Product",
+    "title": "WeKnora Overview",
+    "tags": ["product", "rag", "wiki"],
+    "body": "WeKnora is an open-source LLM knowledge platform from Tencent. It turns raw documents into a queryable RAG store, an autonomous ReAct agent, and a self-maintaining Wiki. The three modes share the same knowledge bases so everyday lookups, multi-step tasks, and long-form distillation stay in sync.\n\nCore modes:\n- RAG Quick Q&A for everyday lookups with citations\n- ReAct Agent that orchestrates retrieval, tools, and sandboxes\n- Wiki Mode that distills documents into interlinked markdown pages with a knowledge graph"
+  },
+  {
+    "id": "rag-mode",
+    "folder": "Product",
+    "title": "RAG Quick Q&A",
+    "tags": ["rag", "retrieval"],
+    "body": "RAG mode retrieves relevant chunks from indexed documents, optionally reranks them, and asks an LLM to answer with citations. It is the fastest path for factual questions against a knowledge base.\n\nTypical flow: upload documents → chunk + embed → hybrid search (keyword + vector) → rerank → generate answer with source snippets. Chunk editing with revision history lets you fix retrieval units like documents."
+  },
+  {
+    "id": "agent-mode",
+    "folder": "Product",
+    "title": "ReAct Agent",
+    "tags": ["agent", "tools"],
+    "body": "The ReAct Agent handles multi-step tasks. It can search knowledge, read documents, call MCP tools, use web search, and run skills in session-persistent sandboxes (Docker / E2B / Cube). Cross-session long-term memory remembers who you are and recurring questions.\n\nUse Agent mode when a single retrieval pass is not enough — for example comparing policies across folders or drafting a summary that needs several source documents."
+  },
+  {
+    "id": "wiki-mode",
+    "folder": "Product",
+    "title": "Wiki Mode",
+    "tags": ["wiki", "graph"],
+    "body": "Wiki Mode distills raw documents into a self-maintaining, interlinked markdown knowledge base with an interactive knowledge graph. Pages support manual editing, revision history, and one-click rollback.\n\nEntities and topics become pages. Related pages link together. The graph view shows how concepts connect across the corpus."
+  },
+  {
+    "id": "deploy",
+    "folder": "Ops",
+    "title": "Deployment Options",
+    "tags": ["ops", "docker", "lite"],
+    "body": "WeKnora can be deployed several ways:\n- Docker Compose (standard): ParadeDB PostgreSQL, Redis, app, docreader, frontend\n- Kubernetes Helm chart for clusters\n- Lite single binary with SQLite for personal / low-resource use\n- Desktop app (Lite + GUI) still maturing\n\nRecommended Compose starter: clone the repo, copy .env.example to .env, set DB credentials, REDIS_PASSWORD, JWT_SECRET, and SYSTEM_AES_KEY, then docker compose pull && docker compose up -d. Open http://localhost and complete onboarding."
+  },
+  {
+    "id": "faq",
+    "folder": "Ops",
+    "title": "FAQ",
+    "tags": ["faq"],
+    "body": "Q: Does WeKnora need an external LLM?\nA: Yes for generation. Configure OpenAI-compatible APIs, DeepSeek, Qwen, Ollama, or other built-in vendors during onboarding.\n\nQ: Where is data stored?\nA: In self-hosted mode, documents and vectors stay in your environment (Postgres/ParadeDB by default, or other configured backends).\n\nQ: What file types are supported?\nA: PDF, Word, images, Excel, XMind and more, with multi-source sync from Feishu, Notion, GitLab, Confluence, RSS, and others."
+  }
+]
