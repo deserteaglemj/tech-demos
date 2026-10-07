@@ -27,10 +27,11 @@ export const FormJourney: React.FC<{
     durationInFrames: 16,
   });
 
+  // Finish typing inside the first section window (~37 frames).
   const typedBiz = sampleBusiness.slice(
     0,
     Math.floor(
-      interpolate(frame, [8, 55], [0, sampleBusiness.length], {
+      interpolate(frame, [4, 22], [0, sampleBusiness.length], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
       }),
@@ -39,7 +40,7 @@ export const FormJourney: React.FC<{
   const typedOwner = sampleOwner.slice(
     0,
     Math.floor(
-      interpolate(frame, [40, 85], [0, sampleOwner.length], {
+      interpolate(frame, [18, 34], [0, sampleOwner.length], {
         extrapolateLeft: 'clamp',
         extrapolateRight: 'clamp',
       }),
