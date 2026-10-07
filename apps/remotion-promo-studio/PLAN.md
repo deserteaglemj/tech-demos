@@ -32,11 +32,25 @@ Ship a tiny Remotion Studio app that previews a 15–20s branded product teaser 
 - `README.md`
 
 ## Acceptance criteria
-- [ ] `bun install && bun run dev` starts Studio/Player without errors
-- [ ] Composition renders the teaser with prop-driven product name/colors
-- [ ] README documents how to run
-- [ ] PR includes ≥1 screenshot of the running Studio/Player
-- [ ] PR includes ≥1 video of the composition playing
+- [x] `bun install && bun run dev` starts Studio/Player without errors
+- [x] Composition renders the teaser with prop-driven product name/colors
+- [x] README documents how to run
+- [x] PR includes ≥1 screenshot of the running Studio/Player
+- [x] PR includes ≥1 video of the composition playing
+
+## Shipped
+
+- `ProductTeaser` composition (1920x1080, 30fps, 18s default) sequenced with
+  `<Series>`: logo sting (3s) → N feature beats (4s each, default 3) → CTA (3s).
+- Fully prop-driven via a `zod` schema (`src/Teaser/schema.ts`): `productName`,
+  `tagline` (optional), `accentColor`/`secondaryColor`/`backgroundColor`
+  (color pickers via `@remotion/zod-types` `zColor()`), and a `features` array
+  (1–4 items). `calculateMetadata` re-fits the total duration automatically if
+  the number of features changes, so the timeline never clips or leaves dead air.
+- Stack: Bun, Remotion 4.0.523, React 19.3, TypeScript, zod 4.5.4 (pinned to
+  match Remotion's internal zod-types requirement).
+- README documents `bun install && bun run dev`, the props panel, file layout,
+  and the optional `npx skills add remotion-dev/skills` note.
 
 ## Validation
 Capture screenshot + video from the running app and attach both to the PR. Not optional.
