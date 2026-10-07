@@ -12,7 +12,7 @@ Ship a tiny Bun app that turns a few markdown sources into a Karpathy-style LLM 
 - Build/maintain an index + interlinked topic pages (deterministic local pipeline; optional LLM path gated behind env)
 - Browse pages and a simple link graph visualization
 - Ask-the-wiki panel that works in **mock mode** with no API key (canned or retrieval-only answers from local wiki text)
-- README: `bun install && bun run dev`
+- README: `bun install && bun run dev`, plus `./install.sh` and a static PWA (`bun run build && bun run preview`)
 
 ## Out of scope
 - Hosted multi-user auth / sync
@@ -43,6 +43,9 @@ Ship a tiny Bun app that turns a few markdown sources into a Karpathy-style LLM 
 - [x] Link graph renders relationships between topics (hover-highlight + click-to-open)
 - [x] Ask panel returns a useful mock answer from local wiki text without requiring an API key (keyword-retrieval + cited excerpt, not a hardcoded string)
 - [x] README documents run + optional real-LLM path (gated behind `VITE_OPENAI_API_KEY`, off by default)
+- [x] Installable without an API key: `./install.sh`, `bun run dev`, and a preview PWA that works offline after the first load
+- [x] `bun test` covers mock retrieval
+- [x] Repo root has a public README, MIT license, and SECURITY.md
 - [x] PR includes ≥1 screenshot of the running UI
 - [x] PR includes ≥1 video of browsing + asking the wiki
 
