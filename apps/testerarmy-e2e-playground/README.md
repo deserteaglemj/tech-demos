@@ -36,6 +36,10 @@ E2E_TELEMETRY_DISABLED=1 npx e2e run tests/contact.locators.e2e.ts
 
 See `results/COMPARISON.md` for the Cursor-native vs e2e scoreboard.
 
+## Prompt for your local agent
+
+Copy `prompts/ENSURE-TESTERARMY-E2E.md` into Cursor/Claude Code to force install → use-case mining → adoption hooks → green tests.
+
 ## Lab mode
 
 Simulated runner (no Playwright / API key):
