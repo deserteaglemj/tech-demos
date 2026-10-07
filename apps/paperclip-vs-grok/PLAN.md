@@ -1,47 +1,32 @@
-# PLAN — paperclip-vs-grok
+# PLAN — paperclip-vs-grok (live products)
 
 ## Goal
-Install Paperclip and ship an interactive side-by-side demo that compares running a multi-agent **company** (Paperclip) vs a single managed **always-on bot** (Grok Bot).
+Run **real Paperclip** and **real Grok Bot** on the cloud computer and compare them side-by-side on video — who is using each, how work is assigned — not a fake website demo.
 
 ## Source
-- Tech: Paperclip — https://github.com/paperclipai/paperclip
-- Docs: https://docs.paperclip.ing
-- Compare-to: Grok Bot (xAI managed always-on agent)
+- Paperclip: https://github.com/paperclipai/paperclip
+- Grok Bot: https://cursor.com/docs/grok-bot
 
 ## MVP scope (in)
-- Local install attempt via official `paperclipai` / install script (document result in README)
-- Bun + Vite + React comparison lab:
-  - Shared scenario (one company goal)
-  - **Paperclip lane**: org chart hire → goal → budgets → heartbeats → tickets
-  - **Grok Bot lane**: named bot chat → cloud tools → ask-first approvals → shared computer note
-  - Dimension matrix (control plane vs harness, multi-agent vs single, budgets, host model)
-- README with install + `bun install && bun run dev`
+- Install + run Paperclip locally (`paperclipai`); seed company, goal, agents, issues
+- Install + launch Grok Bot desktop app (Linux .deb)
+- Live video: Paperclip org/agents/tasks vs Grok Bot sign-in / bots (auth may require human Cursor login)
+- `bun run dev` = live lab runner (starts Paperclip, launches Grok Bot) — **not** a Vite comparison site
+- WHO-USES notes for public adopters of each
 
 ## Out of scope
-- Full Paperclip server embedded in this app
-- Real Grok Bot / xAI API calls
-- Multi-user auth, production deploy of Paperclip itself
+- Fake React comparison playground UI
+- Completing Grok Bot OAuth without the owner Cursor credentials
 
 ## Stack
-- Bun + Vite + React (demo UI)
-- Optional: `npx paperclipai onboard --yes` for real control-plane install
+- Bun scripts + system Paperclip CLI + Grok Bot desktop
 - Run: `cd apps/paperclip-vs-grok && bun install && bun run dev`
 
-## File sketch
-- `PLAN.md`, `README.md`, `package.json`, Vite/TS configs
-- `src/App.tsx` — composition + scenario switch
-- `src/components/PaperclipPanel.tsx` — company sim
-- `src/components/GrokBotPanel.tsx` — bot sim
-- `src/components/CompareMatrix.tsx` — dimensions
-- `src/data/compare.ts` — facts / copy
-- `src/index.css` — visual system
-
 ## Acceptance criteria
-- [ ] `bun install && bun run dev` works
-- [ ] Both lanes play through one shared scenario interactively
-- [ ] Matrix makes Paperclip vs Grok Bot difference clear in one sitting
-- [ ] README documents Paperclip install commands + demo run
-- [ ] PR includes ≥1 screenshot and ≥1 video of the running app
+- [x] Paperclip running on `:3100` with company + agents + issues
+- [x] Grok Bot installed and launched
+- [x] Side-by-side live recording + screenshots of who is using Paperclip
+- [ ] Grok Bot fully signed-in bots list (needs owner auth)
 
 ## Validation
-Screenshot + video of the running comparison lab in the PR. Not optional.
+Live screenshot + video of real Paperclip + real Grok Bot windows. Not optional.

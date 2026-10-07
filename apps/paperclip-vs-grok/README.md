@@ -1,47 +1,46 @@
-# Paperclip vs Grok Bot
+# Paperclip vs Grok Bot — **live** lab
 
-Interactive comparison lab: **Paperclip** (self-hosted control plane for a company of AI agents) vs **Grok Bot** (managed always-on cloud worker).
+No fake website. This app runs the **real products** on the cloud computer and documents who is using each.
 
-Source: [paperclipai/paperclip](https://github.com/paperclipai/paperclip)
-
-## Demo UI
+## Run
 
 ```bash
 cd apps/paperclip-vs-grok
 bun install
-bun run dev
+bun run dev          # ensure Paperclip up + launch Grok Bot
+bun run status       # health + who-uses pointers
 ```
 
-Open the Vite URL (default `http://localhost:5173`). Pick a shared scenario, play the Paperclip lane (hire → budgets → goal → heartbeats) and the Grok Bot lane (name → job → tools → ask-first).
+- Paperclip UI: http://127.0.0.1:3100  
+- Grok Bot: desktop window (sign in with your Cursor account)
 
-## Install real Paperclip
+## What we already did on this machine
 
-Requires **Node.js ≥ 24.11**.
+1. Installed Paperclip CLI (`paperclipai` 2026.1005.0) and onboarded embedded Postgres  
+2. Seeded **ClipNotes Demo Co** — goal, CEO/CTO/Engineer/Marketer, issues CLI-1…4  
+3. Installed **Grok Bot 0.68.1** `.deb` and launched it  
+4. Recorded live side-by-side video (Paperclip org/tasks + Grok Bot sign-in)
+
+Grok Bot bot-list requires **your** OAuth. The agent cannot finish Cursor/Google sign-in without credentials.
+
+## Who is using what
+
+See [docs/WHO-USES.md](./docs/WHO-USES.md).
+
+| Live Paperclip | Grok Bot (after you sign in) |
+| --- | --- |
+| BO Board + CEO, CTO, Engineer, Marketer | Account user + named Bots on one cloud PC |
+
+## Install from scratch
 
 ```bash
-# Managed CLI
-curl -fsSL https://paperclip.ing/install.sh | bash -s -- --no-prompt --no-onboard
-# or: npx paperclipai install -y
-
+# Paperclip (Node >= 24.11)
+npx paperclipai install -y
 paperclipai onboard --yes --no-install-service
-# UI + API at http://127.0.0.1:3100
+paperclipai run   # :3100
+
+# Grok Bot (Linux)
+# Get current .deb from https://cursor.com/download/bot
+sudo dpkg -i grok-bot_*_amd64.deb
+grok-bot
 ```
-
-Later starts:
-
-```bash
-paperclipai run
-```
-
-Verified in this environment (Node 24.21): `paperclipai install -y` → `paperclipai onboard --yes` → server healthy at `http://127.0.0.1:3100/api/health`, then seeded a company + goal + CEO agent via CLI.
-
-## Mental model
-
-| | Paperclip | Grok Bot |
-| --- | --- | --- |
-| Role | Company / control plane | Employee / harness |
-| Unit | Tickets + org roles + goals | Chat jobs to a named Bot |
-| Cost | Per-agent budgets / hard stops | Account or seat allowance |
-| Host | You (local/VPS), BYO adapters | xAI cloud computer |
-
-They can coexist: Paperclip orchestrates many adapters; a Grok-class agent can be one hire in the org chart.

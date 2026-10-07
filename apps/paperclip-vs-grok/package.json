@@ -1,25 +1,15 @@
 {
   "name": "paperclip-vs-grok",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "oxlint",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "dev": "bun run scripts/live-lab.ts",
+    "paperclip": "bun run scripts/live-lab.ts --paperclip-only",
+    "grok": "bun run scripts/live-lab.ts --grok-only",
+    "status": "bun run scripts/live-lab.ts --status"
   },
   "devDependencies": {
-    "@types/node": "^24.13.3",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.7",
-    "@vitejs/plugin-react": "^6.1.1",
-    "oxlint": "^1.81.0",
-    "typescript": "~5.9.3",
-    "vite": "^8.3.0"
+    "@types/bun": "latest"
   }
 }
