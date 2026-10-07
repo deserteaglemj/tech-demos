@@ -20,24 +20,31 @@ Ship a tiny Bun app that turns a few markdown sources into a Karpathy-style LLM 
 - Production-grade RAG evaluation harness
 
 ## Stack
-- Bun + Vite + React (or lightweight Bun server + HTML if simpler — prefer React)
-- Local markdown in `content/` or `wiki/`
+- Bun + Vite + React
+- Local markdown in `content/` (5 docs, front matter + `[[slug]]` wiki-links)
+- No heavy extra deps for routing/graph: a ~15-line hash router
+  (`src/lib/useHashRoute.ts`) and a hand-rolled force-directed layout
+  (`src/lib/graph-layout.ts`) instead of react-router / d3
 - Run: `cd apps/llm-wiki-playground && bun install && bun run dev`
 
 ## File sketch
-- `package.json`, `tsconfig.json`, Vite config
-- `src/` UI: library browser, page view, link graph, ask panel
-- `content/` sample markdown seeds
+- `package.json`, `tsconfig.json`, `vite.config.ts`
+- `src/lib/` — wiki parsing/index (`wiki.ts`), link rendering (`markdown.ts`),
+  mock retrieval (`retrieval.ts`), optional real-LLM call (`llm.ts`),
+  routing (`route.ts`, `useHashRoute.ts`), graph layout (`graph-layout.ts`)
+- `src/components/` — `Sidebar`, `IndexPage`, `TopicPage`, `LinkGraph`, `AskPanel`
+- `content/` — 5 seed markdown docs (transformers, attention, tokenization,
+  context-window, rlhf), cross-linked with `[[slug]]` syntax
 - `README.md`, this `PLAN.md`
 
-## Acceptance criteria
-- [ ] `bun install && bun run dev` starts without errors
-- [ ] Seed wiki loads with index + clickable interlinked pages
-- [ ] Link graph renders relationships between topics
-- [ ] Ask panel returns a useful mock answer from local wiki text without requiring an API key
-- [ ] README documents run + optional real-LLM path if present
-- [ ] PR includes ≥1 screenshot of the running UI
-- [ ] PR includes ≥1 video of browsing + asking the wiki
+## Acceptance criteria (shipped)
+- [x] `bun install && bun run dev` starts without errors
+- [x] Seed wiki loads with index + clickable interlinked pages
+- [x] Link graph renders relationships between topics (hover-highlight + click-to-open)
+- [x] Ask panel returns a useful mock answer from local wiki text without requiring an API key (keyword-retrieval + cited excerpt, not a hardcoded string)
+- [x] README documents run + optional real-LLM path (gated behind `VITE_OPENAI_API_KEY`, off by default)
+- [x] PR includes ≥1 screenshot of the running UI
+- [x] PR includes ≥1 video of browsing + asking the wiki
 
 ## Validation
 Capture screenshot + video from the running app and attach both to the PR. Not optional.
