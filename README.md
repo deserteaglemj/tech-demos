@@ -1,6 +1,8 @@
 # tech-demos
 
-A sticky monorepo of small public tech demos: every demo lands here, in its own folder under `apps/`, rather than in a separate repository. The installable app today is [folio](apps/llm-wiki-playground/), a fake computer that shows an LLM wiki working: a raw folder is compiled into linked pages, and an agent answers by searching that wiki instead of grepping the files.
+A testing ground for the AI agent space. Each pick stays whatever it is — a skill, a plugin, a tool, an MCP server, an app, or something else — and is tested end to end against metrics that fit that thing. New tests live in `playground/<slug>/`. Picks already built as apps stay in `apps/`.
+
+The app already in the repo is [folio](apps/llm-wiki-playground/), a fake computer that shows an LLM wiki working: a raw folder is compiled into linked pages, and an agent answers by searching that wiki instead of grepping the files.
 
 **This repository is public.** No account, API key, or cloud setup is required to run the wiki.
 

@@ -1,18 +1,19 @@
 ---
 name: project-planning
-description: Use before building any apps/<slug>/ demo — write PLAN.md with goal, MVP scope, stack, acceptance criteria, and validation (screenshot + video).
+description: Use before building any playground/<slug>/ test — write PLAN.md with the kind of thing, what good means, the end-to-end test, and the metrics that fit it.
 ---
 
 # Project planning (tech-demos)
 
-Before implementing `apps/<kebab-slug>/`, write `apps/<kebab-slug>/PLAN.md` with:
+Before implementing a pick, write `PLAN.md` in its directory (`playground/<kebab-slug>/`, or `apps/<kebab-slug>/` only when the pick is an app). Include:
 
-1. **Goal** — one sentence
-2. **Source** — bookmark URL / tech name
-3. **MVP scope** — what ships in the first PR (and what is explicitly out)
-4. **Stack** — Bun + primary library; how to run (`bun install && bun run dev`)
-5. **File sketch** — key paths under `apps/<slug>/`
-6. **Acceptance criteria** — checklist including Player/Studio or UI works locally
-7. **Validation** — must capture ≥1 screenshot and ≥1 video of the running app for the PR
+1. **Kind** — skill, plugin, app, tool, MCP server, or another specific form. Do not default to an app.
+2. **Goal** — one sentence about what this test is for.
+3. **Source** — bookmark URL / tech name.
+4. **Scope** — what this test covers, and what it leaves out.
+5. **Form** — the real artifact (skill files, plugin, server, CLI, app). How to run it. Bun only if it needs a JavaScript runtime.
+6. **File sketch** — key paths inside the pick's directory.
+7. **Metrics** — the measures that fit this thing, and the bar for "good".
+8. **End-to-end test** — the steps that exercise it for real, and the evidence the PR will include. Screenshot and video are required only when the thing has a UI.
 
-Keep plans short (under ~80 lines). Prefer one vertical slice over polish.
+Keep plans short (under ~80 lines). Prefer one real test over polish.
