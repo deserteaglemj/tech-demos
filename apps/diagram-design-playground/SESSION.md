@@ -40,3 +40,6 @@ Nodes 2–5 sit inside one dashed-zone-adjacent boundary rect labeled "AGENT WOR
 `/workspace/apps/diagram-design-playground/output/tech-demo-pipeline.html`
 
 Verified with `python3 .agents/skills/diagram-design/scripts/self_check.py output/tech-demo-pipeline.html` → `OK`. Rendered headlessly with `google-chrome --headless` to confirm the file opens and lays out correctly as static HTML with no JavaScript.
+
+## Re-run log
+- 2026-10-07 16:48 UTC — live re-run for prompt-delivery validation: re-read SKILL.md, style-guide.md, type-architecture.md, and primitives-core.md, fully overwrote `output/tech-demo-pipeline.html` (fresh write, mtime updated), re-ran `self_check.py` → `OK`.
