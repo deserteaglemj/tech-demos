@@ -45,6 +45,7 @@ bun install && bun run dev   # view output locally
 - [ ] `self_check.py` passes on the HTML
 - [ ] `bun run dev` shows the output
 - [ ] PR has ≥1 screenshot and ≥1 video
+- [ ] Video shows the prompt being given to the agent, then the artifact
 
 ## Validation
-Screenshot + video of the real diagram / usage path. Not optional.
+Screenshot + video of prompt submission and resulting diagram. Not optional.

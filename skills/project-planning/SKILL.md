@@ -14,7 +14,7 @@ Before implementing `apps/<kebab-slug>/`, write `apps/<kebab-slug>/PLAN.md` with
 5. **Stack / install** — how the owner would install and run it; for apps: `bun install && bun run dev`
 6. **File sketch** — key paths under `apps/<slug>/` (for tool-usage: include `PROMPT.md` + output artifact paths)
 7. **Acceptance criteria** — checklist; for tool-usage must include “real prompt produced real artifact via the installed tool”
-8. **Validation** — ≥1 screenshot and ≥1 video of the real demo for the PR
+8. **Validation** — ≥1 screenshot and ≥1 video of the real demo for the PR. For `tool-usage`, the video must show the prompt being given to the agent, then the artifact — not output-only.
 
 Keep plans short (under ~80 lines). Prefer one vertical slice over polish.
 

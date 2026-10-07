@@ -6,3 +6,4 @@ dist
 
 # Skill example gallery is large; install refreshes it via `npx skills add`
 .agents/skills/diagram-design/assets/
+.agent-run-requested

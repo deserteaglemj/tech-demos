@@ -24,10 +24,10 @@ If the pick is a GitHub repo whose README says “install this skill/plugin and 
 1. Only add or update files under `apps/<kebab-slug>/` for the assigned pick (plus the matching `PLAN.md` there). Exception: when the owner asks to change monorepo directions, update `AGENTS.md`, `README.md`, and `skills/project-planning/` as needed.
 2. Do not modify other apps, or create sibling repositories.
 3. Stack default for **app** demos: **Bun**. Those must run with `bun install && bun run dev` from `apps/<slug>/`.
-4. For **tool-usage** demos: install the tool as documented; record the exact prompt; keep the generated artifact(s) under `apps/<slug>/`. A tiny static viewer (`bun run dev`) that opens the output is fine; a reimplementation of the tool is not.
+4. For **tool-usage** demos: install the tool as documented; record the exact prompt; keep the generated artifact(s) under `apps/<slug>/`. A tiny static viewer (`bun run dev`) that opens the output is fine; a reimplementation of the tool is not. Validation must show **the moment the prompt is given to the agent**, not only the finished artifact.
 5. Model: **claude-sonnet-5 (Claude Sonnet 5)**. Do not use Fable 5 unless the owner explicitly asks. Fable launches fail empty on this repo.
 6. Write `PLAN.md` first. Implement **every item** in it. Do not skip planned MVP parts.
-7. Open **one PR**. Attach **both** at least one screenshot **and** at least one video of the real demo (agent/tool run and/or resulting artifact on screen). Not optional.
+7. Open **one PR**. Attach **both** at least one screenshot **and** at least one video of the real demo. Not optional. For tool-usage demos the video must include (a) the prompt being submitted to the agent and (b) the resulting artifact — finished-output-only footage is not enough.
 8. Keep the MVP single-user and demable in one sitting.
 
 ### Tool-usage demo checklist (skills / agent tools / CLIs)
@@ -37,6 +37,7 @@ If the pick is a GitHub repo whose README says “install this skill/plugin and 
 - [ ] Committed the real output the tool/agent produced (e.g. HTML/SVG/diagram/file), not a hand-faked stand-in unless the tool failed (then document the failure)
 - [ ] README explains how to re-run the same usage path
 - [ ] PR validation shows the prompt → output path (screenshot + video)
+- [ ] Video includes the agent receiving/being given the prompt on screen (chat, terminal invoke, or equivalent) — not just the final file
 
 ## Cloudflare previews
 

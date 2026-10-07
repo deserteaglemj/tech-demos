@@ -87,25 +87,25 @@ const indexHtml = `<!DOCTYPE html>
     <p class="brand">Diagram Design</p>
     <h1>Tool-usage demo — real skill, real prompt, real output.</h1>
     <p class="lede">
-      Installed via <code>npx skills add cathrynlavery/diagram-design</code>,
-      then a Cursor agent followed the skill and wrote the architecture HTML below.
-      Not a gallery clone.
+      Installed via <code>npx skills add cathrynlavery/diagram-design</code>.
+      The validation video shows this prompt being given to a Cursor agent,
+      then the HTML below that the agent wrote. Not a gallery clone.
     </p>
     <div class="actions">
-      <a class="btn btn-primary" href="/output/tech-demo-pipeline.html">Open diagram HTML</a>
-      <a class="btn" href="/PROMPT.md">Read the prompt</a>
-      <a class="btn" href="/SESSION.md">Session log</a>
+      <a class="btn btn-primary" href="/PROMPT.md">1. The prompt we gave</a>
+      <a class="btn" href="/SESSION.md">2. Agent session log</a>
+      <a class="btn" href="/output/tech-demo-pipeline.html">3. Open diagram HTML</a>
     </div>
 
     <section>
-      <p class="eyebrow">Prompt</p>
-      <h2>What we asked the agent</h2>
+      <p class="eyebrow">Step 1 · Prompt given to the agent</p>
+      <h2>Exact text submitted to Cursor</h2>
       <pre id="prompt">Loading…</pre>
     </section>
 
     <section>
-      <p class="eyebrow">Output</p>
-      <h2>What the skill produced</h2>
+      <p class="eyebrow">Step 2 · Output the agent produced</p>
+      <h2>Self-contained architecture HTML</h2>
       <iframe title="Generated architecture diagram" src="/output/tech-demo-pipeline.html"></iframe>
     </section>
   </main>
