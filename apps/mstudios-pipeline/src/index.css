@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #121816;
+  --color-ink-soft: #2a332e;
+  --color-paper: #f4f6f2;
+  --color-paper-2: #e8ede4;
+  --color-line: #cfd6c8;
+  --color-moss: #3f5c3a;
+  --color-moss-bright: #5f7d48;
+  --color-lime: #c8d96f;
+  --color-amber: #c4922a;
+  --color-danger: #a33b2d;
+  --color-sky: #3d5c6b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(200, 217, 111, 0.22), transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, rgba(63, 92, 58, 0.12), transparent 50%),
+    linear-gradient(180deg, #eef2ea 0%, var(--color-paper) 40%, #e7ebe3 100%);
+  background-attachment: fixed;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b7c0ae;
+  border-radius: 999px;
+}
