@@ -1,40 +1,30 @@
-# PLAN — openrig-playground
+# PLAN — openrig-playground (live upstream demos)
 
 ## Goal
-Install/test OpenRig, demo its stub-team lifecycle in a Bun UI, and compare it side-by-side with Paperclip.
+Run the real OpenRig and Paperclip products on this machine and compare them by using their UIs — not by building a comparison website.
 
 ## Source
-- Tech: OpenRig — https://github.com/mvschwarz/openrig
-- Comparison: Paperclip — https://github.com/paperclipai/paperclip
+- OpenRig: https://github.com/mvschwarz/openrig (`@openrig/cli` 0.6.6)
+- Paperclip: https://github.com/paperclipai/paperclip (`paperclipai` 2026.1005.0)
 
 ## MVP scope (in)
-- Live comparison page: metaphor, runtime model, install path, surfaces, when-to-pick
-- Interactive OpenRig stub-team board (pods/seats/edges) driven by fixture data from real install findings
-- Captured install/test notes from this environment (`rig doctor`, daemon health, stub `rig up`, Paperclip Node/engine notes)
-- README with `bun install && bun run dev`
+- Install and start OpenRig daemon + enable web UI (`rig config set ui.enabled true`)
+- Launch stub-demo seats (no provider auth)
+- Install/onboard Paperclip (`npx paperclipai@latest onboard --yes`, Node ≥ 24.11)
+- Navigate both real UIs; capture screenshots + videos of actual product use
 
 ## Out of scope
-- Full Claude Code / Codex authenticated team launch
-- Running Paperclip’s full company dashboard in-process (document install findings instead)
-- Publishing or forking either upstream project
+- Custom comparison website / playground app
+- Authenticated Claude Code / Codex / LLM agent heartbeats (no API keys in sandbox)
 
 ## Stack
-- Bun + Vite + React
-- Run: `cd apps/openrig-playground && bun install && bun run dev`
-
-## File sketch
-- `package.json`, Vite/TS configs, `index.html`
-- `src/App.tsx` — comparison composition + stub board
-- `src/data/findings.ts` — install/test evidence
-- `src/data/comparison.ts` — OpenRig vs Paperclip axes
-- `README.md`, this `PLAN.md`
+Upstream CLIs only. No Bun app in this folder.
 
 ## Acceptance criteria
-- [x] `bun install && bun run dev` works
-- [x] First viewport communicates OpenRig vs Paperclip clearly
-- [x] Interactive stub-team demo section works without provider auth
-- [x] Findings reflect real CLI/install attempts from this run
-- [x] PR includes ≥1 screenshot and ≥1 video of the running app
+- [x] OpenRig UI reachable at http://127.0.0.1:7433/
+- [x] Paperclip UI reachable at http://127.0.0.1:3100/
+- [x] Manual navigation of both UIs recorded
+- [x] PR includes ≥1 screenshot and ≥1 video of each real product
 
 ## Validation
-Screenshot + video of the running app in the PR. Not optional.
+See PR artifacts: openrig-real-ui-demo, paperclip-real-ui-demo, openrig-and-paperclip-switch.
