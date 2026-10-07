@@ -1,0 +1,4 @@
+/* Global reset lives mostly in App.css; keep body defaults minimal. */
+body {
+  margin: 0;
+}

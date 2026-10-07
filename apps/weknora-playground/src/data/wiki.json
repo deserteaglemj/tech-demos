@@ -1,0 +1,51 @@
+{
+  "pages": [
+    {
+      "id": "weknora",
+      "title": "WeKnora",
+      "summary": "Open-source LLM knowledge platform combining RAG, Agent, and Wiki on shared knowledge bases.",
+      "links": ["rag", "agent", "wiki", "deployment"]
+    },
+    {
+      "id": "rag",
+      "title": "RAG Quick Q&A",
+      "summary": "Retrieve chunks, rerank, and answer with citations for everyday lookups.",
+      "links": ["weknora", "hybrid-search"]
+    },
+    {
+      "id": "agent",
+      "title": "ReAct Agent",
+      "summary": "Multi-step reasoning with retrieval, MCP tools, skills, and sandboxes.",
+      "links": ["weknora", "rag", "wiki"]
+    },
+    {
+      "id": "wiki",
+      "title": "Wiki Mode",
+      "summary": "Distill documents into interlinked pages with a knowledge graph and revision history.",
+      "links": ["weknora", "agent", "hybrid-search"]
+    },
+    {
+      "id": "hybrid-search",
+      "title": "Hybrid Search",
+      "summary": "Keyword (BM25) plus vector retrieval, often with a reranker before generation.",
+      "links": ["rag", "deployment"]
+    },
+    {
+      "id": "deployment",
+      "title": "Deployment",
+      "summary": "Docker Compose, Helm, or Lite SQLite binary for local / low-resource use.",
+      "links": ["weknora", "hybrid-search"]
+    }
+  ],
+  "edges": [
+    ["weknora", "rag"],
+    ["weknora", "agent"],
+    ["weknora", "wiki"],
+    ["weknora", "deployment"],
+    ["rag", "hybrid-search"],
+    ["agent", "rag"],
+    ["agent", "wiki"],
+    ["wiki", "hybrid-search"],
+    ["deployment", "hybrid-search"]
+  ]
+}
