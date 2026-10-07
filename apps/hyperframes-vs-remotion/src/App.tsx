@@ -1,4 +1,4 @@
-import { useEffect, useRef, type RefObject } from "react";
+import { useRef, type MouseEvent, type RefObject } from "react";
 import { Player, type PlayerRef } from "@remotion/player";
 import "@hyperframes/player";
 import { TitleCard } from "./remotion/TitleCard";
@@ -52,28 +52,23 @@ const MATRIX: Array<[string, string, string]> = [
 export default function App() {
   const remotionRef = useRef<PlayerRef>(null);
   const codeRef = useRef<HTMLElement>(null);
+  const hfHostRef = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    // Soft autoplay once both sides are mounted; browsers may still mute autoplay.
-    const t = window.setTimeout(() => {
-      remotionRef.current?.play();
-      const hf = document.querySelector("hyperframes-player") as
-        | (HTMLElement & { play?: () => void })
-        | null;
-      hf?.play?.();
-    }, 600);
-    return () => window.clearTimeout(t);
-  }, []);
+  const playBoth = (event: MouseEvent<HTMLButtonElement>) => {
+    const remotion = remotionRef.current;
+    if (remotion) {
+      remotion.pause();
+      remotion.seekTo(0);
+      // Remotion requires the user gesture event for play() under autoplay policy.
+      remotion.play(event);
+    }
 
-  const playBoth = () => {
-    remotionRef.current?.seekTo(0);
-    remotionRef.current?.play();
-    const hf = document.querySelector("hyperframes-player") as
-      | (HTMLElement & { play?: () => void; currentTime?: number })
+    const hf = hfHostRef.current as
+      | (HTMLElement & { play?: () => Promise<void> | void; currentTime?: number })
       | null;
     if (hf) {
       if (typeof hf.currentTime === "number") hf.currentTime = 0;
-      hf.play?.();
+      void hf.play?.();
     }
   };
 
@@ -108,6 +103,9 @@ export default function App() {
             </div>
             <div className="player-shell">
               <hyperframes-player
+                ref={(el) => {
+                  hfHostRef.current = el as HTMLElement | null;
+                }}
                 src="/hyperframes/index.html"
                 controls
                 muted
@@ -135,6 +133,7 @@ export default function App() {
                 controls
                 loop
                 autoPlay={false}
+                initiallyShowClickToPlay={false}
                 acknowledgeRemotionLicense
                 style={{ width: "100%", height: "100%" }}
               />
