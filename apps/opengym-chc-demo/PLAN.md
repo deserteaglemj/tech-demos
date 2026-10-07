@@ -1,40 +1,53 @@
-# PLAN — opengym-chc-demo
+# PLAN — opengym-chc-demo (full app)
 
 ## Goal
-Ship a single-user openGym-style workout tracker demo branded for Chris Harris Coaching (CHC / Breaking Limits).
+Ship a full openGym-style training app demo (all primary screens) branded for Chris Harris Coaching, plus a walkthrough that visits every page.
 
 ## Source
 - Tech: openGym — https://github.com/DuarteSantos8/openGym
-- Brand: Chris Harris Coaching — https://chrisharrizcoaching.com (silver + ember orange “Structure” identity)
+- Brand: Chris Harris Coaching — https://chrisharrizcoaching.com
 
 ## MVP scope (in)
-- Home: today’s CHC session, streak, body-weight glance
-- Guided workout: log sets (weight × reps), rest timer, PR callout
-- Progress: week heatmap + simple lift chart (seeded demo data)
-- Full CHC branding: logo mark, Fraunces + Space Grotesk, dark surfaces, ember accent, hero imagery
-- Local persistence (localStorage) so a logged set survives refresh
+Mirror openGym’s primary chrome and pages with seeded CHC data:
+
+**Tab bar (openGym layout)**
+- Home · Plan · Start/Workout · Stats · Exercises
+
+**Pages**
+- Home — today card, body weight, streak, quick links
+- Plan — Mon–Sun week with CHC Upper/Lower/Push routines
+- Workout — guided sets, rest timer, PR toast, finish session
+- Stats — year heatmap strip, body-weight chart, lift PRs, link to History
+- Exercises (Library) — searchable list + muscle filter chips
+- History — past sessions list (from Stats)
+- Muscles — balance / fatigue / detrained modes on a simple muscle map
+- Settings — athlete profile, units, accent preview, reset demo
+
+**Also**
+- CHC Structure branding throughout
+- localStorage persistence
 - README: `bun install && bun run dev`
+- Walkthrough video covering every page + screenshots
 
 ## Out of scope
-- Full openGym fork, passkeys, Docker/self-host, import from Strong/Hevy, AI coach, multi-user sync
+- Forking openGym source, passkeys, Docker/self-host, Strong/Hevy import, AI coach, multi-user sync, 1,324 real exercise media
 
 ## Stack
-- Bun + Vite + React
+- Bun + Vite + React + TypeScript
 - Run: `cd apps/opengym-chc-demo && bun install && bun run dev`
 
 ## File sketch
-- `package.json`, `vite.config.ts`, `index.html`
-- `src/main.tsx`, `src/App.tsx`, `src/styles.css`
-- `src/data/seed.ts`, `src/lib/store.ts`
-- `src/components/{Home,Workout,Progress,Shell}.tsx`
-- `public/brand/` (CHC mark + hero)
-- `README.md`, this `PLAN.md`
+- `src/App.tsx`, `src/styles.css`, `src/data/seed.ts`, `src/lib/store.ts`
+- `src/components/Shell.tsx` (5-tab openGym bar)
+- `src/pages/{Home,Plan,Workout,Stats,Library,History,Muscles,Settings}.tsx`
+- `public/brand/`, `PLAN.md`, `README.md`
 
 ## Acceptance criteria
 - [x] `bun install && bun run dev` works
-- [x] Home → start workout → log a set → rest timer → see PR / progress update
-- [x] UI clearly reads as Chris Harris Coaching (brand-first, not generic gym chrome)
-- [x] PR includes ≥1 screenshot and ≥1 video of the running app
+- [x] All 8 pages reachable and interactive with seeded data
+- [x] Tab bar matches openGym Home / Plan / Start / Stats / Exercises
+- [x] CHC branding reads clearly on every surface
+- [ ] PR includes screenshots of each page + one full walkthrough video
 
 ## Validation
-Screenshot + video of the running app in the PR. Not optional.
+Screenshot every page + one video walking the full app. Not optional.

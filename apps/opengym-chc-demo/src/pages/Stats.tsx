@@ -1,10 +1,12 @@
 import type { AppState } from "../data/seed";
+import type { Page } from "../lib/store";
 
 type Props = {
   state: AppState;
+  onGo: (page: Page) => void;
 };
 
-export function Progress({ state }: Props) {
+export function Stats({ state, onGo }: Props) {
   const history = state.bodyHistory;
   const min = Math.min(...history.map((h) => h.weight)) - 1;
   const max = Math.max(...history.map((h) => h.weight)) + 1;
@@ -20,16 +22,30 @@ export function Progress({ state }: Props) {
   });
 
   const goalY =
-    pad + ((max - state.bodyGoal) / Math.max(0.001, max - min)) * (h - pad * 2);
+    pad +
+    ((max - state.bodyGoal) / Math.max(0.001, max - min)) * (h - pad * 2);
 
   return (
     <>
       <section className="section">
-        <h2>Four-week heatmap</h2>
-        <p className="lede">
-          Session intensity across the last 28 days — quiet Sundays stay dark.
-        </p>
-        <div className="heatmap" aria-label="Training heatmap">
+        <div className="row-between">
+          <div>
+            <h2>Stats</h2>
+            <p className="lede">
+              {state.completedSessions} sessions · streak {state.streakDays} days
+            </p>
+          </div>
+          <button
+            type="button"
+            className="ghost-btn"
+            onClick={() => onGo("history")}
+          >
+            History
+          </button>
+        </div>
+
+        <h3 className="subhead">Eight-week heatmap</h3>
+        <div className="heatmap wide" aria-label="Training heatmap">
           {state.heatmap.map((level, i) => (
             <div
               key={i}
@@ -42,11 +58,10 @@ export function Progress({ state }: Props) {
       </section>
 
       <section className="section">
-        <h2>Body weight vs goal</h2>
+        <h3 className="subhead">Body weight vs goal</h3>
         <p className="lede">
-          Goal line at {state.bodyGoal} lb. Current{" "}
-          {state.bodyWeight.toFixed(1)} lb — {state.completedSessions} sessions
-          logged in the program.
+          Current {state.bodyWeight.toFixed(1)} {state.units} · goal{" "}
+          {state.bodyGoal} {state.units}
         </p>
         <div className="chart-wrap">
           <svg
@@ -73,31 +88,35 @@ export function Progress({ state }: Props) {
             {history.map((pt, i) => {
               const [x, y] = points[i].split(",").map(Number);
               return (
-                <circle
-                  key={pt.date}
-                  cx={x}
-                  cy={y}
-                  r="3.5"
-                  fill="#f36a2d"
-                />
+                <circle key={pt.date} cx={x} cy={y} r="3.5" fill="#f36a2d" />
               );
             })}
           </svg>
           <div className="chart-meta">
             <span>{history[0]?.date}</span>
-            <span>goal {state.bodyGoal} lb</span>
+            <span>goal {state.bodyGoal}</span>
             <span>{history.at(-1)?.date}</span>
           </div>
         </div>
       </section>
 
       <section className="section">
-        <h2>Lift PRs this block</h2>
-        <p className="lede">Best logged loads from today’s Upper A template.</p>
+        <div className="row-between">
+          <h3 className="subhead">Lift PRs this block</h3>
+          <button
+            type="button"
+            className="ghost-btn"
+            onClick={() => onGo("muscles")}
+          >
+            Muscles
+          </button>
+        </div>
         <div className="metric-strip">
           {state.session.exercises.slice(0, 3).map((ex) => (
             <div className="metric" key={ex.id}>
-              <span className="label">{ex.name.split(" ").slice(0, 2).join(" ")}</span>
+              <span className="label">
+                {ex.name.split(" ").slice(0, 2).join(" ")}
+              </span>
               <span className="value">
                 <em>{ex.prWeight}</em>
               </span>

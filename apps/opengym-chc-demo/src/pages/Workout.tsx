@@ -2,22 +2,45 @@ import type { AppState } from "../data/seed";
 
 type Props = {
   state: AppState;
+  loggedSets: number;
+  totalSets: number;
   updateSet: (
     exerciseId: string,
     setId: string,
     patch: { weight?: number; reps?: number },
   ) => void;
   completeSet: (exerciseId: string, setId: string) => void;
+  finishWorkout: () => void;
 };
 
-export function Workout({ state, updateSet, completeSet }: Props) {
+export function Workout({
+  state,
+  loggedSets,
+  totalSets,
+  updateSet,
+  completeSet,
+  finishWorkout,
+}: Props) {
   return (
-    <section className="section">
-      <h2>Guided workout</h2>
-      <p className="lede">
-        Log each set. Rest starts after you confirm. Beat a PR and the ember
-        toast fires.
-      </p>
+    <section className="section workout-page">
+      <div className="workout-head">
+        <div>
+          <p className="kicker-inline">{state.session.dayLabel}</p>
+          <h2>{state.session.title}</h2>
+          <p className="lede">
+            Guided session · {loggedSets}/{totalSets} sets · last loads
+            pre-filled
+          </p>
+        </div>
+        <button
+          type="button"
+          className="btn-primary"
+          disabled={loggedSets === 0}
+          onClick={finishWorkout}
+        >
+          Finish
+        </button>
+      </div>
 
       <div className="exercise-list">
         {state.session.exercises.map((ex, i) => {
@@ -26,13 +49,13 @@ export function Workout({ state, updateSet, completeSet }: Props) {
             <article
               key={ex.id}
               className="exercise"
-              style={{ animationDelay: `${i * 0.05}s` }}
+              style={{ animationDelay: `${i * 0.04}s` }}
             >
               <header>
                 <div>
                   <h3>{ex.name}</h3>
                   <p>
-                    {ex.focus} · target {ex.targetSets} × {ex.targetReps} · last{" "}
+                    {ex.focus} · {ex.targetSets} × {ex.targetReps} · last{" "}
                     {ex.lastWeight} × {ex.lastReps}
                   </p>
                 </div>

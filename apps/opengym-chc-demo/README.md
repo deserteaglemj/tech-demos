@@ -1,6 +1,6 @@
 # opengym-chc-demo
 
-Single-user [openGym](https://github.com/DuarteSantos8/openGym)-style workout tracker demo, branded for **Chris Harris Coaching** (silver mark + ember orange Structure identity).
+Full [openGym](https://github.com/DuarteSantos8/openGym)-style training app demo, branded for **Chris Harris Coaching**.
 
 ## Run
 
@@ -12,13 +12,20 @@ bun run dev
 
 Open the Vite URL (default `http://localhost:5173`).
 
-## Demo flow
+## Pages (openGym chrome)
 
-1. **Home** — CHC hero, streak / weight, today’s Upper A session
-2. **Train** — log weight × reps; rest timer starts; beat a PR for the ember toast
-3. **Progress** — 28-day heatmap + body-weight chart vs goal
+| Tab / route | What you get |
+| --- | --- |
+| **Home** | Today’s session, body weight, streak, quick links |
+| **Plan** | Mon–Sun CHC Upper/Lower week |
+| **Start** | Guided workout — log sets, rest timer, PR toast, finish |
+| **Stats** | Heatmap, body-weight chart, lift PRs → History |
+| **Exercises** | Searchable library + muscle filters → Muscle map |
+| **History** | Past sessions (from Stats) |
+| **Muscles** | Balance / Fatigue / Detrained modes |
+| **Settings** | Athlete profile, units, accent, reset demo |
 
-Data persists in `localStorage`. Use **Reset demo** to restore seed state.
+Data persists in `localStorage`. Use **Reset** to restore seed state.
 
 ## Stack
 
