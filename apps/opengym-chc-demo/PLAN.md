@@ -29,8 +29,14 @@ Mirror openGym’s primary chrome and pages with seeded CHC data:
 - README: `bun install && bun run dev`
 - Walkthrough video covering every page + screenshots
 
+## Also in this build
+- End-to-end trainer: start any plan day, log sets, PRs, finish into history, add library exercises, stats/muscles derived from logged work
+- Separate **Whoop** area: pan a date window across recovery, HRV, RHR, sleep, strain, workouts, and journal habits
+- Whoop CSVs stay local (`public/whoop/*.csv` gitignored) because this GitHub repo is public
+
 ## Out of scope
 - Forking openGym source, passkeys, Docker/self-host, Strong/Hevy import, AI coach, multi-user sync, 1,324 real exercise media
+- Committing personal Whoop exports to git
 
 ## Stack
 - Bun + Vite + React + TypeScript
