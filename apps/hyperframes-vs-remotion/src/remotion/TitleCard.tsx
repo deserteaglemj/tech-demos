@@ -15,20 +15,20 @@ export const TitleCard = () => {
         backgroundColor: "#0a0a0a",
         justifyContent: "center",
         alignItems: "center",
+        overflow: "hidden",
       }}
     >
       <div
         style={{
-          fontFamily: "Inter, Arial, sans-serif",
-          fontSize: 140,
+          fontFamily: "Inter, Arial, Helvetica, sans-serif",
+          fontSize: 120,
           fontWeight: 800,
           color: "#fff",
           opacity,
-          letterSpacing: "-0.04em",
+          letterSpacing: "-0.03em",
           lineHeight: 1,
           whiteSpace: "nowrap",
           textAlign: "center",
-          maxWidth: "90%",
         }}
       >
         HELLO
