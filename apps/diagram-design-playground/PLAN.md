@@ -1,41 +1,50 @@
 # PLAN — diagram-design-playground
 
 ## Goal
-Ship a Bun playground that demos editorial Diagram Design: typed SVG schematics with light/dark/full-editorial skins, live brand tokens, and copy-ready HTML.
+Prove [Diagram Design](https://github.com/cathrynlavery/diagram-design) the way an owner would use it: install the skill, give an AI agent a real prompt, ship the real HTML/SVG it produced.
 
 ## Source
-- Tech: Diagram Design (https://github.com/cathrynlavery/diagram-design)
+- https://github.com/cathrynlavery/diagram-design
 - Site: https://diagramdesign.dev
 
+## Demo kind
+`tool-usage` — not an app playground / gallery clone.
+
 ## MVP scope (in)
-- 6 hand-drawn editorial diagram types (React SVG): Architecture, Loop, Flowchart, Sequence, Quadrant, Pyramid
-- Variant switcher: minimal light · minimal dark · full-editorial
-- Live brand tokens (paper / ink / accent / muted) applied to the active diagram
-- Optional staggered reveal motion (respects `prefers-reduced-motion`)
-- Copy self-contained HTML for the current diagram + variant
-- README: `bun install && bun run dev`
+- Install the skill via `npx skills add cathrynlavery/diagram-design` into this app
+- Record the exact agent prompt in `PROMPT.md`
+- Have a Cursor agent follow the skill and write `output/tech-demo-pipeline.html`
+- Log the session (`SESSION.md`: refs loaded, style-guide choice, plan)
+- Tiny static viewer: `bun install && bun run dev` serves the prompt + output
+- PR validation: screenshot + video of the real diagram (and/or the usage path)
 
 ## Out of scope
-- Full 44-type catalog, Mermaid/draw.io import, PNG export, agent skill packaging
+- Rebuilding the upstream gallery
+- React playground that fakes the skill’s types
+- Full 44-type catalog
 
-## Stack
-- Bun + Vite + React + TypeScript
-- Run: `cd apps/diagram-design-playground && bun install && bun run dev`
+## Stack / install
+```bash
+cd apps/diagram-design-playground
+npx skills add cathrynlavery/diagram-design --copy
+# then ask a Cursor agent the prompt in PROMPT.md
+bun install && bun run dev   # view output locally
+```
 
 ## File sketch
-- `package.json`, Vite/TS config, `index.html`
-- `src/App.tsx`, `src/index.css`, `src/main.tsx`
-- `src/lib/tokens.ts`, `src/lib/exportHtml.ts`
-- `src/components/TokenPanel.tsx`, `VariantTabs.tsx`, `TypeNav.tsx`, `DiagramStage.tsx`
-- `src/diagrams/*.tsx` — six typed schematics
+- `PROMPT.md` — exact prompt
+- `SESSION.md` — agent session log
+- `output/tech-demo-pipeline.html` — real artifact
+- `.agents/skills/diagram-design/` — installed skill (assets/ gitignored)
+- `package.json` + `server.ts` — static viewer
 - `README.md`, this `PLAN.md`
 
 ## Acceptance criteria
-- [ ] `bun install && bun run dev` works
-- [ ] All 6 types render; variant + token changes update the SVG live
-- [ ] Copy HTML produces a self-contained file that opens offline
-- [ ] Reveal motion works when enabled; static is default
-- [ ] PR includes ≥1 screenshot and ≥1 video of the running app
+- [ ] Skill installed from upstream
+- [ ] Real prompt → real diagram via the skill (not hand-faked)
+- [ ] `self_check.py` passes on the HTML
+- [ ] `bun run dev` shows the output
+- [ ] PR has ≥1 screenshot and ≥1 video
 
 ## Validation
-Screenshot + video of the running app in the PR. Not optional.
+Screenshot + video of the real diagram / usage path. Not optional.
