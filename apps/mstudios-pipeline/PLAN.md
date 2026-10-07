@@ -51,8 +51,9 @@ Finder → Brand → Stage 4 → Payment → Postcard → Mail pipeline from.
 - [x] Add prospect creates a Finder-stage deal
 - [x] Reload keeps data; Reset restores seed
 - [x] `bun run typecheck` and `bun run build` pass
-- [ ] PR includes ≥1 screenshot and ≥1 video of the running console
+- [x] PR includes ≥1 screenshot and ≥1 video of the running console
 
 ## Validation
-Screenshot of Command + Board; video of filter → open deal → advance
-stage → board update → reload persistence.
+Screenshots: Command, Board, Demo Cuts won, New Braunfels gate block.
+Video: end-to-end Demo Cuts advance (Payment → Postcard → Mail → Won)
+plus city-gate block on Will's Lawn Care.
