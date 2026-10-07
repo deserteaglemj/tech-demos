@@ -5,8 +5,17 @@ import { RunTrace } from './components/RunTrace'
 import { clearCache } from './lib/cache'
 import { getCacheSnapshot, runDemoTest } from './lib/runner'
 import type { CacheEntry, RunSummary, TraceEvent } from './lib/types'
+import { StudioDemo } from './studio/StudioDemo'
 
-export default function App() {
+type Mode = 'studio' | 'lab'
+
+function readMode(): Mode {
+  const q = new URLSearchParams(window.location.search).get('mode')
+  if (q === 'lab') return 'lab'
+  return 'studio'
+}
+
+function PlaygroundLab({ onOpenStudio }: { onOpenStudio: () => void }) {
   const appRootRef = useRef<HTMLDivElement>(null)
   const [scrambleLabels, setScrambleLabels] = useState(false)
   const [forceLive, setForceLive] = useState(false)
@@ -67,10 +76,6 @@ export default function App() {
     setHighlightLine(null)
   }
 
-  function handleResetApp() {
-    setResetToken((n) => n + 1)
-  }
-
   const cacheCount = Object.keys(cache).length
 
   return (
@@ -80,15 +85,15 @@ export default function App() {
       <header className="hero">
         <div className="hero__brand">
           <p className="hero__mark">e2e</p>
-          <p className="hero__by">by TesterArmy</p>
+          <p className="hero__by">by TesterArmy · Lab</p>
         </div>
         <h1 className="hero__headline">
           Natural-language goals. Locator checks. Cached replay.
         </h1>
         <p className="hero__lede">
-          Demo the open-source agentic test runner: a verified{' '}
-          <code>agent.act</code> records once, then replays with no model calls
-          until the UI drifts.
+          Interactive lab: run a simulated{' '}
+          <code>agent.act</code>, watch cache replay, scramble labels to force
+          handoff.
         </p>
         <div className="hero__actions">
           <button
@@ -107,13 +112,8 @@ export default function App() {
           >
             Clear cache
           </button>
-          <button
-            type="button"
-            className="btn btn--ghost"
-            onClick={handleResetApp}
-            disabled={running}
-          >
-            Reset app
+          <button type="button" className="btn btn--ghost" onClick={onOpenStudio}>
+            Studio demo
           </button>
         </div>
       </header>
@@ -164,8 +164,35 @@ export default function App() {
         <a href="https://github.com/tester-army/e2e" target="_blank" rel="noreferrer">
           github.com/tester-army/e2e
         </a>
-        <span>Simulated runner for the tech-demos sticky monorepo</span>
+        <span>Lab mode · simulated runner</span>
       </footer>
     </div>
   )
+}
+
+export default function App() {
+  const [mode, setMode] = useState<Mode>(() => readMode())
+  const autoPlay =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('play') === '1'
+
+  function goStudio() {
+    const url = new URL(window.location.href)
+    url.searchParams.delete('mode')
+    window.history.replaceState({}, '', url)
+    setMode('studio')
+  }
+
+  function goLab() {
+    const url = new URL(window.location.href)
+    url.searchParams.set('mode', 'lab')
+    window.history.replaceState({}, '', url)
+    setMode('lab')
+  }
+
+  if (mode === 'lab') {
+    return <PlaygroundLab onOpenStudio={goStudio} />
+  }
+
+  return <StudioDemo onOpenLab={goLab} autoPlay={autoPlay} />
 }

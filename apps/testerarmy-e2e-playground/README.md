@@ -1,10 +1,15 @@
 # testerarmy-e2e-playground
 
-Interactive demo of [TesterArmy e2e](https://github.com/tester-army/e2e): mix natural-language `agent.act` / `agent.assert` with deterministic `expect` locators, then replay a verified act from cache with **zero model calls**.
+Interactive + Studio demo of [TesterArmy e2e](https://github.com/tester-army/e2e).
 
-This playground simulates the runner in the browser (no Playwright, no API key). The test source mirrors the public SDK example.
+## Studio (default — website narrative)
 
-## Run
+Opens a ~25s walkthrough:
+
+1. You prompt a coding agent to use e2e for billing upgrade
+2. The agent writes `tests/checkout.e2e.ts`
+3. e2e runs, drives the app Free → Pro
+4. Output: PASS, model calls, `.e2e/cache` ready for CI
 
 ```bash
 cd apps/testerarmy-e2e-playground
@@ -12,12 +17,16 @@ bun install
 bun run dev
 ```
 
-## Try
+- Autoplay for capture: open `http://localhost:5173/?play=1`
+- Interactive lab: `http://localhost:5173/?mode=lab`
 
-1. **Run test** — live agent path upgrades Free → Pro, then writes `.e2e/cache`.
-2. **Run test** again — cache HIT, replayed act, model calls drop (assert still live).
-3. Toggle **Scramble UI labels** and run — cache miss → handoff → re-record.
-4. **Force live agent** behaves like `--no-cache`.
+## Lab mode
+
+Simulated runner (no Playwright / API key):
+
+1. **Run test** — live agent path, writes cache
+2. **Run again** — cache HIT, fewer model calls
+3. **Scramble UI labels** — miss → handoff → re-record
 
 ## Source
 
