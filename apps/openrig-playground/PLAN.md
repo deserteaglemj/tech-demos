@@ -30,11 +30,11 @@ Install/test OpenRig, demo its stub-team lifecycle in a Bun UI, and compare it s
 - `README.md`, this `PLAN.md`
 
 ## Acceptance criteria
-- [ ] `bun install && bun run dev` works
-- [ ] First viewport communicates OpenRig vs Paperclip clearly
-- [ ] Interactive stub-team demo section works without provider auth
-- [ ] Findings reflect real CLI/install attempts from this run
-- [ ] PR includes ≥1 screenshot and ≥1 video of the running app
+- [x] `bun install && bun run dev` works
+- [x] First viewport communicates OpenRig vs Paperclip clearly
+- [x] Interactive stub-team demo section works without provider auth
+- [x] Findings reflect real CLI/install attempts from this run
+- [x] PR includes ≥1 screenshot and ≥1 video of the running app
 
 ## Validation
 Screenshot + video of the running app in the PR. Not optional.
