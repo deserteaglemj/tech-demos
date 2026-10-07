@@ -10,6 +10,7 @@ import type {TeaserProps} from './schema';
 export const Teaser: React.FC<TeaserProps> = ({
   productName,
   tagline,
+  ctaLabel,
   accentColor,
   secondaryColor,
   backgroundColor,
@@ -37,6 +38,7 @@ export const Teaser: React.FC<TeaserProps> = ({
           <CallToAction
             productName={productName}
             tagline={tagline}
+            ctaLabel={ctaLabel}
             accentColor={accentColor}
             secondaryColor={secondaryColor}
           />

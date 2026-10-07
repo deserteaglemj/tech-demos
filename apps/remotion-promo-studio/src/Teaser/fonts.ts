@@ -1,4 +1,4 @@
-import {loadFont} from '@remotion/google-fonts/Outfit';
+import {loadFont} from '@remotion/google-fonts/Syne';
 
 const {fontFamily} = loadFont('normal', {
   weights: ['500', '700', '800'],

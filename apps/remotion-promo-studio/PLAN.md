@@ -48,8 +48,11 @@ Ship a tiny Remotion Studio app that previews a 15–20s branded product teaser 
   (1–4 `{ mark, title, description }` items). `calculateMetadata` re-fits the
   total duration automatically if the number of features changes, so the
   timeline never clips or leaves dead air.
-- Typography via `@remotion/google-fonts` (Outfit); default brand palette is
-  teal/orange on deep navy (editable in Studio).
+- Typography via `@remotion/google-fonts` (Syne, matching mstudios.cc).
+- Default brand: **M Studio** — pink `#f06292` / purple `#9c27b0` / black
+  `#080608` from the live Vercel site (`mstudios-new` → www.mstudios.cc), with
+  feature beats for Design & Build / Get Found / Keep Growing and CTA
+  “Get Your Free Demo”. All editable in Studio.
 - Stack: Bun, Remotion 4.0.523, React 19.3, TypeScript, zod 4.5.4 (pinned to
   match Remotion's internal zod-types requirement).
 - README documents `bun install && bun run dev`, the props panel, file layout,

@@ -5,9 +5,10 @@ import {teaserFont} from './fonts';
 export const CallToAction: React.FC<{
   productName: string;
   tagline: string;
+  ctaLabel: string;
   accentColor: string;
   secondaryColor: string;
-}> = ({productName, tagline, accentColor, secondaryColor}) => {
+}> = ({productName, tagline, ctaLabel, accentColor, secondaryColor}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
 
@@ -48,13 +49,13 @@ export const CallToAction: React.FC<{
             background: `linear-gradient(135deg, ${accentColor}, ${secondaryColor})`,
             fontSize: 42,
             fontWeight: 800,
-            color: '#07131A',
+            color: '#fdf6ff',
             fontFamily: teaserFont,
             transform: `scale(${pulse})`,
             boxShadow: `0 20px 60px -20px ${accentColor}`,
           }}
         >
-          Try {productName} Free
+          {ctaLabel.trim() || `Try ${productName} Free`}
         </div>
       </div>
     </AbsoluteFill>

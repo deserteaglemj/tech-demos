@@ -4,6 +4,11 @@ A tiny [Remotion](https://www.remotion.dev/) project that renders a 15–20 seco
 branded product teaser: **logo sting → 3 feature beats → call-to-action**, all
 driven by editable props (no hardcoded copy or colors in the animation code).
 
+Default branding is **M Studio** (Austin web design & SEO), matched to the live
+site at [mstudios.cc](https://www.mstudios.cc) / Vercel project `mstudios-new`
+(Syne, pink `#f06292` + purple `#9c27b0` on `#080608`). Swap props in Studio for
+any other brand.
+
 ## Run it
 
 ```bash
@@ -21,8 +26,9 @@ and scrub the ~18s animation.
 Open the **ProductTeaser** composition in Remotion Studio and use the props
 panel on the right to edit, live, without touching code:
 
-- `productName` — shown in the logo sting and the CTA button
+- `productName` — shown in the logo sting
 - `tagline` — optional line shown above the CTA button (leave blank to hide it)
+- `ctaLabel` — CTA button text (blank → `Try {productName} Free`)
 - `accentColor` / `secondaryColor` / `backgroundColor` — color pickers that
   drive every gradient, ring, and highlight in the video
 - `features` — an array (1–4 items) of `{ mark, title, description }`

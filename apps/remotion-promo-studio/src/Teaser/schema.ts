@@ -14,6 +14,9 @@ export const featureSchema = z.object({
 export const teaserSchema = z.object({
   productName: z.string().describe('The product/brand name shown in the logo sting and CTA.'),
   tagline: z.string().describe('Short tagline shown above the call-to-action button.'),
+  ctaLabel: z
+    .string()
+    .describe('Label on the CTA button. Leave blank to fall back to "Try {productName} Free".'),
   accentColor: zColor().describe('Primary brand accent color.'),
   secondaryColor: zColor().describe('Secondary accent color used for gradients and rings.'),
   backgroundColor: zColor().describe('Base background color of the whole video.'),
