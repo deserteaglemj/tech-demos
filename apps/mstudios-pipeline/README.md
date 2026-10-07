@@ -1,6 +1,8 @@
 # Mstudios Pipeline
 
-End-to-end operator console for the Mstudios local-site postcard funnel.
+Mstudios postcard-funnel console built **on the ReUI admin slice**
+(Data Grid, Filters, Kanban). Same components and interactions as that
+template; prospects, stages, and the wordmark are Mstudios.
 
 ## Run
 
@@ -10,27 +12,12 @@ bun install
 bun run dev
 ```
 
-Open the printed local URL (default `http://localhost:5174`).
+Press `d` to toggle dark mode.
 
-## What it is
+## What changed from the template
 
-A single-operator workspace the Mstudios team can use to run:
+- Header: **Mstudios Pipeline**
+- Records: local businesses (Henrythebarber, ATX Yardworks, Will's Lawn Care, …)
+- Columns: stage, fit, owner, vertical — still the ReUI grid, filters, and board
 
-**Finder → Brand kit → Stage 4 preview → Payment → Postcard → Print/mail → Won**
-
-with city gates (Austin mail hold, New Braunfels Stage 4 gate), deal editing, activity log, kanban board, and filterable table. State persists in `localStorage`.
-
-## Demo path
-
-1. Open **Command** — review KPIs and city gates.
-2. Open Austin **Mail / payments**.
-3. Open **Demo Cuts ATX** (Stage 4) → Advance through Payment → Postcard (mark print-ready) → Mail → set payment **paid** → Won.
-4. Try advancing **Will's Lawn Care** while New Braunfels Stage 4 is gated — should block with a clear reason.
-5. Reload the page — deals remain.
-
-## Scripts
-
-- `bun run dev` — Vite dev server
-- `bun run build` — production build
-- `bun run typecheck` — TypeScript
-- `bun run preview` — preview production build
+Dragging a card one stage at a time updates that prospect on the Data Grid tab.
