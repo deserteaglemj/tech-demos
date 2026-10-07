@@ -32,11 +32,19 @@ Ship a tiny Remotion Studio app that previews a 15–20s branded product teaser 
 - `README.md`
 
 ## Acceptance criteria
-- [ ] `bun install && bun run dev` starts Studio/Player without errors
-- [ ] Composition renders the teaser with prop-driven product name/colors
-- [ ] README documents how to run
-- [ ] PR includes ≥1 screenshot of the running Studio/Player
-- [ ] PR includes ≥1 video of the composition playing
+- [x] `bun install && bun run dev` starts Studio/Player without errors
+- [x] Composition renders the teaser with prop-driven product name/colors
+- [x] README documents how to run
+- [x] PR includes ≥1 screenshot of the running Studio/Player
+- [x] PR includes ≥1 video of the composition playing
+
+## Shipped file sketch
+- `package.json`, `tsconfig.json`, `remotion.config.ts`, `eslint.config.mjs`
+- `src/index.ts`, `src/Root.tsx`, `src/Composition.tsx`, `src/ProductTeaser.tsx`
+- `src/schema.ts` (Zod props: productName, tagline, accentPrimary, accentSecondary)
+- `src/scenes/` LogoSting · FeatureBeat · CallToAction
+- `src/components/LogoMark.tsx`, `src/fonts.ts`, `public/logo.svg`
+- `README.md`
 
 ## Validation
 Capture screenshot + video from the running app and attach both to the PR. Not optional.
