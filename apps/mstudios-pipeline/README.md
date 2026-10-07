@@ -17,7 +17,8 @@ Press `d` to toggle dark mode.
 ## What changed from the template
 
 - Header: **Mstudios Pipeline**
-- Records: local businesses (Henrythebarber, ATX Yardworks, Will's Lawn Care, …)
-- Columns: stage, fit, owner, vertical — still the ReUI grid, filters, and board
+- Records: the real Mstudios Austin lead book (plus Will's Lawn Care), including live, parked, dead, and missing sites
+- Columns: site status, their website, Stage 4 preview, SEO note, payment, last payment, contract
+- Click a row for relationship history. Payments and contracts are blank where none exist on file.
 
 Dragging a card one stage at a time updates that prospect on the Data Grid tab.

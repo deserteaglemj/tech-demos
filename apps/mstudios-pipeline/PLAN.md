@@ -14,8 +14,9 @@ Data Grid + Filters + Kanban, with Mstudios prospects and branding.
 - Same interactions as that demo: sortable/paginated grid, column facet
   filters, `<Filters>` toolbar, column visibility, dark mode (`d`),
   drag-and-drop Kanban whose stage changes show up on the grid
-- Dataset swapped to deterministic Mstudios prospects (Austin / New Braunfels
-  shortlist plus generated local businesses)
+- Dataset is the Notion Mstudios Leads book (website status, problem/SEO
+  note, phone, address) plus published Stage 4 preview URLs. Payment,
+  last payment, and contract stay empty when nothing is on file.
 - Branding: Mstudios Pipeline wordmark; stages, fit, vertical, owner
 
 ## Out of scope
