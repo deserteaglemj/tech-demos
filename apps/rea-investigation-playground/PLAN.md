@@ -12,6 +12,7 @@ Ship a Bun + Vite playground that demos REA’s Decompile → Understand → Rec
 - Show real Evidence envelope fields: evidence_id, provider, modules, edges, limitations
 - Module graph + source inspection steps
 - Recreate panel: ported TypeScript offline-search feature with live query demo
+- **REA web walkthrough:** inspect Resend.com via CDP (`list_browser_targets`, `inspect_web_page`, `analyze_web_bundle`), recover paired preview switches, apply adapted Desktop/Mobile + Light/Dark board preview to an **M Studios** page
 - README: `bun install && bun run dev`
 
 ## Out of scope

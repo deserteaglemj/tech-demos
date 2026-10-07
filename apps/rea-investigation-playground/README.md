@@ -12,9 +12,10 @@ Open the printed local URL. Step through the investigation, inspect Evidence, an
 
 ## What’s inside
 
+- `#m-studios` (default) — M Studios page with brand-board preview toggles adapted from Resend’s view/appearance switches (recovered with REA CDP tools)
+- `#lab` — Inkdesk JS fixture investigation (Decompile → Understand → Recreate)
 - `fixture/` — Inkdesk mini-app under investigation
-- `src/evidence.json` — compact Evidence summary from a real `rea-agents` analysis
-- Guided UI for the agent-style investigation model (no Hopper/Ghidra required)
+- `src/evidence.json` / `src/resendEvidence.json` — Evidence summaries from real `rea-agents` runs
 
 ## Regenerate Evidence (optional)
 
