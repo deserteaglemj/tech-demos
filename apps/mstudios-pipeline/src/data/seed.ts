@@ -514,6 +514,6 @@ export function createSeedWorkspace(): WorkspaceState {
     version: 1,
     deals,
     gates: defaultGates(),
-    selectedDealId: deals[0]?.id ?? null,
+    selectedDealId: null,
   }
 }

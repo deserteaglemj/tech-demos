@@ -63,6 +63,7 @@ export function DealDrawer({ store }: { store: PipelineStore }) {
           </div>
           <button
             type="button"
+            aria-label="Close deal"
             className="rounded-lg border border-line p-2 text-ink-soft hover:bg-white"
             onClick={() => selectDeal(null)}
           >
