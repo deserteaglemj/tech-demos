@@ -1,34 +1,31 @@
-# context-mode-playground
+# context-mode verification
 
-Demo of [Context Mode](https://github.com/mksglu/context-mode) **as an agent MCP**, not as a standalone product UI.
+Proves [Context Mode](https://github.com/mksglu/context-mode) works as an **MCP for AI agents** (sandbox tool output → fewer context tokens).
 
-Context Mode’s job: keep huge tool dumps out of an AI agent’s conversation so the model spends context tokens on the answer, not on raw logs.
+See **[VERIFICATION.md](./VERIFICATION.md)** for the full report.
 
-## What you see
-
-One agent task (“find ERROR lines in a large access log”) runs two ways:
-
-1. **Without** — agent `Read`s the whole file → tens of KB enter context  
-2. **With** — agent calls real `ctx_execute` over MCP → only stdout enters context  
-
-Side-by-side transcripts + context-window meters show the token difference.
-
-## Run
+## Verify (primary)
 
 ```bash
 cd apps/context-mode-playground
 bun install
+bun run verify
+```
+
+Expect all checks `PASS` and a `verify-results.json` summary.
+
+## Optional viewer
+
+```bash
 bun run dev
 ```
 
-Open the local URL, then click **Run agent comparison**.
+Opens a side-by-side agent comparison (Read dump vs real `ctx_execute`) so you can see the token difference visually.
 
-## Smoke (no UI)
+## Install on your machine (Cursor)
 
 ```bash
-bun run test:mcp
+npm install -g context-mode
 ```
 
-## Source
-
-https://github.com/mksglu/context-mode
+Then register the MCP server (see VERIFICATION.md).

@@ -66,12 +66,12 @@ export default function App() {
     <div className="app">
       <header className="top">
         <div>
-          <p className="eyebrow">Context Mode · intended use</p>
+          <p className="eyebrow">Verified MCP · context-mode@1.0.169</p>
           <h1>Same agent task. Fewer context tokens.</h1>
           <p className="lede">
-            Context Mode is an MCP server for AI coding agents. It does not replace the agent —
-            it keeps huge tool dumps out of the conversation so the model spends tokens on the
-            answer, not on raw logs.
+            Context Mode is an MCP for AI agents — not an app. Primary proof is{" "}
+            <code>bun run verify</code> (see VERIFICATION.md). This viewer only visualizes the
+            token difference for one realistic task.
           </p>
         </div>
         <div className="top-meta">

@@ -1,40 +1,29 @@
 # PLAN — context-mode-playground
 
 ## Goal
-Demo Context Mode the way it is meant to be used: an AI agent completing the same task with far fewer context tokens when tool output is sandboxed via MCP.
+Prove [context-mode](https://github.com/mksglu/context-mode) works as an **agent MCP** (fewer context tokens), via real install + tool tests — not as a fake product UI.
 
 ## Source
-- Tech: Context Mode — https://github.com/mksglu/context-mode
-- npm: `context-mode@1.0.169`
+https://github.com/mksglu/context-mode · npm `context-mode@1.0.169`
 
 ## MVP scope (in)
-- Real `context-mode` MCP over stdio
-- One agent task: analyze a large access log for ERROR lines
-- Side-by-side agent sessions:
-  - **Without:** `Read` dumps the whole file into context
-  - **With:** `ctx_execute` keeps raw bytes in the sandbox; only stdout enters context
-- Live token estimate + context-window fill for each session
-- README: `bun install && bun run dev`
+- Install real package; MCP stdio client
+- `bun run verify` — doctor, execute, index, search, batch, stats with PASS/FAIL
+- `VERIFICATION.md` with verdict + local Cursor install steps
+- Optional small viewer: same agent task with/without sandbox to visualize token delta
+- README: `bun install && bun run verify` (and `bun run dev` for the viewer)
 
 ## Out of scope
-- Product marketing UI for Context Mode itself
-- Cursor/Claude Code plugin marketplace install
-- Full multi-turn coding agent
+- Marketing site for Context Mode
+- Auto-wiring this cloud agent’s Cursor hooks
 
 ## Stack
-- Bun + Vite + React + TypeScript + `context-mode` MCP
-- Run: `cd apps/context-mode-playground && bun install && bun run dev`
-
-## File sketch
-- `server/` MCP client + agent-run API
-- `src/` dual agent transcripts + context meters
-- `fixtures/access.log`, `README.md`, this `PLAN.md`
+Bun + TypeScript + `context-mode` MCP; thin Vite viewer optional.
 
 ## Acceptance criteria
-- [ ] `bun install && bun run dev` works
-- [ ] Same task, two agent paths; with-path uses real `ctx_execute`
-- [ ] Token/context meter clearly shows the with-path is much smaller
-- [ ] PR includes ≥1 screenshot and ≥1 video
+- [ ] `bun run verify` exits 0 with all core checks PASS
+- [ ] VERIFICATION.md states clear WORKS / how to install locally
+- [ ] PR includes screenshot and/or video of verification evidence
 
 ## Validation
-Screenshot + video of the agent token comparison. Not optional.
+Artifact evidence from real MCP runs. Not optional.

@@ -10,4 +10,6 @@ dist
 !fixtures/**/*.log
 .context-mode
 .context-mode-smoke
+.context-mode-verify
+verify-results.json
 dist

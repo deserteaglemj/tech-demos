@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "doctor": "context-mode doctor",
-    "test:mcp": "bun run scripts/smoke-mcp.ts"
+    "verify": "bun run scripts/verify.ts",
+    "test:mcp": "bun run scripts/verify.ts",
+    "test": "bun run scripts/verify.ts"
   },
   "dependencies": {
     "context-mode": "1.0.169",
