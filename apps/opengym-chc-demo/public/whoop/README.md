@@ -1,14 +1,7 @@
-# Local Whoop export
+# Do not put customer exports here
 
-This folder is for a private Whoop CSV export used by the in-app health explorer.
+Whoop CSVs in this folder would be copied into a production build and could become public.
 
-The GitHub repo is public, so `*.csv` here is gitignored and is not pushed.
+Keep exports in `apps/opengym-chc-demo/.private/whoop/` for local dev only. That folder is gitignored and is served only by the Vite dev server.
 
-Expected filenames:
-
-- `physiological_cycles.csv`
-- `workouts.csv`
-- `journal_entries.csv`
-- `sleeps.csv` (optional; sleep fields are already on the physiological export)
-
-You can also import the same files from the Whoop screen in the app. Imported data stays in this browser’s localStorage.
+Or import the CSVs from the Whoop screen. The import is stored in this browser (IndexedDB) and is not part of the app download.

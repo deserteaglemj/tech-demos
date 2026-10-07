@@ -240,80 +240,35 @@ export function createSeed(): AppState {
     return [1, 2, 3, 2, 3, 1, 0][i % 7] ?? 1;
   });
 
-  const today = new Date();
-  const bodyHistory: BodyPoint[] = Array.from({ length: 10 }, (_, i) => {
-    const d = new Date(today);
-    d.setDate(d.getDate() - (9 - i) * 7);
-    return {
-      date: d.toISOString().slice(0, 10),
-      weight: 146 + i * 1.05 + (i % 2 === 0 ? 0.2 : -0.15),
-    };
-  });
+  const bodyHistory: BodyPoint[] = [];
 
-  const history: HistoryItem[] = [
-    {
-      id: "h1",
-      date: offsetDate(-1),
-      title: "Lower A — Squat focus",
-      durationMin: 48,
-      sets: 4,
-      volume: 1410,
-      exercises: [
-        { name: "Back Squat", muscle: "quads", sets: [{ weight: 225, reps: 5 }, { weight: 225, reps: 5 }] },
-        { name: "Hip Thrust", muscle: "glutes", sets: [{ weight: 225, reps: 10 }, { weight: 225, reps: 10 }] },
-      ],
-    },
-    {
-      id: "h2",
-      date: offsetDate(-2),
-      title: "Upper B — Pull bias",
-      durationMin: 51,
-      sets: 3,
-      volume: 510,
-      exercises: [
-        { name: "Lat Pulldown", muscle: "back", sets: [{ weight: 120, reps: 10 }, { weight: 120, reps: 10 }] },
-        { name: "Rope Pushdown", muscle: "triceps", sets: [{ weight: 50, reps: 12 }] },
-      ],
-    },
-    {
-      id: "h3",
-      date: offsetDate(-4),
-      title: "Upper A — Press & thickness",
-      durationMin: 54,
-      sets: 3,
-      volume: 830,
-      exercises: [
-        { name: "Incline Dumbbell Press", muscle: "chest", sets: [{ weight: 70, reps: 9 }, { weight: 70, reps: 8 }] },
-        { name: "Chest-Supported Row", muscle: "back", sets: [{ weight: 70, reps: 10 }] },
-      ],
-    },
-  ];
+  const history: HistoryItem[] = [];
 
   const muscles: MuscleStatus[] = [
-    { id: "chest", label: "Chest", balance: 78, fatigue: 62, daysSince: 0 },
-    { id: "back", label: "Back", balance: 84, fatigue: 55, daysSince: 0 },
-    { id: "shoulders", label: "Shoulders", balance: 71, fatigue: 48, daysSince: 0 },
-    { id: "biceps", label: "Biceps", balance: 60, fatigue: 35, daysSince: 0 },
-    { id: "triceps", label: "Triceps", balance: 58, fatigue: 30, daysSince: 2 },
-    { id: "quads", label: "Quads", balance: 90, fatigue: 70, daysSince: 1 },
-    { id: "hamstrings", label: "Hamstrings", balance: 72, fatigue: 40, daysSince: 1 },
-    { id: "glutes", label: "Glutes", balance: 68, fatigue: 45, daysSince: 1 },
-    { id: "calves", label: "Calves", balance: 35, fatigue: 10, daysSince: 8 },
-    { id: "core", label: "Core", balance: 42, fatigue: 18, daysSince: 5 },
+    { id: "chest", label: "Chest", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "back", label: "Back", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "shoulders", label: "Shoulders", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "biceps", label: "Biceps", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "triceps", label: "Triceps", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "quads", label: "Quads", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "hamstrings", label: "Hamstrings", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "glutes", label: "Glutes", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "calves", label: "Calves", balance: 0, fatigue: 0, daysSince: 0 },
+    { id: "core", label: "Core", balance: 0, fatigue: 0, daysSince: 0 },
   ];
 
   return {
     schema: 3,
-    athlete: "Founding 8 athlete",
+    athlete: "You",
     coach: "Chris Harris",
     program: "Breaking Limits · Upper/Lower",
     units: "lb",
-    streakDays: 5,
-    bodyWeight: 156.4,
-    bodyGoal: 170,
+    streakDays: 0,
+    bodyWeight: 0,
+    bodyGoal: 0,
     bodyHistory,
     heatmap,
-    completedSessions: 18,
+    completedSessions: 0,
     week: [
       { day: "Monday", short: "Mon", routineId: "upper-a", title: "Upper A — Press & thickness", load: "upper" },
       { day: "Tuesday", short: "Tue", routineId: "lower-a", title: "Lower A — Squat focus", load: "lower" },
@@ -339,8 +294,3 @@ export function createSeed(): AppState {
   };
 }
 
-function offsetDate(days: number) {
-  const d = new Date();
-  d.setDate(d.getDate() + days);
-  return d.toISOString().slice(0, 10);
-}

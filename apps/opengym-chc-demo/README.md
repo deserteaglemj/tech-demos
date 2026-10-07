@@ -29,7 +29,9 @@ Data persists in `localStorage`. Use **Reset** to restore the training seed.
 
 **Train** is the Chris Harris Coaching logger: start any plan day, log sets, rest timer, PRs, finish into history, add exercises from the library, and read muscles/stats from those sessions.
 
-**Whoop** is a separate explorer for a local Whoop export (recovery, sleep, strain, workouts, journal). The GitHub repo is public, so the CSV files in `public/whoop/` are gitignored. Drop exports there or import them from the Whoop screen; imported data stays in this browser.
+The coaching program (routines, exercise library, screens) is the product. Workouts, weigh-ins, your name, and the Whoop import are the customer record. They live in IndexedDB on this device. Shipping a new app version merges the new program in and leaves that record in place.
+
+Whoop CSV files belong in `.private/whoop/` (gitignored, dev server only) or are imported from the Whoop screen. They are not part of the download. `deserteaglemj/tech-demos` is a public repo, and `deserteaglemj/chris-harris-coaching` is not available from this workspace, so the product stays in this app folder without customer data.
 
 ## Download walkthrough video
 

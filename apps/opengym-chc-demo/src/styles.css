@@ -690,11 +690,33 @@ button {
   text-transform: uppercase;
 }
 
+.update-note {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: center;
+  margin: 0 0 0.8rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  background: rgba(243, 106, 45, 0.12);
+  color: var(--text-platinum);
+  font-size: 0.86rem;
+}
+
 .inline-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
   margin-top: 0.85rem;
+}
+
+.inline-actions input {
+  border: 1px solid var(--line);
+  background: var(--surface-trench);
+  color: var(--text-platinum);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  width: 8.5rem;
 }
 
 .link-grid {
@@ -987,6 +1009,15 @@ button {
 .kv dd {
   margin: 0;
   font-size: 0.92rem;
+}
+
+.kv input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--surface-trench);
+  color: var(--text-platinum);
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
 }
 
 .swatch-row {

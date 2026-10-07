@@ -6,26 +6,7 @@ import {
   SetLog,
 } from "../data/seed";
 import { convertWeight, isoDate, weekdayIndex } from "./derive";
-
-const KEY = "chc-opengym-demo-v3";
-
-function load(): AppState {
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return createSeed();
-    const parsed = JSON.parse(raw) as AppState;
-    if (parsed.schema !== 3 || !parsed.routines || !parsed.library) {
-      return createSeed();
-    }
-    return parsed;
-  } catch {
-    return createSeed();
-  }
-}
-
-function save(state: AppState) {
-  localStorage.setItem(KEY, JSON.stringify(state));
-}
+import { hydrateCustomer, saveTraining } from "./vault";
 
 export type PrEvent = {
   exerciseName: string;
@@ -45,14 +26,30 @@ export type Page =
   | "whoop";
 
 export function useAppStore() {
-  const [state, setState] = useState<AppState>(() => load());
+  const [state, setState] = useState<AppState>(() => createSeed());
+  const [ready, setReady] = useState(false);
+  const [updateNote, setUpdateNote] = useState<string | null>(null);
   const [page, setPage] = useState<Page>("home");
   const [pr, setPr] = useState<PrEvent>(null);
   const [restSeconds, setRestSeconds] = useState(0);
 
   useEffect(() => {
-    save(state);
-  }, [state]);
+    let cancel = false;
+    hydrateCustomer().then((result) => {
+      if (cancel) return;
+      setState(result.training);
+      setUpdateNote(result.updateNote);
+      setReady(true);
+    });
+    return () => {
+      cancel = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!ready || !state) return;
+    void saveTraining(state);
+  }, [state, ready]);
 
   useEffect(() => {
     if (restSeconds <= 0) return;
@@ -307,6 +304,10 @@ export function useAppStore() {
     });
   };
 
+  const setAthlete = (athlete: string) => {
+    setState((prev) => ({ ...prev, athlete }));
+  };
+
   const resetDemo = () => {
     const next = createSeed();
     setState(next);
@@ -326,6 +327,10 @@ export function useAppStore() {
 
   return {
     state,
+    ready,
+    updateNote,
+    dismissUpdate: () => setUpdateNote(null),
+    setAthlete,
     page,
     pr,
     restSeconds,

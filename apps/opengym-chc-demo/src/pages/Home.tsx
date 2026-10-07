@@ -76,18 +76,18 @@ export function Home({
       <section className="section">
         <h2>Body weight</h2>
         <p className="lede">
-          Goal line at {state.bodyGoal} {state.units}. Tap to log today’s weigh-in.
+          Weigh-ins stay on this device. They are not part of the app download.
         </p>
         <div className="metric-strip">
           <div className="metric">
             <span className="label">Now</span>
             <span className="value">
-              <em>{state.bodyWeight.toFixed(1)}</em>
+              <em>{state.bodyWeight ? state.bodyWeight.toFixed(1) : "—"}</em>
             </span>
           </div>
           <div className="metric">
             <span className="label">Goal</span>
-            <span className="value">{state.bodyGoal}</span>
+            <span className="value">{state.bodyGoal || "—"}</span>
           </div>
           <div className="metric">
             <span className="label">Streak</span>
@@ -96,11 +96,34 @@ export function Home({
             </span>
           </div>
         </div>
-        <div className="inline-actions">
+        <form
+          className="inline-actions"
+          onSubmit={(event) => {
+            event.preventDefault();
+            const data = new FormData(event.currentTarget);
+            const next = Number(data.get("weight"));
+            if (next > 0) onLogWeight(next);
+          }}
+        >
+          <input
+            name="weight"
+            type="number"
+            inputMode="decimal"
+            min="1"
+            step="0.1"
+            placeholder={`Weight (${state.units})`}
+            aria-label="Body weight"
+            defaultValue={state.bodyWeight || ""}
+          />
+          <button type="submit" className="ghost-btn">
+            Save weigh-in
+          </button>
           <button
             type="button"
             className="ghost-btn"
-            onClick={() => onLogWeight(Number((state.bodyWeight + 0.2).toFixed(1)))}
+            onClick={() =>
+              onLogWeight(Number(((state.bodyWeight || 150) + 0.2).toFixed(1)))
+            }
           >
             +0.2 {state.units}
           </button>
@@ -118,7 +141,7 @@ export function Home({
           >
             Charts
           </button>
-        </div>
+        </form>
       </section>
 
       <section className="section">

@@ -1,20 +1,32 @@
+import { useEffect, useState } from "react";
 import type { AppState } from "../data/seed";
 import type { Page } from "../lib/store";
+import { clearWhoop, loadWhoop } from "../lib/vault";
+import { APP_VERSION } from "../lib/version";
 
 type Props = {
   state: AppState;
   onGo: (page: Page) => void;
   onUnits: (units: "lb" | "kg") => void;
+  onRename: (name: string) => void;
   onReset: () => void;
 };
 
-export function Settings({ state, onGo, onUnits, onReset }: Props) {
+export function Settings({ state, onGo, onUnits, onRename, onReset }: Props) {
+  const [whoopDays, setWhoopDays] = useState<number | null>(null);
+  useEffect(() => {
+    loadWhoop().then((bundle) => setWhoopDays(bundle?.cycles.length ?? 0));
+  }, []);
+
   return (
     <section className="section">
       <div className="row-between">
         <div>
           <h2>Settings</h2>
-          <p className="lede">Profile, units, and demo controls.</p>
+          <p className="lede">
+            App {APP_VERSION}. Your name, workouts, and Whoop import stay in this
+            browser. An update changes the app, not that record.
+          </p>
         </div>
         <button type="button" className="ghost-btn" onClick={() => onGo("home")}>
           Home
@@ -26,7 +38,13 @@ export function Settings({ state, onGo, onUnits, onReset }: Props) {
         <dl className="kv">
           <div>
             <dt>Name</dt>
-            <dd>{state.athlete}</dd>
+            <dd>
+              <input
+                aria-label="Your name"
+                value={state.athlete}
+                onChange={(event) => onRename(event.target.value)}
+              />
+            </dd>
           </div>
           <div>
             <dt>Coach</dt>
@@ -98,12 +116,28 @@ export function Settings({ state, onGo, onUnits, onReset }: Props) {
       </div>
 
       <div className="settings-card">
-        <h3>Demo</h3>
+        <h3>On this device</h3>
         <p className="lede">
-          Clears localStorage and restores the Founding 8 seed week.
+          {state.history.length} logged workouts
+          {whoopDays == null ? "" : ` · ${whoopDays} Whoop days`}. None of this
+          is in the GitHub repo.
         </p>
-        <button type="button" className="btn-primary" onClick={onReset}>
-          Reset demo data
+        <button
+          type="button"
+          className="btn-primary"
+          onClick={() => {
+            const ok = window.confirm(
+              "Erase workouts, weigh-ins, and the Whoop import stored on this device? The coaching program stays. This cannot be undone.",
+            );
+            if (!ok) return;
+            void clearWhoop().then(() => {
+              window.dispatchEvent(new Event("chc-vault-changed"));
+              onReset();
+              setWhoopDays(0);
+            });
+          }}
+        >
+          Erase my data
         </button>
       </div>
     </section>

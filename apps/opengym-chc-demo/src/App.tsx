@@ -23,7 +23,6 @@ export default function App() {
       onGo={store.go}
       onMode={(next) => store.go(next === "whoop" ? "whoop" : "home")}
       onStart={store.startWorkout}
-      onReset={store.resetDemo}
       overlays={
         <>
           {store.restSeconds > 0 && page === "workout" && (
@@ -61,7 +60,16 @@ export default function App() {
         </>
       }
     >
-      {page === "home" && (
+      {store.updateNote && (
+        <p className="update-note" role="status">
+          {store.updateNote}{" "}
+          <button type="button" className="ghost-btn" onClick={store.dismissUpdate}>
+            OK
+          </button>
+        </p>
+      )}
+      {!store.ready && <p className="lede">Opening your log on this device…</p>}
+      {store.ready && page === "home" && (
         <Home
           state={state}
           loggedSets={store.loggedSets}
@@ -71,8 +79,10 @@ export default function App() {
           onLogWeight={store.logBodyWeight}
         />
       )}
-      {page === "plan" && <Plan state={state} onStartDay={store.startDay} />}
-      {page === "workout" && (
+      {store.ready && page === "plan" && (
+        <Plan state={state} onStartDay={store.startDay} />
+      )}
+      {store.ready && page === "workout" && (
         <Workout
           state={state}
           loggedSets={store.loggedSets}
@@ -82,18 +92,23 @@ export default function App() {
           finishWorkout={store.finishWorkout}
         />
       )}
-      {page === "stats" && <Stats state={state} onGo={store.go} />}
-      {page === "library" && (
+      {store.ready && page === "stats" && <Stats state={state} onGo={store.go} />}
+      {store.ready && page === "library" && (
         <Library state={state} onGo={store.go} onAdd={store.addToWorkout} />
       )}
-      {page === "history" && <History state={state} onGo={store.go} />}
-      {page === "muscles" && <Muscles state={state} onGo={store.go} />}
-      {page === "whoop" && <Whoop />}
-      {page === "settings" && (
+      {store.ready && page === "history" && (
+        <History state={state} onGo={store.go} />
+      )}
+      {store.ready && page === "muscles" && (
+        <Muscles state={state} onGo={store.go} />
+      )}
+      {store.ready && page === "whoop" && <Whoop />}
+      {store.ready && page === "settings" && (
         <Settings
           state={state}
           onGo={store.go}
           onUnits={store.setUnits}
+          onRename={store.setAthlete}
           onReset={store.resetDemo}
         />
       )}

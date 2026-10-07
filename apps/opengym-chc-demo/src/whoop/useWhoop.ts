@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { loadWhoop, saveWhoop, whoopAutoloadAllowed } from "../lib/vault";
 import { parseWhoop, type WhoopBundle } from "./parse";
-
-const KEY = "chc-whoop-private-v1";
 
 const FILES = {
   cycles: "/whoop/physiological_cycles.csv",
@@ -21,42 +20,51 @@ export function useWhoop() {
   const [error, setError] = useState("");
 
   const adopt = useCallback((next: WhoopBundle) => {
-    localStorage.setItem(KEY, JSON.stringify(next));
+    void saveWhoop(next);
     setBundle(next);
     setStatus("ready");
     setError("");
   }, []);
 
+  const reload = useCallback(async () => {
+    const stored = await loadWhoop();
+    if (stored) {
+      setBundle(stored);
+      setStatus("ready");
+      return;
+    }
+    if (!(await whoopAutoloadAllowed())) {
+      setBundle(null);
+      setStatus("missing");
+      return;
+    }
+    try {
+      const [cycles, workouts, journal] = await Promise.all([
+        fetchText(FILES.cycles),
+        fetchText(FILES.workouts),
+        fetchText(FILES.journal),
+      ]);
+      adopt(parseWhoop({ cycles, workouts, journal }));
+    } catch {
+      setBundle(null);
+      setStatus("missing");
+    }
+  }, [adopt]);
+
   useEffect(() => {
     let cancelled = false;
-    (async () => {
-      try {
-        const [cycles, workouts, journal] = await Promise.all([
-          fetchText(FILES.cycles),
-          fetchText(FILES.workouts),
-          fetchText(FILES.journal),
-        ]);
-        if (cancelled) return;
-        adopt(parseWhoop({ cycles, workouts, journal }));
-      } catch {
-        if (cancelled) return;
-        try {
-          const cached = localStorage.getItem(KEY);
-          if (cached) {
-            setBundle(JSON.parse(cached) as WhoopBundle);
-            setStatus("ready");
-            return;
-          }
-        } catch {
-          /* empty cache */
-        }
-        setStatus("missing");
-      }
-    })();
+    reload().catch(() => {
+      if (!cancelled) setStatus("missing");
+    });
+    const onChange = () => {
+      void reload();
+    };
+    window.addEventListener("chc-vault-changed", onChange);
     return () => {
       cancelled = true;
+      window.removeEventListener("chc-vault-changed", onChange);
     };
-  }, [adopt]);
+  }, [reload]);
 
   const importFiles = useCallback(
     async (list: FileList | File[]) => {

@@ -11,8 +11,9 @@ export function Stats({ state, onGo }: Props) {
   const history = state.bodyHistory;
   const heatmap = deriveHeatmap(state.history);
   const streak = deriveStreak(state.history);
-  const min = Math.min(...history.map((h) => h.weight)) - 1;
-  const max = Math.max(...history.map((h) => h.weight)) + 1;
+  const hasWeight = history.length > 0;
+  const min = hasWeight ? Math.min(...history.map((h) => h.weight)) - 1 : 0;
+  const max = hasWeight ? Math.max(...history.map((h) => h.weight)) + 1 : 1;
   const w = 320;
   const h = 140;
   const pad = 12;
@@ -66,6 +67,7 @@ export function Stats({ state, onGo }: Props) {
           Current {state.bodyWeight.toFixed(1)} {state.units} · goal{" "}
           {state.bodyGoal} {state.units}
         </p>
+        {hasWeight ? (
         <div className="chart-wrap">
           <svg
             className="chart"
@@ -97,10 +99,13 @@ export function Stats({ state, onGo }: Props) {
           </svg>
           <div className="chart-meta">
             <span>{history[0]?.date}</span>
-            <span>goal {state.bodyGoal}</span>
+            <span>goal {state.bodyGoal || "—"}</span>
             <span>{history.at(-1)?.date}</span>
           </div>
         </div>
+        ) : (
+          <p className="lede">Log a weigh-in on Home and it will stay on this device.</p>
+        )}
       </section>
 
       <section className="section">

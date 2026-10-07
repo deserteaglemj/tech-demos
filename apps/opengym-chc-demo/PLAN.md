@@ -32,7 +32,8 @@ Mirror openGym’s primary chrome and pages with seeded CHC data:
 ## Also in this build
 - End-to-end trainer: start any plan day, log sets, PRs, finish into history, add library exercises, stats/muscles derived from logged work
 - Separate **Whoop** area: pan a date window across recovery, HRV, RHR, sleep, strain, workouts, and journal habits
-- Whoop CSVs stay local (`public/whoop/*.csv` gitignored) because this GitHub repo is public
+- Customer vault (IndexedDB) is separate from the app version. Updates merge the new program and keep workouts, weigh-ins, and the Whoop import on device
+- Whoop CSVs stay in `.private/whoop/` (gitignored, dev server only). They are not in the download. This GitHub repo is public; the private Chris Harris Coaching repo is not available from this workspace
 
 ## Out of scope
 - Forking openGym source, passkeys, Docker/self-host, Strong/Hevy import, AI coach, multi-user sync, 1,324 real exercise media

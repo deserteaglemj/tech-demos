@@ -8,7 +8,6 @@ type Props = {
   onGo: (page: Page) => void;
   onMode: (mode: "train" | "whoop") => void;
   onStart: () => void;
-  onReset: () => void;
   children: ReactNode;
   overlays?: ReactNode;
 };
@@ -27,7 +26,6 @@ export function Shell({
   onGo,
   onMode,
   onStart,
-  onReset,
   children,
   overlays,
 }: Props) {
@@ -43,10 +41,10 @@ export function Shell({
         />
         <h1>CHRIS HARRIS COACHING</h1>
         <p>
-          Chris Harris Coaching trainer, plus a private Whoop explorer for
-          recovery, sleep, strain, workouts, and journal habits.
+          The coaching app is the product. Your workouts and Whoop history stay
+          on this device when the app is updated.
         </p>
-        <p className="credit">Demo · single-user · local only</p>
+        <p className="credit">Customer data never ships with the download</p>
       </aside>
 
       <div className={`app-shell${hideTabs ? " no-tabbar" : ""}`}>
@@ -55,7 +53,7 @@ export function Shell({
             <img className="mark" src="/brand/icon-mark.svg" alt="" />
             <div className="word">
               <strong>Chris Harris Coaching</strong>
-              <span>Breaking Limits · openGym demo</span>
+              <span>Breaking Limits</span>
             </div>
           </div>
           <div className="brand-actions">
@@ -85,9 +83,6 @@ export function Shell({
                 Settings
               </button>
             )}
-            <button type="button" className="ghost-btn" onClick={onReset}>
-              Reset
-            </button>
           </div>
         </header>
 
