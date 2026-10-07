@@ -1,7 +1,8 @@
 # PLAN — remotion-promo-studio
 
 ## Goal
-Ship a tiny Remotion Studio app that previews a 15–20s branded product teaser composition with editable props.
+Ship a Remotion Studio app with an M Studio brand teaser and a website-ready
+walkthrough of the `/start` application process (how easy it is to get a site).
 
 ## Source
 - Tech: Remotion (Agent Skills)
@@ -9,10 +10,12 @@ Ship a tiny Remotion Studio app that previews a 15–20s branded product teaser 
 
 ## MVP scope (in)
 - Remotion project under `apps/remotion-promo-studio/`
-- One composition: logo sting → 3 short feature beats → CTA
-- Editable props: product name, accent colors (and maybe tagline)
+- `ProductTeaser`: logo sting → 3 short feature beats → CTA
+- `ApplicationWalkthrough`: intro → open /start → 8-section form journey →
+  submit → free-demo outcome → CTA (for embedding on mstudios.cc)
+- Editable props for brand/copy/colors (and sample form values)
 - Preview via Remotion Player / Studio (`bun run dev`)
-- README with run instructions; optional note that Remotion Agent Skills (`npx skills add remotion-dev/skills`) can regenerate scenes later
+- README with run instructions; optional Remotion Agent Skills note
 
 ## Out of scope
 - Rendering/export pipeline to MP4 in CI
@@ -33,10 +36,11 @@ Ship a tiny Remotion Studio app that previews a 15–20s branded product teaser 
 
 ## Acceptance criteria
 - [x] `bun install && bun run dev` starts Studio/Player without errors
-- [x] Composition renders the teaser with prop-driven product name/colors
-- [x] README documents how to run
+- [x] ProductTeaser renders with prop-driven product name/colors
+- [x] ApplicationWalkthrough mirrors the real `/start` 8-section flow
+- [x] README documents how to run both compositions
 - [x] PR includes ≥1 screenshot of the running Studio/Player
-- [x] PR includes ≥1 video of the composition playing
+- [x] PR includes ≥1 video of a composition playing
 
 ## Shipped
 
@@ -55,8 +59,11 @@ Ship a tiny Remotion Studio app that previews a 15–20s branded product teaser 
   “Get Your Free Demo”. All editable in Studio.
 - Stack: Bun, Remotion 4.0.523, React 19.3, TypeScript, zod 4.5.4 (pinned to
   match Remotion's internal zod-types requirement).
-- README documents `bun install && bun run dev`, the props panel, file layout,
-  and the optional `npx skills add remotion-dev/skills` note.
+- `ApplicationWalkthrough` (~22s): mirrors [mstudios.cc/start](https://www.mstudios.cc/start)
+  — browser chrome, 8 intake sections with progress, submit, thank-you / free
+  demo, CTA. Editable sample business/owner and brand colors.
+- README documents `bun install && bun run dev`, both compositions, and the
+  optional `npx skills add remotion-dev/skills` note.
 
 ## Validation
 Capture screenshot + video from the running app and attach both to the PR. Not optional.

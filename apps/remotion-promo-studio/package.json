@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion render ProductTeaser out/product-teaser.mp4",
+    "build:apply": "remotion render ApplicationWalkthrough out/apply-walkthrough.mp4",
     "still": "remotion still ProductTeaser out/product-teaser.png",
     "upgrade": "remotion upgrade"
   },

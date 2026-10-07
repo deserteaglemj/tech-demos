@@ -1,13 +1,15 @@
 # Remotion Promo Studio
 
-A tiny [Remotion](https://www.remotion.dev/) project that renders a 15–20 second
-branded product teaser: **logo sting → 3 feature beats → call-to-action**, all
-driven by editable props (no hardcoded copy or colors in the animation code).
+A tiny [Remotion](https://www.remotion.dev/) project with two M Studio compositions:
 
-Default branding is **M Studio** (Austin web design & SEO), matched to the live
-site at [mstudios.cc](https://www.mstudios.cc) / Vercel project `mstudios-new`
-(Syne, pink `#f06292` + purple `#9c27b0` on `#080608`). Swap props in Studio for
-any other brand.
+1. **ProductTeaser** — 15–20s brand teaser (logo sting → 3 feature beats → CTA)
+2. **ApplicationWalkthrough** — ~22s website-ready demo of how easy it is to
+   apply at [mstudios.cc/start](https://www.mstudios.cc/start): open the form →
+   walk the 8 sections → send → free demo promise → CTA
+
+Default branding matches the live site at [mstudios.cc](https://www.mstudios.cc)
+/ Vercel project `mstudios-new` (Syne, pink `#f06292` + purple `#9c27b0` on
+`#080608`).
 
 ## Run it
 
@@ -17,9 +19,8 @@ bun install
 bun run dev
 ```
 
-`bun run dev` runs `remotion studio`, which opens the Remotion Studio at
-`http://localhost:3000`. Select the **ProductTeaser** composition to preview
-and scrub the ~18s animation.
+`bun run dev` runs `remotion studio` at `http://localhost:3000`. Pick
+**ProductTeaser** or **ApplicationWalkthrough** in the left sidebar.
 
 ## Edit the branding
 
@@ -39,28 +40,39 @@ panel on the right to edit, live, without touching code:
 Prop shapes are defined with `zod` in [`src/Teaser/schema.ts`](./src/Teaser/schema.ts);
 defaults live in [`src/Teaser/defaultProps.ts`](./src/Teaser/defaultProps.ts).
 
+## ApplicationWalkthrough (for the website)
+
+Customer-facing walkthrough of the real `/start` intake:
+
+1. Intro — “Getting your website is easy”
+2. Open `mstudios.cc/start` — “Let’s build your free demo”
+3. Form journey — all 8 sections light up (Basics → … → Logistics) with a
+   sample business typed into the first fields
+4. Submit — “Send it over →”
+5. Outcome — free working demo, pay only if you love it
+6. CTA — Start Your Free Demo
+
+Edit sample business/owner names and colors via the Studio props panel
+(`src/Apply/schema.ts`).
+
 ## Structure
 
 ```
 src/
   index.ts             registerRoot entry point
-  Root.tsx             <Composition> registration + calculateMetadata
-  Teaser/
-    Teaser.tsx          scene sequencing (<Series>)
-    LogoSting.tsx        scene 1: animated product wordmark
-    FeatureBeat.tsx       scene 2 (x N): one feature per beat
-    CallToAction.tsx      scene 3: tagline + CTA button
-    BackgroundGlow.tsx    ambient gradient background, shared across scenes
-    schema.ts             zod prop schema (incl. zColor pickers)
-    defaultProps.ts       default prop values
-    constants.ts          fps / resolution / per-scene frame durations
+  Root.tsx             <Composition> registration
+  Teaser/              ProductTeaser composition
+  Apply/               ApplicationWalkthrough composition
+    ApplyWalkthrough.tsx
+    BrowserChrome.tsx
+    scenes/            Intro, OpenStart, FormJourney, Submit, Outcome, CTA
 ```
 
 ## Other scripts
 
-- `bun run build` — renders the composition to `out/product-teaser.mp4` via
-  `remotion render` (not required for the demo, but handy to try)
-- `bun run still` — renders a single still frame to `out/product-teaser.png`
+- `bun run build` — renders ProductTeaser to `out/product-teaser.mp4`
+- `bunx remotion render ApplicationWalkthrough out/apply-walkthrough.mp4`
+- `bun run still` — still frame of ProductTeaser
 
 ## Regenerating scenes with Remotion Agent Skills
 

@@ -1,6 +1,15 @@
 import React from 'react';
 import {CalculateMetadataFunction, Composition} from 'remotion';
 import {
+  ApplyWalkthrough,
+  DEFAULT_DURATION_IN_FRAMES as APPLY_DURATION,
+  FPS as APPLY_FPS,
+  HEIGHT as APPLY_HEIGHT,
+  WIDTH as APPLY_WIDTH,
+  defaultApplyProps,
+  applySchema,
+} from './Apply';
+import {
   CTA_DURATION,
   DEFAULT_DURATION_IN_FRAMES,
   FEATURE_BEAT_DURATION,
@@ -33,10 +42,17 @@ export const RemotionRoot: React.FC = () => {
         height={HEIGHT}
         schema={teaserSchema}
         defaultProps={defaultTeaserProps}
-        // Re-fit the timeline if a user edits the number of feature beats
-        // in the Studio props panel, so the composition never clips or
-        // leaves dead air.
         calculateMetadata={calculateMetadata}
+      />
+      <Composition
+        id="ApplicationWalkthrough"
+        component={ApplyWalkthrough}
+        durationInFrames={APPLY_DURATION}
+        fps={APPLY_FPS}
+        width={APPLY_WIDTH}
+        height={APPLY_HEIGHT}
+        schema={applySchema}
+        defaultProps={defaultApplyProps}
       />
     </>
   );
