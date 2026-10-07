@@ -11,5 +11,8 @@ dist
 .context-mode
 .context-mode-smoke
 .context-mode-verify
+.context-mode-accuracy
 verify-results.json
+accuracy-fixtures
+accuracy-out
 dist

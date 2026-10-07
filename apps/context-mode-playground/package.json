@@ -9,8 +9,9 @@
     "preview": "vite preview",
     "doctor": "context-mode doctor",
     "verify": "bun run scripts/verify.ts",
+    "test:accuracy": "bun run scripts/accuracy/run-accuracy.ts",
     "test:mcp": "bun run scripts/verify.ts",
-    "test": "bun run scripts/verify.ts"
+    "test": "bun run scripts/verify.ts && bun run scripts/accuracy/run-accuracy.ts"
   },
   "dependencies": {
     "context-mode": "1.0.169",

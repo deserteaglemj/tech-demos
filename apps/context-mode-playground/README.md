@@ -4,7 +4,7 @@ Proves [Context Mode](https://github.com/mksglu/context-mode) works as an **MCP 
 
 See **[VERIFICATION.md](./VERIFICATION.md)** for the full report.
 
-## Verify (primary)
+## Verify install works
 
 ```bash
 cd apps/context-mode-playground
@@ -12,15 +12,28 @@ bun install
 bun run verify
 ```
 
-Expect all checks `PASS` and a `verify-results.json` summary.
+## Accuracy tests (key facts survive?)
 
-## Optional viewer
+```bash
+bun run test:accuracy
+```
+
+Generates `accuracy-out/accuracy-report.html` — walkthrough of intense with/without ground-truth checks (logs, orders FinOps, search, batch, intent-filter pitfall).
+
+Open the HTML:
+
+```bash
+bun run dev
+# then visit /accuracy-report.html
+```
+
+## Optional token viewer
 
 ```bash
 bun run dev
 ```
 
-Opens a side-by-side agent comparison (Read dump vs real `ctx_execute`) so you can see the token difference visually.
+Side-by-side agent comparison (Read dump vs real `ctx_execute`).
 
 ## Install on your machine (Cursor)
 

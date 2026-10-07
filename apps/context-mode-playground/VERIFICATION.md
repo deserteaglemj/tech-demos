@@ -41,6 +41,24 @@ bun run verify
 
 Core MCP tools do **not** depend on hooks. Hooks only enforce routing so the model prefers sandbox tools.
 
+## Accuracy (do key facts stay correct?)
+
+Run the intense suite:
+
+```bash
+bun run test:accuracy
+```
+
+Open `accuracy-out/accuracy-report.html` (also served at `/accuracy-report.html` during `bun run dev`).
+
+**Findings (latest run):**
+- Exact extracts, aggregates, Python/shell parity, FinOps totals, BM25 fact retrieval: **PASS**
+- Recommended pattern (print summary only): **PASS / exact**
+- Anti-pattern (dump entire log + `intent` filter): first return can **omit** critical markers — a real misuse pitfall
+- Follow-up `ctx_search` after that dump: **recovered** the facts in our run
+
+**Bottom line:** No accuracy downside when you use it as designed (sandbox computes, stdout is the answer). Dumping huge stdout and hoping intent-filter keeps every marker is the risky path.
+
 ## Should you install it locally?
 
 **Yes, if** you use Cursor / Claude Code / similar and want fewer tokens burned on tool dumps.
