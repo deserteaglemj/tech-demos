@@ -1,6 +1,19 @@
 # tech-demos
 
-A testing ground for the AI agent space. Each pick stays whatever it is — a skill, a plugin, a tool, an MCP server, an app, or something else — and is tested end to end against metrics that fit that thing. New tests live in `playground/<slug>/`. Picks already built as apps stay in `apps/`.
+A public cloud bench for testing tools before local installation. Its job is to judge efficacy and give a short verdict: **worth installing**, **worth installing with limits**, or **skip**. Keep the monorepo; do not create a new GitHub repository per test.
+
+## Evaluate a pick
+
+1. Define the claimed benefit and a small set of observable checks. Use `playground/<slug>/` for the assigned test.
+2. Test the thing as itself. A normal library or product gets a tiny playground only when running it is necessary to judge it. A full product clone is not the default.
+3. If the input is an agent skill from GitHub, vendor or install it in gitignored cloud scratch, run 3 to 5 realistic tasks, and record pass and fail. Do not build an app. Remove the owned scratch copy when the verdict is skip.
+4. Write `TEST_REPORT.md`: input and revision, expected benefit, test method, results, failures, limits and one of the three verdicts. Recommend whether to install locally.
+
+A `PLAN.md`, Bun app, Cloudflare preview, screenshot, video or PR is optional. The written test report is required. Existing `apps/` folders stay in place. Add a new app only when a throwaway UI is necessary for evaluation, and label it **temporary**.
+
+This repository is public. Use synthetic fixtures; keep customer records, exports, credentials and private internal data out of every test and evidence artifact. See [AGENTS.md](AGENTS.md) for the complete evaluation rules.
+
+## Existing wiki demo
 
 The app already in the repo is [folio](apps/llm-wiki-playground/), a fake computer that shows an LLM wiki working: a raw folder is compiled into linked pages, and an agent answers by searching that wiki instead of grepping the files.
 

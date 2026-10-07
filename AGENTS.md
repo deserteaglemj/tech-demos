@@ -1,29 +1,29 @@
-# AGENTS.md — tech-demos testing ground
+# tech-demos cloud tester
 
-This repo is a testing ground for the AI agent space. A pick may be a skill, a plugin, an app, a tool, an MCP server, or anything else that could improve the owner's AI capabilities and technical efficacy. Test the thing as itself. Never create a new GitHub repository per pick, and do not wrap a pick in an app unless the thing being tested is an app.
+This public monorepo is a cloud bench: test something before the owner installs it on their computer. Judge efficacy and recommend whether it is worth installing. Never create a new GitHub repository per test.
 
 ## Layout
 
-- `playground/<kebab-slug>/` — one self-contained test per new pick. `PLAN.md` names the kind. The directory does not.
-- `apps/<kebab-slug>/` — picks already started as applications. Leave them there. Do not put a skill, plugin, tool, or MCP server in `apps/`.
-- `skills/project-planning/` — planning skill. Write `PLAN.md` in the pick's directory before building.
-- `tracking/seen-bookmarks.json` — proposed / approved / skipped bookmark ids (do not re-propose)
+- `playground/<kebab-slug>/`: small tests and written test reports. Reuse the assigned pick's directory.
+- `apps/<kebab-slug>/`: existing apps. Keep them; do not delete or rewrite other picks in this pass.
+- `.scratch/` or `playground/<slug>/.scratch/`: gitignored, temporary evaluation copies.
+- `skills/project-planning/`: an optional planning aid, not a required build step.
+- `tracking/seen-bookmarks.json`: proposed, approved or skipped bookmark IDs; do not re-propose them.
 
 ## Rules for cloud agents
 
-1. Only add or update files for the assigned pick (its directory and its `PLAN.md`). Do not modify other picks, and do not create a sibling repository.
-2. Match the form to the thing. A skill stays a skill. A plugin stays a plugin. A tool stays a tool. An MCP server stays an MCP server. Build an app only when the pick is an app.
-3. Use Bun when the test needs a JavaScript runtime. Do not add Vite, React, or a browser UI to satisfy this repo.
-4. Model: **claude-sonnet-5 (Claude Sonnet 5)**. Do not use Fable 5 unless the owner explicitly asks. Fable launches fail empty on this repo.
-5. Implement **every item** in the pick's `PLAN.md`.
-6. Test it end to end. Choose metrics that fit that exact thing, run the test, and state whether it is good against those metrics. Put the evidence on **one PR**.
-   - Skill or prompt: run the fixture cases. Report each metric as pass or fail.
-   - Tool or CLI: run the commands on the fixture. Report the output against the metrics.
-   - MCP server: connect and call the tools. Report each result.
-   - Plugin: install it and run the scenario it claims.
-   - App, or anything with a UI: exercise the real interface. Attach at least one screenshot and one video.
-7. Keep the test single-user and finishable in one sitting.
+1. Test the input as itself. Scope the checks to the claimed benefit and define observable pass and fail criteria before running them. Stay within the assigned pick; keep each test single-user and finishable in one sitting.
+2. For a normal library or product, a tiny playground is allowed only when running it is necessary to judge it. A full product clone, website or app is not the default. Use the runtime the input actually needs; Bun is optional.
+3. For a GitHub repository that is an agent skill, do not build an app. Install or vendor it only in the cloud scratch area, run it against 3 to 5 realistic tasks, record each pass and fail, and judge whether the owner should install it locally. Remove the owned scratch copy if the verdict is skip. This evaluation does not install it on the owner's computer.
+4. Require a written `TEST_REPORT.md` in the pick's directory. State the input and tested revision, expected benefit, how it was tested, observed results, what failed, limits and the verdict. Separate untested claims from observed results. The verdict must be exactly one of: **worth installing**, **worth installing with limits**, or **skip**.
+5. Do not require `PLAN.md`, a Bun app, a Cloudflare preview, screenshot, video or PR for every run. Use those only when they help verify the actual input or the owner requests them. A written verdict is always required.
 
-## Cloudflare
+Keep the existing cloud model preference: **claude-sonnet-5 (Claude Sonnet 5)**. Do not use Fable 5 unless the owner explicitly asks.
 
-Use the shared Pages project only when the pick is a web app that needs a preview. One project for the monorepo, not one per pick. Repo secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
+## Product and privacy boundaries
+
+Keep the monorepo public and preserve existing `apps/` folders. New tests must not add another app unless a throwaway UI is necessary to judge the input; mark that UI **temporary** in its README and report.
+
+Use synthetic fixtures. Never put customer health records, names, exports, journal answers, body logs, credentials or private internal data in code, reports, issues, screenshots, videos or PR text. Keep scratch copies out of git.
+
+A preview or local installation is a separate action, not a requirement for the test verdict. Do not publish, spend money or expand access merely to complete an evaluation.
