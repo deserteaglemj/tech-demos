@@ -33,8 +33,8 @@ export const TitleCard = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#0a0a0a",
       justifyContent: "center", alignItems: "center" }}>
-      <div style={{ fontSize: 160, fontWeight: 800,
-        color: "#fff", opacity }}>HELLO</div>
+      <div style={{ fontSize: 140, fontWeight: 800,
+        color: "#fff", opacity, whiteSpace: "nowrap" }}>HELLO</div>
     </AbsoluteFill>
   );
 };`;
@@ -135,6 +135,7 @@ export default function App() {
                 controls
                 loop
                 autoPlay={false}
+                acknowledgeRemotionLicense
                 style={{ width: "100%", height: "100%" }}
               />
             </div>

@@ -19,13 +19,16 @@ export const TitleCard = () => {
     >
       <div
         style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: 160,
+          fontFamily: "Inter, Arial, sans-serif",
+          fontSize: 140,
           fontWeight: 800,
           color: "#fff",
           opacity,
           letterSpacing: "-0.04em",
           lineHeight: 1,
+          whiteSpace: "nowrap",
+          textAlign: "center",
+          maxWidth: "90%",
         }}
       >
         HELLO
