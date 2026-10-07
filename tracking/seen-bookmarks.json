@@ -41,6 +41,15 @@
       "slug": "kinetics-playground",
       "approved_at": "2026-09-17",
       "note": "late approve after prior timeout skip"
+    },
+    {
+      "id": "web:agentcomposerui-2026-10-01",
+      "title": "AgentComposerUI (HITL composer cards)",
+      "url": "https://dev.to/theajmalrazaq/i-built-agentcomposerui-ui-components-for-ai-agents-that-actually-need-human-approval-4g7a",
+      "date": "2026-10-07",
+      "slug": "agentcomposerui-playground",
+      "approved_at": "2026-10-07",
+      "note": "scout via public source; X bookmarks API spend-capped"
     }
   ],
   "skipped": []
