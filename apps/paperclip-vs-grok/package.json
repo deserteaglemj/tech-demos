@@ -1,0 +1,15 @@
+{
+  "name": "paperclip-vs-grok",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run scripts/live-lab.ts",
+    "paperclip": "bun run scripts/live-lab.ts --paperclip-only",
+    "grok": "bun run scripts/live-lab.ts --grok-only",
+    "status": "bun run scripts/live-lab.ts --status"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
