@@ -46,7 +46,7 @@ function useTypedText(full: string, active: boolean, cps = 42) {
   return text
 }
 
-export function StudioDemo({ onOpenLab, autoPlay = false }: Props) {
+export function StudioDemo({ onOpenLab, onOpenResults, autoPlay = false }: Props) {
   const [playing, setPlaying] = useState(false)
   const [phase, setPhase] = useState<Phase>('idle')
   const [beatId, setBeatId] = useState<string | null>(null)
