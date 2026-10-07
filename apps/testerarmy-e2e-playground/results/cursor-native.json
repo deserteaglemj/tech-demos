@@ -1,0 +1,20 @@
+{
+  "runner": "cursor-native",
+  "target": "https://mstudios.digital",
+  "flow": "Get Started → contact form → submit → thank-you toast",
+  "start": "2026-10-07T16:59:30Z",
+  "end": "2026-10-07T17:03:10Z",
+  "durationSec": 220,
+  "durationMs": 220000,
+  "success": true,
+  "successEvidence": "Toast: Thank you for reaching out! We'll get back to you soon. Form cleared.",
+  "steps": 9,
+  "retries": 0,
+  "errors": [],
+  "blockers": [],
+  "humanInterventions": 0,
+  "modelCalls": "opaque (Cursor agent model; not metered here)",
+  "setupCost": "none — used existing Cursor computer-use agent",
+  "reproducibleInCI": false,
+  "screenshot": "/opt/cursor/artifacts/screenshots/mstudios-cursor-native-result.png"
+}

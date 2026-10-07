@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+bench/node_modules
+bench/.e2e
+bench/bun.lock
+results/*.log
+
 
 # Editor directories and files
 .vscode/*

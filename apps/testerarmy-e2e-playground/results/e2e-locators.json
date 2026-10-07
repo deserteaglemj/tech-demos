@@ -1,0 +1,35 @@
+{
+  "runner": "testerarmy-e2e-locators",
+  "packageVersions": { "e2e": "0.18.0", "@e2e-dev/web": "0.13.0" },
+  "target": "https://mstudios.digital",
+  "flow": "Get Started → contact form → submit → thank-you toast",
+  "run1": {
+    "startedAt": "2026-10-07T17:13:53.076Z",
+    "finishedAt": "2026-10-07T17:13:58.095Z",
+    "wallMs": 6117,
+    "attemptDurationMs": 4342,
+    "status": "passed",
+    "modelTokens": 0
+  },
+  "run2": {
+    "attemptDurationMs": 3903,
+    "status": "passed",
+    "modelTokens": 0
+  },
+  "success": true,
+  "successEvidence": "expect(getByText(\"Thank you for reaching out! We'll get back to you soon.\")).toBeVisible() passed",
+  "retries": 0,
+  "errors": [],
+  "blockers": [
+    "Required Node.js >= 22.22.3 or >= 24.8.0 (upgraded runtime for the bench)",
+    "Required Chromium download via Playwright (~114MB)",
+    "Form labels lack for=/id — used getByPlaceholder instead of getByLabel"
+  ],
+  "humanInterventions": 0,
+  "setupCost": "bun add e2e @e2e-dev/web playwright; playwright install chromium; Node 24 via fnm",
+  "reproducibleInCI": true,
+  "agentPath": {
+    "status": "skipped",
+    "reason": "AI_GATEWAY_API_KEY not set — agent.act / agent.assert could not run"
+  }
+}

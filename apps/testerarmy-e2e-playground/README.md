@@ -19,6 +19,22 @@ bun run dev
 
 - Autoplay for capture: open `http://localhost:5173/?play=1`
 - Interactive lab: `http://localhost:5173/?mode=lab`
+- Efficacy results (Cursor vs e2e on mstudios.digital): `http://localhost:5173/?mode=results`
+
+## Live efficacy bench
+
+`bench/` runs TesterArmy `e2e` against https://mstudios.digital (Get Started → contact).
+
+```bash
+cd apps/testerarmy-e2e-playground/bench
+# needs Node >= 24.8 (or >= 22.22.3)
+bun install
+bunx playwright install chromium
+E2E_TELEMETRY_DISABLED=1 npx e2e run tests/contact.locators.e2e.ts
+# agent path needs AI_GATEWAY_API_KEY
+```
+
+See `results/COMPARISON.md` for the Cursor-native vs e2e scoreboard.
 
 ## Lab mode
 

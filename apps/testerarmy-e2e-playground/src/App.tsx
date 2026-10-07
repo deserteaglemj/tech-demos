@@ -6,12 +6,14 @@ import { clearCache } from './lib/cache'
 import { getCacheSnapshot, runDemoTest } from './lib/runner'
 import type { CacheEntry, RunSummary, TraceEvent } from './lib/types'
 import { StudioDemo } from './studio/StudioDemo'
+import { ComparisonPanel } from './components/ComparisonPanel'
 
-type Mode = 'studio' | 'lab'
+type Mode = 'studio' | 'lab' | 'results'
 
 function readMode(): Mode {
   const q = new URLSearchParams(window.location.search).get('mode')
   if (q === 'lab') return 'lab'
+  if (q === 'results') return 'results'
   return 'studio'
 }
 
@@ -190,9 +192,41 @@ export default function App() {
     setMode('lab')
   }
 
+  function goResults() {
+    const url = new URL(window.location.href)
+    url.searchParams.set('mode', 'results')
+    window.history.replaceState({}, '', url)
+    setMode('results')
+  }
+
   if (mode === 'lab') {
     return <PlaygroundLab onOpenStudio={goStudio} />
   }
 
-  return <StudioDemo onOpenLab={goLab} autoPlay={autoPlay} />
+  if (mode === 'results') {
+    return (
+      <div className="shell">
+        <div className="atmosphere" aria-hidden="true" />
+        <header className="hero" style={{ paddingBottom: '0.5rem' }}>
+          <div className="hero__brand">
+            <p className="hero__mark">e2e</p>
+            <p className="hero__by">efficacy results</p>
+          </div>
+          <div className="hero__actions">
+            <button type="button" className="btn btn--ghost" onClick={goStudio}>
+              Studio
+            </button>
+            <button type="button" className="btn btn--ghost" onClick={goLab}>
+              Lab
+            </button>
+          </div>
+        </header>
+        <ComparisonPanel />
+      </div>
+    )
+  }
+
+  return (
+    <StudioDemo onOpenLab={goLab} autoPlay={autoPlay} onOpenResults={goResults} />
+  )
 }

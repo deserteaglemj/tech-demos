@@ -1079,3 +1079,107 @@ pre,
     min-height: 0;
   }
 }
+
+/* —— Efficacy comparison —— */
+
+.compare {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 2rem;
+}
+
+.compare__kicker {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.compare__title {
+  margin: 0.25rem 0 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: -0.03em;
+}
+
+.compare__lede {
+  margin: 0.45rem 0 0;
+  max-width: 60ch;
+  color: var(--ink-soft);
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.compare__table-wrap {
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.compare__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.compare__table th,
+.compare__table td {
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.compare__table thead th {
+  background: #142019;
+  color: var(--accent-hot);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.compare__table tbody th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.compare__verdict {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: rgba(198, 245, 76, 0.16);
+  font-family: 'Source Serif 4', serif;
+  line-height: 1.45;
+}
+
+.compare__verdict p {
+  margin: 0;
+}
+
+.compare__shot {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #101612;
+  box-shadow: var(--shadow);
+}
+
+.compare__shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.compare__shot figcaption {
+  padding: 0.65rem 0.9rem;
+  color: #c9d8cb;
+  font-size: 0.8rem;
+}

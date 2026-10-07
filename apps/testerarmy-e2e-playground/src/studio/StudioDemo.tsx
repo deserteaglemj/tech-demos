@@ -19,6 +19,7 @@ type AppStep = 'idle' | 'open' | 'upgrade' | 'confirm' | 'done'
 
 type Props = {
   onOpenLab: () => void
+  onOpenResults?: () => void
   autoPlay?: boolean
 }
 
@@ -199,6 +200,11 @@ export function StudioDemo({ onOpenLab, autoPlay = false }: Props) {
           <button type="button" className="btn btn--ghost" onClick={onOpenLab}>
             Open lab
           </button>
+          {onOpenResults ? (
+            <button type="button" className="btn btn--ghost" onClick={onOpenResults}>
+              Efficacy results
+            </button>
+          ) : null}
         </div>
       </header>
 
