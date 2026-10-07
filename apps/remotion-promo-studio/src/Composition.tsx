@@ -1,19 +1,5 @@
-import React from 'react';
-import {Composition} from 'remotion';
-import {ProductTeaser} from './ProductTeaser';
-import {defaultTeaserProps, productTeaserSchema} from './schema';
-
-export const ProductTeaserComposition: React.FC = () => {
-	return (
-		<Composition
-			id="ProductTeaser"
-			component={ProductTeaser}
-			durationInFrames={540}
-			fps={30}
-			width={1920}
-			height={1080}
-			schema={productTeaserSchema}
-			defaultProps={defaultTeaserProps}
-		/>
-	);
-};
+/**
+ * Kept for PLAN.md file sketch compatibility.
+ * Composition registration lives inline in Root.tsx so Studio can save defaultProps.
+ */
+export {ProductTeaser} from './ProductTeaser';

@@ -35,8 +35,8 @@ Ship a tiny Remotion Studio app that previews a 15–20s branded product teaser 
 - [x] `bun install && bun run dev` starts Studio/Player without errors
 - [x] Composition renders the teaser with prop-driven product name/colors
 - [x] README documents how to run
-- [ ] PR includes ≥1 screenshot of the running Studio/Player
-- [ ] PR includes ≥1 video of the composition playing
+- [x] PR includes ≥1 screenshot of the running Studio/Player
+- [x] PR includes ≥1 video of the composition playing
 
 ## Shipped file sketch
 - `package.json`, `tsconfig.json`, `remotion.config.ts`, `eslint.config.mjs`
