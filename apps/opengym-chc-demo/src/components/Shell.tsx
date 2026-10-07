@@ -3,8 +3,10 @@ import type { Page } from "../lib/store";
 
 type Props = {
   page: Page;
+  mode: "train" | "whoop";
   workoutActive: boolean;
   onGo: (page: Page) => void;
+  onMode: (mode: "train" | "whoop") => void;
   onStart: () => void;
   onReset: () => void;
   children: ReactNode;
@@ -20,14 +22,16 @@ const tabs: { id: Page; label: string; icon: string }[] = [
 
 export function Shell({
   page,
+  mode,
   workoutActive,
   onGo,
+  onMode,
   onStart,
   onReset,
   children,
   overlays,
 }: Props) {
-  const hideTabs = page === "workout" && workoutActive;
+  const hideTabs = mode === "whoop" || (page === "workout" && workoutActive);
 
   return (
     <div className="desktop-frame">
@@ -39,8 +43,8 @@ export function Shell({
         />
         <h1>CHRIS HARRIS COACHING</h1>
         <p>
-          Full openGym-style app demo — Home, Plan, Workout, Stats, Exercises,
-          History, Muscles, and Settings — in the Structure identity.
+          Chris Harris Coaching trainer, plus a private Whoop explorer for
+          recovery, sleep, strain, workouts, and journal habits.
         </p>
         <p className="credit">Demo · single-user · local only</p>
       </aside>
@@ -55,14 +59,32 @@ export function Shell({
             </div>
           </div>
           <div className="brand-actions">
-            <button
-              type="button"
-              className="ghost-btn"
-              onClick={() => onGo("settings")}
-              aria-current={page === "settings" ? "page" : undefined}
-            >
-              Settings
-            </button>
+            <div className="mode-switch" role="tablist" aria-label="App area">
+              <button
+                type="button"
+                aria-current={mode === "train" ? "page" : undefined}
+                onClick={() => onMode("train")}
+              >
+                Train
+              </button>
+              <button
+                type="button"
+                aria-current={mode === "whoop" ? "page" : undefined}
+                onClick={() => onMode("whoop")}
+              >
+                Whoop
+              </button>
+            </div>
+            {mode === "train" && (
+              <button
+                type="button"
+                className="ghost-btn"
+                onClick={() => onGo("settings")}
+                aria-current={page === "settings" ? "page" : undefined}
+              >
+                Settings
+              </button>
+            )}
             <button type="button" className="ghost-btn" onClick={onReset}>
               Reset
             </button>

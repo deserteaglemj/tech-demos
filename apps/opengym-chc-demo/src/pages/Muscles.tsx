@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { AppState } from "../data/seed";
+import { deriveMuscles } from "../lib/derive";
 import type { Page } from "../lib/store";
 
 type Props = {
@@ -11,8 +12,9 @@ type Mode = "balance" | "fatigue" | "detrained";
 
 export function Muscles({ state, onGo }: Props) {
   const [mode, setMode] = useState<Mode>("balance");
+  const muscles = deriveMuscles(state.history, state.muscles);
 
-  const value = (m: (typeof state.muscles)[number]) => {
+  const value = (m: (typeof muscles)[number]) => {
     if (mode === "balance") return m.balance;
     if (mode === "fatigue") return m.fatigue;
     return Math.min(100, m.daysSince * 12);
@@ -63,7 +65,7 @@ export function Muscles({ state, onGo }: Props) {
       </div>
 
       <div className="muscle-grid">
-        {state.muscles.map((m) => {
+        {muscles.map((m) => {
           const v = value(m);
           return (
             <article key={m.id} className="muscle-card">

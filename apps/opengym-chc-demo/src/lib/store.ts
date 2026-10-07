@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
-import { AppState, createSeed, SetLog } from "../data/seed";
+import {
+  AppState,
+  createSeed,
+  exerciseFromLibrary,
+  SetLog,
+} from "../data/seed";
+import { convertWeight, isoDate, weekdayIndex } from "./derive";
 
-const KEY = "chc-opengym-demo-v2";
+const KEY = "chc-opengym-demo-v3";
 
 function load(): AppState {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return createSeed();
     const parsed = JSON.parse(raw) as AppState;
-    if (!parsed.week || !parsed.library || !parsed.history) return createSeed();
+    if (parsed.schema !== 3 || !parsed.routines || !parsed.library) {
+      return createSeed();
+    }
     return parsed;
   } catch {
     return createSeed();
@@ -33,7 +41,8 @@ export type Page =
   | "library"
   | "history"
   | "muscles"
-  | "settings";
+  | "settings"
+  | "whoop";
 
 export function useAppStore() {
   const [state, setState] = useState<AppState>(() => load());
@@ -55,11 +64,65 @@ export function useAppStore() {
 
   const go = (next: Page) => setPage(next);
 
+  const startDay = (index: number) => {
+    setState((prev) => {
+      const day = prev.week[index];
+      if (!day?.routineId) return prev;
+      const routine = prev.routines.find((item) => item.id === day.routineId);
+      if (!routine) return prev;
+      const byId = Object.fromEntries(prev.library.map((item) => [item.id, item]));
+      return {
+        ...prev,
+        session: {
+          id: `session-${Date.now()}`,
+          title: routine.title,
+          dayLabel: day.day,
+          estimatedMinutes: routine.minutes,
+          started: true,
+          finished: false,
+          exercises: routine.slots.flatMap((slot) => {
+            const lib = byId[slot.libraryId];
+            return lib ? [exerciseFromLibrary(lib, slot.sets)] : [];
+          }),
+        },
+      };
+    });
+    setRestSeconds(0);
+    setPage("workout");
+  };
+
   const startWorkout = () => {
-    setState((prev) => ({
-      ...prev,
-      session: { ...prev.session, started: true, finished: false },
-    }));
+    const index = weekdayIndex();
+    if (state.week[index]?.routineId) {
+      startDay(index);
+      return;
+    }
+    const next = state.week.findIndex((item) => item.routineId);
+    if (next >= 0) startDay(next);
+  };
+
+  const addToWorkout = (libraryId: string) => {
+    setState((prev) => {
+      const lib = prev.library.find((item) => item.id === libraryId);
+      if (!lib) return prev;
+      const exercise = exerciseFromLibrary(lib);
+      const base =
+        prev.session.finished || prev.session.exercises.length === 0
+          ? {
+              ...prev.session,
+              id: `session-${Date.now()}`,
+              title: "Extra work",
+              dayLabel: "Today",
+              started: true,
+              finished: false,
+              exercises: [],
+            }
+          : { ...prev.session, started: true, finished: false };
+      return {
+        ...prev,
+        session: { ...base, exercises: [...base.exercises, exercise] },
+      };
+    });
     setPage("workout");
   };
 
@@ -106,6 +169,16 @@ export function useAppStore() {
 
       return {
         ...prev,
+        library: prev.library.map((lib) =>
+          lib.id !== exercise.libraryId
+            ? lib
+            : {
+                ...lib,
+                lastWeight: set.weight,
+                lastReps: set.reps,
+                prWeight: isPr ? set.weight : lib.prWeight,
+              },
+        ),
         session: {
           ...prev.session,
           started: true,
@@ -143,11 +216,19 @@ export function useAppStore() {
             .reduce((m, s) => m + s.weight * s.reps, 0),
         0,
       );
-      const today = new Date().toISOString().slice(0, 10);
+      const today = isoDate();
+      const exercises = prev.session.exercises
+        .map((exercise) => ({
+          name: exercise.name,
+          muscle: exercise.muscle,
+          sets: exercise.sets
+            .filter((set) => set.doneAt && set.reps > 0)
+            .map((set) => ({ weight: set.weight, reps: set.reps })),
+        }))
+        .filter((exercise) => exercise.sets.length > 0);
       return {
         ...prev,
         completedSessions: prev.completedSessions + 1,
-        streakDays: prev.streakDays + (logged > 0 ? 0 : 0),
         session: { ...prev.session, finished: true },
         history: [
           {
@@ -157,6 +238,7 @@ export function useAppStore() {
             durationMin: Math.max(20, Math.round(logged * 3.5)),
             sets: logged,
             volume,
+            exercises,
           },
           ...prev.history,
         ],
@@ -167,21 +249,62 @@ export function useAppStore() {
   };
 
   const logBodyWeight = (weight: number) => {
-    setState((prev) => ({
-      ...prev,
-      bodyWeight: weight,
-      bodyHistory: [
-        ...prev.bodyHistory.slice(0, -1),
-        {
-          date: new Date().toISOString().slice(0, 10),
-          weight,
-        },
-      ],
-    }));
+    const today = isoDate();
+    setState((prev) => {
+      const without = prev.bodyHistory.filter((point) => point.date !== today);
+      return {
+        ...prev,
+        bodyWeight: weight,
+        bodyHistory: [...without, { date: today, weight }].sort((a, b) =>
+          a.date.localeCompare(b.date),
+        ),
+      };
+    });
   };
 
   const setUnits = (units: "lb" | "kg") => {
-    setState((prev) => ({ ...prev, units }));
+    setState((prev) => {
+      if (prev.units === units) return prev;
+      const convert = (value: number) => convertWeight(value, units);
+      return {
+        ...prev,
+        units,
+        bodyWeight: convert(prev.bodyWeight),
+        bodyGoal: Math.round(convert(prev.bodyGoal)),
+        bodyHistory: prev.bodyHistory.map((point) => ({
+          ...point,
+          weight: convert(point.weight),
+        })),
+        library: prev.library.map((item) => ({
+          ...item,
+          lastWeight: convert(item.lastWeight),
+          prWeight: convert(item.prWeight),
+        })),
+        history: prev.history.map((item) => ({
+          ...item,
+          volume: Math.round(convert(item.volume)),
+          exercises: (item.exercises ?? []).map((exercise) => ({
+            ...exercise,
+            sets: exercise.sets.map((set) => ({
+              ...set,
+              weight: convert(set.weight),
+            })),
+          })),
+        })),
+        session: {
+          ...prev.session,
+          exercises: prev.session.exercises.map((exercise) => ({
+            ...exercise,
+            lastWeight: convert(exercise.lastWeight),
+            prWeight: convert(exercise.prWeight),
+            sets: exercise.sets.map((set) => ({
+              ...set,
+              weight: convert(set.weight),
+            })),
+          })),
+        },
+      };
+    });
   };
 
   const resetDemo = () => {
@@ -210,6 +333,8 @@ export function useAppStore() {
     totalSets,
     go,
     startWorkout,
+    startDay,
+    addToWorkout,
     updateSet,
     completeSet,
     finishWorkout,

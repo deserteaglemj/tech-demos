@@ -6,18 +6,22 @@ import { Muscles } from "./pages/Muscles";
 import { Plan } from "./pages/Plan";
 import { Settings } from "./pages/Settings";
 import { Stats } from "./pages/Stats";
+import { Whoop } from "./pages/Whoop";
 import { Workout } from "./pages/Workout";
 import { useAppStore } from "./lib/store";
 
 export default function App() {
   const store = useAppStore();
   const { state, page } = store;
+  const mode = page === "whoop" ? "whoop" : "train";
 
   return (
     <Shell
       page={page}
+      mode={mode}
       workoutActive={state.session.started && !state.session.finished}
       onGo={store.go}
+      onMode={(next) => store.go(next === "whoop" ? "whoop" : "home")}
       onStart={store.startWorkout}
       onReset={store.resetDemo}
       overlays={
@@ -67,9 +71,7 @@ export default function App() {
           onLogWeight={store.logBodyWeight}
         />
       )}
-      {page === "plan" && (
-        <Plan state={state} onStart={store.startWorkout} onGo={store.go} />
-      )}
+      {page === "plan" && <Plan state={state} onStartDay={store.startDay} />}
       {page === "workout" && (
         <Workout
           state={state}
@@ -81,9 +83,12 @@ export default function App() {
         />
       )}
       {page === "stats" && <Stats state={state} onGo={store.go} />}
-      {page === "library" && <Library state={state} onGo={store.go} />}
+      {page === "library" && (
+        <Library state={state} onGo={store.go} onAdd={store.addToWorkout} />
+      )}
       {page === "history" && <History state={state} onGo={store.go} />}
       {page === "muscles" && <Muscles state={state} onGo={store.go} />}
+      {page === "whoop" && <Whoop />}
       {page === "settings" && (
         <Settings
           state={state}

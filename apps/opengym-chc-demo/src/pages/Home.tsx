@@ -1,4 +1,5 @@
 import type { AppState } from "../data/seed";
+import { deriveStreak, weekdayIndex } from "../lib/derive";
 import type { Page } from "../lib/store";
 
 type Props = {
@@ -19,7 +20,8 @@ export function Home({
   onLogWeight,
 }: Props) {
   const pct = totalSets ? Math.round((loggedSets / totalSets) * 100) : 0;
-  const today = state.week[0];
+  const today = state.week[weekdayIndex()];
+  const streak = deriveStreak(state.history);
 
   return (
     <>
@@ -90,7 +92,7 @@ export function Home({
           <div className="metric">
             <span className="label">Streak</span>
             <span className="value">
-              <em>{state.streakDays}</em>d
+              <em>{streak}</em>d
             </span>
           </div>
         </div>
@@ -131,8 +133,8 @@ export function Home({
           <button type="button" onClick={() => onGo("library")}>
             Exercise library
           </button>
-          <button type="button" onClick={() => onGo("settings")}>
-            Settings
+          <button type="button" onClick={() => onGo("whoop")}>
+            Whoop metrics
           </button>
         </div>
       </section>

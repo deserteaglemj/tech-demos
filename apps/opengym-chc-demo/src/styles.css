@@ -585,6 +585,69 @@ button {
   display: flex;
   gap: 0.4rem;
   flex: none;
+  align-items: center;
+}
+
+.mode-switch {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.mode-switch button {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.75rem;
+  color: var(--text-steel);
+}
+
+.mode-switch button[aria-current="page"] {
+  background: rgba(243, 106, 45, 0.16);
+  color: var(--text-platinum);
+}
+
+.range-field {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.4rem 0 0.8rem;
+  color: var(--text-steel);
+  font-size: 0.78rem;
+}
+
+.range-field input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent-ember);
+}
+
+.day-detail,
+.plain-list {
+  margin: 0.8rem 0 0;
+  color: var(--text-titanium);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.day-detail h3,
+.plain-list {
+  margin-top: 0.35rem;
+}
+
+.plain-list {
+  padding-left: 1.1rem;
+}
+
+.history-toggle {
+  width: 100%;
+  text-align: left;
+}
+
+.history-block {
+  border-top: 1px solid var(--line);
+}
+
+.journal-list {
+  display: grid;
+  gap: 0.55rem;
 }
 
 .page-main {

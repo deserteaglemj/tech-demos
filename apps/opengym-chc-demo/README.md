@@ -25,7 +25,11 @@ Open the Vite URL (default `http://localhost:5173`).
 | **Muscles** | Balance / Fatigue / Detrained modes |
 | **Settings** | Athlete profile, units, accent, reset demo |
 
-Data persists in `localStorage`. Use **Reset** to restore seed state.
+Data persists in `localStorage`. Use **Reset** to restore the training seed.
+
+**Train** is the Chris Harris Coaching logger: start any plan day, log sets, rest timer, PRs, finish into history, add exercises from the library, and read muscles/stats from those sessions.
+
+**Whoop** is a separate explorer for a local Whoop export (recovery, sleep, strain, workouts, journal). The GitHub repo is public, so the CSV files in `public/whoop/` are gitignored. Drop exports there or import them from the Whoop screen; imported data stays in this browser.
 
 ## Download walkthrough video
 

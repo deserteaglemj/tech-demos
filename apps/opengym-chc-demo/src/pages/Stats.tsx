@@ -1,4 +1,5 @@
 import type { AppState } from "../data/seed";
+import { deriveHeatmap, deriveStreak } from "../lib/derive";
 import type { Page } from "../lib/store";
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
 
 export function Stats({ state, onGo }: Props) {
   const history = state.bodyHistory;
+  const heatmap = deriveHeatmap(state.history);
+  const streak = deriveStreak(state.history);
   const min = Math.min(...history.map((h) => h.weight)) - 1;
   const max = Math.max(...history.map((h) => h.weight)) + 1;
   const w = 320;
@@ -32,7 +35,7 @@ export function Stats({ state, onGo }: Props) {
           <div>
             <h2>Stats</h2>
             <p className="lede">
-              {state.completedSessions} sessions · streak {state.streakDays} days
+              {state.history.length} sessions · streak {streak} days
             </p>
           </div>
           <button
@@ -46,7 +49,7 @@ export function Stats({ state, onGo }: Props) {
 
         <h3 className="subhead">Eight-week heatmap</h3>
         <div className="heatmap wide" aria-label="Training heatmap">
-          {state.heatmap.map((level, i) => (
+          {heatmap.map((level, i) => (
             <div
               key={i}
               className="heat-cell"
@@ -112,7 +115,10 @@ export function Stats({ state, onGo }: Props) {
           </button>
         </div>
         <div className="metric-strip">
-          {state.session.exercises.slice(0, 3).map((ex) => (
+          {[...state.library]
+            .sort((a, b) => b.prWeight - a.prWeight)
+            .slice(0, 3)
+            .map((ex) => (
             <div className="metric" key={ex.id}>
               <span className="label">
                 {ex.name.split(" ").slice(0, 2).join(" ")}

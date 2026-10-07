@@ -1,14 +1,13 @@
 import type { AppState } from "../data/seed";
-import type { Page } from "../lib/store";
+import { weekdayIndex } from "../lib/derive";
 
 type Props = {
   state: AppState;
-  onStart: () => void;
-  onGo: (page: Page) => void;
+  onStartDay: (index: number) => void;
 };
 
-export function Plan({ state, onStart, onGo }: Props) {
-  const todayIdx = 0;
+export function Plan({ state, onStartDay }: Props) {
+  const todayIdx = weekdayIndex();
 
   return (
     <section className="section">
@@ -43,9 +42,9 @@ export function Plan({ state, onStart, onGo }: Props) {
                 <button
                   type="button"
                   className="ghost-btn"
-                  onClick={isToday ? onStart : () => onGo("library")}
+                  onClick={() => onStartDay(i)}
                 >
-                  {isToday ? "Start" : "View"}
+                  Start
                 </button>
               )}
             </article>

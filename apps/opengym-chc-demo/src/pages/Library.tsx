@@ -5,6 +5,7 @@ import type { Page } from "../lib/store";
 type Props = {
   state: AppState;
   onGo: (page: Page) => void;
+  onAdd: (libraryId: string) => void;
 };
 
 const FILTERS: Array<MuscleId | "all"> = [
@@ -21,7 +22,7 @@ const FILTERS: Array<MuscleId | "all"> = [
   "core",
 ];
 
-export function Library({ state, onGo }: Props) {
+export function Library({ state, onGo, onAdd }: Props) {
   const [query, setQuery] = useState("");
   const [muscle, setMuscle] = useState<MuscleId | "all">("all");
 
@@ -86,10 +87,13 @@ export function Library({ state, onGo }: Props) {
             <div>
               <h3>{ex.name}</h3>
               <p>
-                {MUSCLE_LABELS[ex.muscle]} · {ex.equipment} · {ex.level}
+                {MUSCLE_LABELS[ex.muscle]} · last {ex.lastWeight}×{ex.lastReps} · PR{" "}
+                {ex.prWeight} {state.units}
               </p>
             </div>
-            <span className="badge soft">{ex.muscle}</span>
+            <button type="button" className="ghost-btn" onClick={() => onAdd(ex.id)}>
+              Add
+            </button>
           </article>
         ))}
         {items.length === 0 && (

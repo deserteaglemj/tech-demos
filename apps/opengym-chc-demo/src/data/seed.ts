@@ -7,6 +7,7 @@ export type SetLog = {
 
 export type Exercise = {
   id: string;
+  libraryId: string;
   name: string;
   focus: string;
   muscle: MuscleId;
@@ -39,6 +40,14 @@ export type DayPlan = {
   load: "rest" | "push" | "pull" | "legs" | "upper" | "lower";
 };
 
+export type HistorySet = { weight: number; reps: number };
+
+export type HistoryExercise = {
+  name: string;
+  muscle: MuscleId;
+  sets: HistorySet[];
+};
+
 export type HistoryItem = {
   id: string;
   date: string;
@@ -46,6 +55,7 @@ export type HistoryItem = {
   durationMin: number;
   sets: number;
   volume: number;
+  exercises: HistoryExercise[];
 };
 
 export type LibraryExercise = {
@@ -54,6 +64,18 @@ export type LibraryExercise = {
   muscle: MuscleId;
   equipment: string;
   level: "beginner" | "intermediate" | "advanced";
+  targetReps: string;
+  defaultSets: number;
+  lastWeight: number;
+  lastReps: number;
+  prWeight: number;
+};
+
+export type Routine = {
+  id: string;
+  title: string;
+  minutes: number;
+  slots: { libraryId: string; sets: number }[];
 };
 
 export type BodyPoint = { date: string; weight: number };
@@ -67,6 +89,7 @@ export type MuscleStatus = {
 };
 
 export type AppState = {
+  schema: 3;
   athlete: string;
   coach: string;
   program: string;
@@ -77,6 +100,7 @@ export type AppState = {
   bodyHistory: BodyPoint[];
   heatmap: number[];
   week: DayPlan[];
+  routines: Routine[];
   library: LibraryExercise[];
   history: HistoryItem[];
   muscles: MuscleStatus[];
@@ -118,61 +142,98 @@ function sets(weight: number, count: number): SetLog[] {
   }));
 }
 
+const library: LibraryExercise[] = [
+  { id: "l1", name: "Incline Dumbbell Press", muscle: "chest", equipment: "Dumbbells", level: "intermediate", targetReps: "8–10", defaultSets: 3, lastWeight: 70, lastReps: 9, prWeight: 75 },
+  { id: "l2", name: "Flat Bench Press", muscle: "chest", equipment: "Barbell", level: "intermediate", targetReps: "5–8", defaultSets: 3, lastWeight: 185, lastReps: 6, prWeight: 195 },
+  { id: "l3", name: "Chest-Supported Row", muscle: "back", equipment: "Dumbbells", level: "intermediate", targetReps: "8–12", defaultSets: 3, lastWeight: 70, lastReps: 10, prWeight: 75 },
+  { id: "l4", name: "Lat Pulldown", muscle: "back", equipment: "Cable", level: "beginner", targetReps: "8–12", defaultSets: 3, lastWeight: 120, lastReps: 10, prWeight: 130 },
+  { id: "l5", name: "Seated Dumbbell Press", muscle: "shoulders", equipment: "Dumbbells", level: "beginner", targetReps: "8–10", defaultSets: 3, lastWeight: 50, lastReps: 8, prWeight: 55 },
+  { id: "l6", name: "Lateral Raise", muscle: "shoulders", equipment: "Dumbbells", level: "beginner", targetReps: "12–15", defaultSets: 3, lastWeight: 20, lastReps: 12, prWeight: 25 },
+  { id: "l7", name: "Incline Dumbbell Curl", muscle: "biceps", equipment: "Dumbbells", level: "beginner", targetReps: "10–12", defaultSets: 2, lastWeight: 30, lastReps: 11, prWeight: 35 },
+  { id: "l8", name: "Rope Pushdown", muscle: "triceps", equipment: "Cable", level: "beginner", targetReps: "10–15", defaultSets: 3, lastWeight: 50, lastReps: 12, prWeight: 60 },
+  { id: "l9", name: "Back Squat", muscle: "quads", equipment: "Barbell", level: "advanced", targetReps: "5–8", defaultSets: 4, lastWeight: 225, lastReps: 5, prWeight: 245 },
+  { id: "l10", name: "Romanian Deadlift", muscle: "hamstrings", equipment: "Barbell", level: "intermediate", targetReps: "6–10", defaultSets: 3, lastWeight: 185, lastReps: 8, prWeight: 205 },
+  { id: "l11", name: "Hip Thrust", muscle: "glutes", equipment: "Barbell", level: "intermediate", targetReps: "8–12", defaultSets: 3, lastWeight: 225, lastReps: 10, prWeight: 245 },
+  { id: "l12", name: "Standing Calf Raise", muscle: "calves", equipment: "Machine", level: "beginner", targetReps: "10–15", defaultSets: 3, lastWeight: 140, lastReps: 12, prWeight: 160 },
+  { id: "l13", name: "Hanging Knee Raise", muscle: "core", equipment: "Bodyweight", level: "beginner", targetReps: "8–15", defaultSets: 3, lastWeight: 0, lastReps: 12, prWeight: 0 },
+  { id: "l14", name: "Cable Face Pull", muscle: "shoulders", equipment: "Cable", level: "beginner", targetReps: "12–15", defaultSets: 3, lastWeight: 40, lastReps: 15, prWeight: 50 },
+  { id: "l15", name: "Goblet Squat", muscle: "quads", equipment: "Dumbbells", level: "beginner", targetReps: "8–12", defaultSets: 3, lastWeight: 70, lastReps: 10, prWeight: 80 },
+];
+
+export const ROUTINES: Routine[] = [
+  {
+    id: "upper-a",
+    title: "Upper A — Press & thickness",
+    minutes: 52,
+    slots: [
+      { libraryId: "l1", sets: 3 },
+      { libraryId: "l3", sets: 3 },
+      { libraryId: "l5", sets: 3 },
+      { libraryId: "l7", sets: 2 },
+    ],
+  },
+  {
+    id: "lower-a",
+    title: "Lower A — Squat focus",
+    minutes: 48,
+    slots: [
+      { libraryId: "l9", sets: 4 },
+      { libraryId: "l15", sets: 3 },
+      { libraryId: "l11", sets: 3 },
+      { libraryId: "l12", sets: 3 },
+    ],
+  },
+  {
+    id: "upper-b",
+    title: "Upper B — Pull bias",
+    minutes: 50,
+    slots: [
+      { libraryId: "l4", sets: 3 },
+      { libraryId: "l3", sets: 3 },
+      { libraryId: "l14", sets: 3 },
+      { libraryId: "l8", sets: 3 },
+      { libraryId: "l6", sets: 3 },
+    ],
+  },
+  {
+    id: "lower-b",
+    title: "Lower B — Hinge focus",
+    minutes: 46,
+    slots: [
+      { libraryId: "l10", sets: 3 },
+      { libraryId: "l11", sets: 3 },
+      { libraryId: "l9", sets: 3 },
+      { libraryId: "l13", sets: 3 },
+    ],
+  },
+];
+
+export function exerciseFromLibrary(
+  lib: LibraryExercise,
+  setCount = lib.defaultSets,
+): Exercise {
+  return {
+    id: uid(),
+    libraryId: lib.id,
+    name: lib.name,
+    focus: `${MUSCLE_LABELS[lib.muscle]} · ${lib.equipment}`,
+    muscle: lib.muscle,
+    equipment: lib.equipment,
+    targetSets: setCount,
+    targetReps: lib.targetReps,
+    lastWeight: lib.lastWeight,
+    lastReps: lib.lastReps,
+    prWeight: lib.prWeight,
+    sets: sets(lib.lastWeight, setCount),
+  };
+}
+
 export function createSeed(): AppState {
-  const exercises: Exercise[] = [
-    {
-      id: "ex-bench",
-      name: "Incline Dumbbell Press",
-      focus: "Chest · Upper",
-      muscle: "chest",
-      equipment: "Dumbbells",
-      targetSets: 3,
-      targetReps: "8–10",
-      lastWeight: 70,
-      lastReps: 9,
-      prWeight: 75,
-      sets: sets(70, 3),
-    },
-    {
-      id: "ex-row",
-      name: "Chest-Supported Row",
-      focus: "Back · Thickness",
-      muscle: "back",
-      equipment: "Dumbbells",
-      targetSets: 3,
-      targetReps: "8–12",
-      lastWeight: 135,
-      lastReps: 10,
-      prWeight: 145,
-      sets: sets(135, 3),
-    },
-    {
-      id: "ex-ohp",
-      name: "Seated Dumbbell Press",
-      focus: "Shoulders",
-      muscle: "shoulders",
-      equipment: "Dumbbells",
-      targetSets: 3,
-      targetReps: "8–10",
-      lastWeight: 50,
-      lastReps: 8,
-      prWeight: 55,
-      sets: sets(50, 3),
-    },
-    {
-      id: "ex-curl",
-      name: "Incline Dumbbell Curl",
-      focus: "Arms",
-      muscle: "biceps",
-      equipment: "Dumbbells",
-      targetSets: 2,
-      targetReps: "10–12",
-      lastWeight: 30,
-      lastReps: 11,
-      prWeight: 35,
-      sets: sets(30, 2),
-    },
-  ];
+  const byId = Object.fromEntries(library.map((item) => [item.id, item]));
+  const upper = ROUTINES[0];
+  const exercises = upper.slots.map((slot) =>
+    exerciseFromLibrary(byId[slot.libraryId], slot.sets),
+  );
 
   const heatmap = Array.from({ length: 56 }, (_, i) => {
     if (i % 7 === 6) return 0;
@@ -195,59 +256,37 @@ export function createSeed(): AppState {
       date: offsetDate(-1),
       title: "Lower A — Squat focus",
       durationMin: 48,
-      sets: 14,
-      volume: 18420,
+      sets: 4,
+      volume: 1410,
+      exercises: [
+        { name: "Back Squat", muscle: "quads", sets: [{ weight: 225, reps: 5 }, { weight: 225, reps: 5 }] },
+        { name: "Hip Thrust", muscle: "glutes", sets: [{ weight: 225, reps: 10 }, { weight: 225, reps: 10 }] },
+      ],
     },
     {
       id: "h2",
       date: offsetDate(-2),
       title: "Upper B — Pull bias",
       durationMin: 51,
-      sets: 15,
-      volume: 16110,
+      sets: 3,
+      volume: 510,
+      exercises: [
+        { name: "Lat Pulldown", muscle: "back", sets: [{ weight: 120, reps: 10 }, { weight: 120, reps: 10 }] },
+        { name: "Rope Pushdown", muscle: "triceps", sets: [{ weight: 50, reps: 12 }] },
+      ],
     },
     {
       id: "h3",
       date: offsetDate(-4),
       title: "Upper A — Press & thickness",
       durationMin: 54,
-      sets: 13,
-      volume: 15240,
+      sets: 3,
+      volume: 830,
+      exercises: [
+        { name: "Incline Dumbbell Press", muscle: "chest", sets: [{ weight: 70, reps: 9 }, { weight: 70, reps: 8 }] },
+        { name: "Chest-Supported Row", muscle: "back", sets: [{ weight: 70, reps: 10 }] },
+      ],
     },
-    {
-      id: "h4",
-      date: offsetDate(-5),
-      title: "Lower B — Hinge focus",
-      durationMin: 46,
-      sets: 12,
-      volume: 17600,
-    },
-    {
-      id: "h5",
-      date: offsetDate(-7),
-      title: "Upper A — Press & thickness",
-      durationMin: 50,
-      sets: 11,
-      volume: 14880,
-    },
-  ];
-
-  const library: LibraryExercise[] = [
-    { id: "l1", name: "Incline Dumbbell Press", muscle: "chest", equipment: "Dumbbells", level: "intermediate" },
-    { id: "l2", name: "Flat Bench Press", muscle: "chest", equipment: "Barbell", level: "intermediate" },
-    { id: "l3", name: "Chest-Supported Row", muscle: "back", equipment: "Dumbbells", level: "intermediate" },
-    { id: "l4", name: "Lat Pulldown", muscle: "back", equipment: "Cable", level: "beginner" },
-    { id: "l5", name: "Seated Dumbbell Press", muscle: "shoulders", equipment: "Dumbbells", level: "beginner" },
-    { id: "l6", name: "Lateral Raise", muscle: "shoulders", equipment: "Dumbbells", level: "beginner" },
-    { id: "l7", name: "Incline Dumbbell Curl", muscle: "biceps", equipment: "Dumbbells", level: "beginner" },
-    { id: "l8", name: "Rope Pushdown", muscle: "triceps", equipment: "Cable", level: "beginner" },
-    { id: "l9", name: "Back Squat", muscle: "quads", equipment: "Barbell", level: "advanced" },
-    { id: "l10", name: "Romanian Deadlift", muscle: "hamstrings", equipment: "Barbell", level: "intermediate" },
-    { id: "l11", name: "Hip Thrust", muscle: "glutes", equipment: "Barbell", level: "intermediate" },
-    { id: "l12", name: "Standing Calf Raise", muscle: "calves", equipment: "Machine", level: "beginner" },
-    { id: "l13", name: "Hanging Knee Raise", muscle: "core", equipment: "Bodyweight", level: "beginner" },
-    { id: "l14", name: "Cable Face Pull", muscle: "shoulders", equipment: "Cable", level: "beginner" },
-    { id: "l15", name: "Goblet Squat", muscle: "quads", equipment: "Dumbbells", level: "beginner" },
   ];
 
   const muscles: MuscleStatus[] = [
@@ -264,6 +303,7 @@ export function createSeed(): AppState {
   ];
 
   return {
+    schema: 3,
     athlete: "Founding 8 athlete",
     coach: "Chris Harris",
     program: "Breaking Limits · Upper/Lower",
@@ -283,6 +323,7 @@ export function createSeed(): AppState {
       { day: "Saturday", short: "Sat", routineId: null, title: "Optional pump", load: "rest" },
       { day: "Sunday", short: "Sun", routineId: null, title: "Rest", load: "rest" },
     ],
+    routines: ROUTINES,
     library,
     history,
     muscles,
