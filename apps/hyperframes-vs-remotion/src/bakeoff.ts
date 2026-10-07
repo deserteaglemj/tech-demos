@@ -24,7 +24,7 @@ export type ScoreAxis = {
   note: string;
 };
 
-/** Scores for the IM STUDIOS conversion bake-off mini. */
+/** Scores for the IM STUDIOS conversion + skills-handoff mini. */
 export const SCORES: ScoreAxis[] = [
   {
     id: "brief",
@@ -55,6 +55,13 @@ export const SCORES: ScoreAxis[] = [
     note: "HyperFrames HTML+data-* is faster for agents; Remotion needs the React graph.",
   },
   {
+    id: "skills",
+    label: "Skills / install handoff",
+    hyperframes: 9,
+    remotion: 8,
+    note: "Both ship first-party skills; HyperFrames router + init is leaner for a cold agent.",
+  },
+  {
     id: "motion",
     label: "Motion quality",
     hyperframes: 8,
@@ -62,11 +69,11 @@ export const SCORES: ScoreAxis[] = [
     note: "Remotion spring on the brand lockup feels slightly tighter.",
   },
   {
-    id: "ecosystem",
-    label: "Ecosystem / Player maturity",
-    hyperframes: 6,
-    remotion: 9,
-    note: "Remotion Player/Lambda history is deeper for product embeds.",
+    id: "license",
+    label: "License friction",
+    hyperframes: 9,
+    remotion: 6,
+    note: "Apache 2.0 vs Remotion seat-based license for larger teams.",
   },
 ];
 
@@ -79,9 +86,9 @@ export const VERDICT = {
   winner: "hyperframes" as const,
   title: "HyperFrames mini — conversion handoff win",
   summary:
-    "For an agent-installed, skills-driven IM STUDIOS website sting, HyperFrames wins the mini: same conversion beats, less scaffolding, Apache 2.0. Use Remotion when the Player must live inside a React site or you need mature Lambda.",
+    "For an agent-installed, skills-driven IM STUDIOS website sting, HyperFrames wins the mini (8.9 vs 8.1): same conversion beats, leaner skills handoff, Apache 2.0. Use Remotion when the Player must live inside a React site or you need mature Lambda.",
   loserNote:
-    "Remotion’s spring on the brand lockup is excellent. It loses this handoff on agent install friction, not on picture quality.",
+    "Remotion’s spring on the brand lockup is excellent. It loses this handoff on agent scaffolding + license friction, not on picture quality.",
 };
 
 export const GUIDE_A =
