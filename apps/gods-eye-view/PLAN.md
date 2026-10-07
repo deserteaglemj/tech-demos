@@ -30,10 +30,10 @@ Install and run God's Eye View (open-source spy-satellite / live globe console) 
 - `PLAN.md` (this file), monorepo-facing `DEMO.md` (run notes)
 
 ## Acceptance criteria
-- [ ] `bun install && bun run doctor` succeeds (or documents non-blocking warnings)
-- [ ] `bun run dev` serves the globe at localhost:4173
-- [ ] First-run UI loads; at least one live keyless layer (e.g. Flights or Satellites) can be toggled
-- [ ] PR includes ≥1 screenshot and ≥1 video of the running app
+- [x] `bun install && bun run doctor` succeeds (or documents non-blocking warnings)
+- [x] `bun run dev` serves the globe at localhost:4173
+- [x] First-run UI loads; at least one live keyless layer (e.g. Flights or Satellites) can be toggled
+- [x] PR includes ≥1 screenshot and ≥1 video of the running app
 
 ## Validation
 Screenshot + video of the running app in the PR. Not optional.
