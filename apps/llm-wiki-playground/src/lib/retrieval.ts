@@ -31,9 +31,10 @@ function resolveWikiLinksToPlainText(body: string): string {
 
 function splitSentences(body: string): string[] {
   return resolveWikiLinksToPlainText(body)
-    .replace(/[#*_`>]/g, "")
+    .replace(/^#{1,6}\s+.*$/gm, "")
+    .replace(/[*_`>]/g, "")
     .split(/(?<=[.!?])\s+/)
-    .map((s) => s.trim())
+    .map((s) => s.replace(/\s+/g, " ").trim())
     .filter((s) => s.length > 20);
 }
 

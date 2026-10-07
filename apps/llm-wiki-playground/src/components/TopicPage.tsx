@@ -1,12 +1,45 @@
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { getBacklinks, getPage, titleFor } from "../lib/wiki";
 import { renderWikiLinks } from "../lib/markdown";
 import type { Route } from "../lib/route";
+import { MarkdownView } from "./MarkdownView";
 
 interface TopicPageProps {
   slug: string;
   onNavigate: (route: Route) => void;
+}
+
+interface LinkPanelProps {
+  title: string;
+  slugs: string[];
+  emptyText: string;
+  onNavigate: (route: Route) => void;
+}
+
+function LinkPanel({ title, slugs, emptyText, onNavigate }: LinkPanelProps) {
+  return (
+    <section className="link-panel">
+      <h2 className="link-panel-title">
+        {title} ({slugs.length})
+      </h2>
+      {slugs.length === 0 ? (
+        <p className="muted">{emptyText}</p>
+      ) : (
+        <ul>
+          {slugs.map((target) => (
+            <li key={target}>
+              <button
+                type="button"
+                className="inline-link"
+                onClick={() => onNavigate({ type: "wiki", slug: target })}
+              >
+                {titleFor(target)}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
 }
 
 export function TopicPage({ slug, onNavigate }: TopicPageProps) {
@@ -15,66 +48,36 @@ export function TopicPage({ slug, onNavigate }: TopicPageProps) {
   if (!page) {
     return (
       <div className="page">
-        <h1>Page not found</h1>
-        <p>There's no wiki page for "{slug}" yet.</p>
-        <button className="link-graph-cta" onClick={() => onNavigate({ type: "index" })}>
-          ← Back to index
+        <h1 tabIndex={-1}>Page not found</h1>
+        <p className="lede">There's no wiki page for "{slug}" yet.</p>
+        <button type="button" className="link-graph-cta" onClick={() => onNavigate({ type: "index" })}>
+          <span aria-hidden="true">←</span> Back to index
         </button>
       </div>
     );
   }
 
-  const backlinks = getBacklinks(slug);
-
   return (
-    <div className="page">
-      <div className="breadcrumb">
-        <a href="#/">Index</a> / {page.title}
-      </div>
-      <h1>{page.title}</h1>
+    <article className="page">
+      <nav className="breadcrumb" aria-label="Breadcrumb">
+        <a href="#/">Index</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{page.title}</span>
+      </nav>
+      <h1 tabIndex={-1}>{page.title}</h1>
       <p className="lede">{page.summary}</p>
 
-      <div className="markdown-body">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {renderWikiLinks(page.body)}
-        </ReactMarkdown>
-      </div>
+      <MarkdownView className="markdown-body" source={renderWikiLinks(page.body)} onNavigate={onNavigate} />
 
       <div className="link-panels">
-        <div className="link-panel">
-          <h3>Links to ({page.links.length})</h3>
-          {page.links.length === 0 ? (
-            <p className="muted">No outgoing links.</p>
-          ) : (
-            <ul>
-              {page.links.map((target) => (
-                <li key={target}>
-                  <button className="inline-link" onClick={() => onNavigate({ type: "wiki", slug: target })}>
-                    {titleFor(target)}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        <div className="link-panel">
-          <h3>Linked from ({backlinks.length})</h3>
-          {backlinks.length === 0 ? (
-            <p className="muted">No pages link here yet.</p>
-          ) : (
-            <ul>
-              {backlinks.map((source) => (
-                <li key={source}>
-                  <button className="inline-link" onClick={() => onNavigate({ type: "wiki", slug: source })}>
-                    {titleFor(source)}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <LinkPanel title="Links to" slugs={page.links} emptyText="No outgoing links." onNavigate={onNavigate} />
+        <LinkPanel
+          title="Linked from"
+          slugs={getBacklinks(slug)}
+          emptyText="No pages link here yet."
+          onNavigate={onNavigate}
+        />
       </div>
-    </div>
+    </article>
   );
 }

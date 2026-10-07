@@ -8,12 +8,12 @@ interface IndexPageProps {
 export function IndexPage({ onNavigate }: IndexPageProps) {
   return (
     <div className="page">
-      <h1>LLM Wiki</h1>
+      <h1 tabIndex={-1}>LLM Wiki</h1>
       <p className="lede">
         A tiny Karpathy-style wiki of interlinked notes on how large language
         models work. Browse a topic, follow the <code>[[links]]</code> between
-        pages, see the whole thing as a graph, or ask the panel on the right
-        a question — no API key required.
+        pages, see the whole thing as a graph, or ask the wiki a question in the
+        Ask panel — no API key required.
       </p>
 
       <h2>Topics ({wikiIndex.order.length})</h2>
@@ -24,21 +24,22 @@ export function IndexPage({ onNavigate }: IndexPageProps) {
           return (
             <button
               key={slug}
+              type="button"
               className="card"
               onClick={() => onNavigate({ type: "wiki", slug })}
             >
-              <div className="card-title">{page.title}</div>
-              <p className="card-summary">{page.summary}</p>
-              <div className="card-meta">
+              <span className="card-title">{page.title}</span>
+              <span className="card-summary">{page.summary}</span>
+              <span className="card-meta">
                 {page.links.length} outgoing · {backlinkCount} incoming
-              </div>
+              </span>
             </button>
           );
         })}
       </div>
 
-      <button className="link-graph-cta" onClick={() => onNavigate({ type: "graph" })}>
-        View the full link graph →
+      <button type="button" className="link-graph-cta" onClick={() => onNavigate({ type: "graph" })}>
+        View the full link graph <span aria-hidden="true">→</span>
       </button>
     </div>
   );

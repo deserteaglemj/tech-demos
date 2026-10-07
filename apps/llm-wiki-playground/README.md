@@ -120,12 +120,13 @@ src/
     frontmatter.ts   minimal front-matter parser
     wiki.ts          loads content/*.md, builds pages/links/backlinks index
     markdown.ts      rewrites [[slug]] -> real in-app links for rendering
-    retrieval.ts      mock/local keyword retrieval + grounded answer formatting
+    retrieval.ts     mock/local keyword retrieval + grounded answer formatting
     llm.ts           optional real-LLM call, gated by VITE_OPENAI_API_KEY
     graph-layout.ts  tiny force-directed layout for the link graph (no d3)
     route.ts / useHashRoute.ts   minimal hash-based router (no react-router)
   components/
     Sidebar.tsx, IndexPage.tsx, TopicPage.tsx, LinkGraph.tsx, AskPanel.tsx
+    MarkdownView.tsx, InstallButton.tsx
   App.tsx, main.tsx, styles.css
 ```
 
