@@ -1,8 +1,17 @@
 # context-mode-playground
 
-Interactive demo of [Context Mode](https://github.com/mksglu/context-mode) — an MCP server that sandboxes tool output so only stdout enters the agent context window.
+Demo of [Context Mode](https://github.com/mksglu/context-mode) **as an agent MCP**, not as a standalone product UI.
 
-This playground installs the real `context-mode` package, bridges its MCP tools over stdio, and shows a live before/after comparison on a fixture access log.
+Context Mode’s job: keep huge tool dumps out of an AI agent’s conversation so the model spends context tokens on the answer, not on raw logs.
+
+## What you see
+
+One agent task (“find ERROR lines in a large access log”) runs two ways:
+
+1. **Without** — agent `Read`s the whole file → tens of KB enter context  
+2. **With** — agent calls real `ctx_execute` over MCP → only stdout enters context  
+
+Side-by-side transcripts + context-window meters show the token difference.
 
 ## Run
 
@@ -12,15 +21,9 @@ bun install
 bun run dev
 ```
 
-Open the printed local URL (default `http://localhost:5173`).
+Open the local URL, then click **Run agent comparison**.
 
-## Try
-
-1. **Run comparison** — dumps the raw log size vs `ctx_execute` filtered stdout and shows `ctx_stats`.
-2. **Run doctor** — live `ctx_doctor` diagnostics (runtimes, FTS5, version).
-3. **Index fixtures** then **Search** — FTS5/BM25 over `fixtures/docs`.
-
-## Smoke test (no UI)
+## Smoke (no UI)
 
 ```bash
 bun run test:mcp
