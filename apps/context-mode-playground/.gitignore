@@ -7,6 +7,7 @@ dist
 !.env.example
 .vite
 *.log
+!fixtures/**/*.log
 .context-mode
 .context-mode-smoke
 dist
