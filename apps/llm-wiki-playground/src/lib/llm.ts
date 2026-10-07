@@ -22,9 +22,9 @@ export async function askLlm(question: string, retrieval: RetrievalResult): Prom
     .join("\n\n");
 
   const systemPrompt =
-    "You are the Ask-the-Wiki assistant for a small local LLM wiki. Answer the " +
-    "user's question using ONLY the provided wiki context. Be concise (2-4 " +
-    "sentences). If the context doesn't cover the question, say so plainly.";
+    "You answer from a compiled wiki, not from raw files. Use ONLY the provided " +
+    "wiki context. Be concise (2-4 sentences). If the context doesn't cover the " +
+    "question, say so plainly.";
 
   const userPrompt = context
     ? `Wiki context:\n\n${context}\n\nQuestion: ${question}`

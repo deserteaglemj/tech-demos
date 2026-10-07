@@ -1,8 +1,13 @@
 import { parseFrontmatter } from "./frontmatter";
-import type { GraphEdge, WikiIndex, WikiPage } from "./types";
+import type { Filing, GraphEdge, SourceFile, WikiIndex, WikiPage } from "./types";
 
-// Vite feature: eagerly import every markdown file in content/ as raw text.
-const rawDocs = import.meta.glob("../../content/*.md", {
+const rawWiki = import.meta.glob("../../content/wiki/*.md", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+}) as Record<string, string>;
+
+const rawSources = import.meta.glob("../../content/sources/*.md", {
   eager: true,
   query: "?raw",
   import: "default",
@@ -13,6 +18,14 @@ const WIKI_LINK = /\[\[([a-z0-9-]+)\]\]/gi;
 function slugFromPath(path: string): string {
   const file = path.split("/").pop() ?? path;
   return file.replace(/\.md$/, "");
+}
+
+function listField(value: string | undefined): string[] {
+  if (!value) return [];
+  return value
+    .split(",")
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0);
 }
 
 function extractLinks(body: string): string[] {
@@ -28,26 +41,43 @@ function extractLinks(body: string): string[] {
   return links;
 }
 
-function buildIndex(): WikiIndex {
+function buildSources(): SourceFile[] {
+  return Object.keys(rawSources)
+    .sort()
+    .map((path) => {
+      const slug = slugFromPath(path);
+      const { meta, body } = parseFrontmatter(rawSources[path]);
+      const virtualPath = meta.path ?? `${slug}.md`;
+      const folder = virtualPath.includes("/") ? virtualPath.slice(0, virtualPath.lastIndexOf("/")) : "sources";
+      return {
+        slug,
+        title: meta.title ?? slug,
+        path: virtualPath,
+        folder,
+        body,
+      };
+    });
+}
+
+function buildIndex(sourcePaths: Set<string>): WikiIndex {
   const pages = new Map<string, WikiPage>();
   const order: string[] = [];
 
-  const sortedPaths = Object.keys(rawDocs).sort();
-  for (const path of sortedPaths) {
+  for (const path of Object.keys(rawWiki).sort()) {
     const slug = slugFromPath(path);
-    const { meta, body } = parseFrontmatter(rawDocs[path]);
+    const { meta, body } = parseFrontmatter(rawWiki[path]);
     pages.set(slug, {
       slug,
       title: meta.title ?? slug,
       summary: meta.summary ?? "",
       body,
+      concepts: listField(meta.concepts),
+      sourcePaths: listField(meta.sources).filter((source) => sourcePaths.has(source)),
       links: extractLinks(body),
     });
     order.push(slug);
   }
 
-  // Drop links that point at pages which don't exist, so the UI/graph never
-  // dangles on a broken reference.
   for (const page of pages.values()) {
     page.links = page.links.filter((slug) => pages.has(slug));
   }
@@ -66,10 +96,18 @@ function buildIndex(): WikiIndex {
   return { pages, order, edges, backlinks };
 }
 
-export const wikiIndex = buildIndex();
+export const sourceFiles: SourceFile[] = buildSources();
+
+const sourcePathSet = new Set(sourceFiles.map((file) => file.path));
+
+export const wikiIndex = buildIndex(sourcePathSet);
 
 export function getPage(slug: string): WikiPage | undefined {
   return wikiIndex.pages.get(slug);
+}
+
+export function getSource(path: string): SourceFile | undefined {
+  return sourceFiles.find((file) => file.path === path);
 }
 
 export function getBacklinks(slug: string): string[] {
@@ -79,3 +117,18 @@ export function getBacklinks(slug: string): string[] {
 export function titleFor(slug: string): string {
   return wikiIndex.pages.get(slug)?.title ?? slug;
 }
+
+export function filingsFor(sourcePath: string): WikiPage[] {
+  return wikiIndex.order
+    .map((slug) => wikiIndex.pages.get(slug)!)
+    .filter((page) => page.sourcePaths.includes(sourcePath));
+}
+
+export const filings: Filing[] = sourceFiles.flatMap((file) =>
+  filingsFor(file.path).map((page) => ({
+    sourcePath: file.path,
+    sourceTitle: file.title,
+    wikiSlug: page.slug,
+    wikiTitle: page.title,
+  })),
+);

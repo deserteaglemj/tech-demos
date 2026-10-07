@@ -1,4 +1,4 @@
-const CACHE_NAME = "llm-wiki-playground-v2";
+const CACHE_NAME = "llm-wiki-playground-v3";
 const CACHE_PREFIX = "llm-wiki-playground-";
 
 self.addEventListener("install", (event) => {

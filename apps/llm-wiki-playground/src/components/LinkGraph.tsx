@@ -182,7 +182,7 @@ export function LinkGraph({ onNavigate }: LinkGraphProps) {
       </nav>
       <h1 tabIndex={-1}>Link graph</h1>
       <p className="lede">
-        Every arrow is a <code>[[wiki-link]]</code> found in a topic's text.
+        Every arrow is a link the agent wrote between compiled pages.
         Hover or focus a node to highlight its neighbors; click or tap to open the page.
       </p>
 

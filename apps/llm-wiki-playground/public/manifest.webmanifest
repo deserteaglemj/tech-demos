@@ -6,7 +6,7 @@
   "display": "standalone",
   "background_color": "#0f1115",
   "theme_color": "#0f1115",
-  "description": "A local Karpathy-style wiki for learning how large language models work, with no API key required.",
+  "description": "A local fake computer that compiles a file folder into a wiki and answers by searching that wiki.",
   "icons": [
     {
       "src": "icon-192.png",

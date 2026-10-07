@@ -1,6 +1,6 @@
 # tech-demos
 
-A sticky monorepo of small public tech demos: every demo lands here, in its own folder under `apps/`, rather than in a separate repository. The installable app today is the [LLM Wiki Playground](apps/llm-wiki-playground/), a Karpathy-style local wiki of interlinked notes on how large language models work.
+A sticky monorepo of small public tech demos: every demo lands here, in its own folder under `apps/`, rather than in a separate repository. The installable app today is [folio](apps/llm-wiki-playground/), a fake computer that shows an LLM wiki working: a raw folder is compiled into linked pages, and an agent answers by searching that wiki instead of grepping the files.
 
 **This repository is public.** No account, API key, or cloud setup is required to run the wiki.
 
@@ -34,10 +34,10 @@ bun run preview
 
 ## What the wiki does
 
-- **5 seeded topics:** short markdown notes on transformers, attention, tokenization, context windows, and RLHF.
-- **Interlinked pages:** `[[wiki-links]]` between notes become real links, and each page lists the pages that link back to it.
-- **Link graph:** a clickable map of how the topics connect.
-- **Ask the wiki (mock mode):** answers come from local keyword retrieval over the wiki text, with the source pages cited. No API key and no network requests.
+- **A raw directory:** meeting notes, memos, and clippings on a fake machine at `~/sources`.
+- **A compiled wiki:** the agent files those notes into linked pages (`~/wiki`) and keeps a concept index (for example, “shopping the renewal” is filed as churn).
+- **Agent search:** a question shows a literal grep of the folder beside the wiki hits. “Who is about to churn?” misses every raw file and still opens the Northwind page.
+- **No API key:** the concept index is local. A real model is used only if you set `VITE_OPENAI_API_KEY`.
 
 A real LLM is used only if you set `VITE_OPENAI_API_KEY` in a local `.env` file. It is off by default. Read the [app README](apps/llm-wiki-playground/README.md) and [SECURITY.md](SECURITY.md) before turning it on.
 

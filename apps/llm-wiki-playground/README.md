@@ -1,9 +1,10 @@
-# LLM Wiki Playground
+# folio — LLM wiki
 
-A tiny Karpathy-style wiki of interlinked notes on how large language models
-work — index page, clickable interlinked topic pages, a link-graph browser,
-and an "Ask the wiki" panel that answers questions **without any API key**
-by retrieving from the local wiki text.
+A fake computer that shows a Karpathy-style LLM wiki **working**, not an
+encyclopedia about models. `~/sources` is a messy folder of calls, memos,
+and clippings. An agent has filed them into `~/wiki`. When you ask a
+question, you see a literal grep of the raw files next to a search of the
+wiki’s concept index. No API key.
 
 ## Install
 
@@ -62,27 +63,21 @@ Other scripts: `bun run build` (production build to `dist/`), `bun run preview`
 
 ## What's here
 
-- **Seed content** — 5 short markdown docs in `content/` (Transformer
-  Architecture, Attention Mechanism, Tokenization, Context Window, RLHF),
-  each with YAML-ish front matter (`title`, `summary`) and body text that
-  cross-references other docs with `[[slug]]` wiki-link syntax.
-- **Index + interlinked pages** — the app parses every markdown file at
-  build/dev time (`src/lib/wiki.ts`), resolves `[[slug]]` links into real
-  in-app links with the target page's title (`src/lib/markdown.ts`), and
-  tracks backlinks so every topic page shows both "Links to" and
-  "Linked from" panels.
-- **Link graph** — `src/components/LinkGraph.tsx` renders the topic graph as
-  an SVG with a small hand-rolled force-directed layout
-  (`src/lib/graph-layout.ts`, no extra graph-layout dependency). Hover a
-  node to highlight its neighbors, click to open that page.
-- **Ask the wiki (mock mode, default, no API key)** — `src/lib/retrieval.ts`
-  does simple keyword-overlap scoring against the seeded pages, pulls the
-  most relevant sentences out of the best-matching page(s), and formats them
-  as a grounded, cited answer (`src/lib/retrieval.ts#formatMockAnswer`).
-  This is genuinely local retrieval over the wiki text, not a canned string
-  — try asking about topics that aren't in the wiki and you'll get an
-  honest "I couldn't find that" response with suggested topics instead.
-- **Optional real-LLM path (gated by env, off by default)** — see below.
+- **Raw directory** — `content/sources/` is the machine’s `~/sources`: a
+  renewal call, a board draft, a pricing scratch, a hiring debrief, an
+  outage ledger, and a competitor clipping. None of them contain the word
+  “churn”.
+- **Compiled wiki** — `content/wiki/` is what the agent maintains. Pages
+  cross-link with `[[slug]]`, list the files they were compiled from, and
+  carry a concept the raw notes never name (`churn`, `pricing`, `hiring`…).
+  **Replay filing** walks those filings one file at a time.
+- **Agent** — `src/lib/retrieval.ts` greps `~/sources` literally, then scores
+  wiki pages through `src/lib/lexicon.ts`. “Who is about to churn?” shows
+  zero grep hits and a Northwind page whose evidence is the phrase
+  “shopping the renewal”.
+- **Link graph** — arrows are the links the agent wrote between compiled pages.
+- **Optional real-LLM path (gated by env, off by default)** — see below. The
+  local concept index stays on either way.
 
 ## Optional real-LLM path
 
@@ -114,19 +109,10 @@ the client. Mock mode has no such caveat, which is why it's the default.
 ## File layout
 
 ```
-content/            seed markdown docs (front matter + [[wiki-links]] body)
-src/
-  lib/
-    frontmatter.ts   minimal front-matter parser
-    wiki.ts          loads content/*.md, builds pages/links/backlinks index
-    markdown.ts      rewrites [[slug]] -> real in-app links for rendering
-    retrieval.ts     mock/local keyword retrieval + grounded answer formatting
-    llm.ts           optional real-LLM call, gated by VITE_OPENAI_API_KEY
-    graph-layout.ts  tiny force-directed layout for the link graph (no d3)
-    route.ts / useHashRoute.ts   minimal hash-based router (no react-router)
-  components/
-    Sidebar.tsx, IndexPage.tsx, TopicPage.tsx, LinkGraph.tsx, AskPanel.tsx
-    MarkdownView.tsx, InstallButton.tsx
+content/sources/     raw files shown as ~/sources
+content/wiki/        compiled pages shown as ~/wiki
+src/lib/             wiki index, concept lexicon, grep + concept search
+src/components/      SourcesPane, WikiPane, AgentPane, LinkGraph, MarkdownView
   App.tsx, main.tsx, styles.css
 ```
 

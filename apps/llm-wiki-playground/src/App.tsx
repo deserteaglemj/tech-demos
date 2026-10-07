@@ -1,113 +1,86 @@
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useState } from "react";
+import { filings } from "./lib/wiki";
 import { useHashRoute } from "./lib/useHashRoute";
-import { routeToHash, type Route } from "./lib/route";
-import { getPage } from "./lib/wiki";
-import { isLlmConfigured } from "./lib/llm";
-import { Sidebar } from "./components/Sidebar";
-import { IndexPage } from "./components/IndexPage";
-import { TopicPage } from "./components/TopicPage";
-import { LinkGraph } from "./components/LinkGraph";
-import { AskPanel, ASK_HEADING_ID, ASK_PANEL_ID } from "./components/AskPanel";
+import { AgentPane } from "./components/AgentPane";
 import { InstallButton } from "./components/InstallButton";
-import { GraphIcon, SearchIcon } from "./components/Icons";
-import { prefersReducedMotion } from "./components/helpers";
-
-const APP_NAME = "LLM Wiki Playground";
-
-function routeTitle(route: Route): string {
-  if (route.type === "graph") return "Link graph";
-  if (route.type === "wiki") return getPage(route.slug)?.title ?? "Page not found";
-  return "Index";
-}
+import { SourcesPane } from "./components/SourcesPane";
+import { WikiPane } from "./components/WikiPane";
 
 export default function App() {
   const [route, navigate] = useHashRoute();
-  const [announcement, setAnnouncement] = useState("");
-  const headerRef = useRef<HTMLElement>(null);
-  const mainRef = useRef<HTMLElement>(null);
-  const routeKey = routeToHash(route);
-  const lastRouteKey = useRef(routeKey);
+  const [sourcePath, setSourcePath] = useState<string | null>("calls/northwind-renewal.md");
+  const [replayAt, setReplayAt] = useState<number | null>(null);
+  const [clock, setClock] = useState(() => formatClock(new Date()));
 
   useEffect(() => {
-    const title = routeTitle(route);
-    document.title = route.type === "index" ? APP_NAME : `${title} · ${APP_NAME}`;
-    if (lastRouteKey.current === routeKey) return;
-    lastRouteKey.current = routeKey;
+    const id = window.setInterval(() => setClock(formatClock(new Date())), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
 
-    const main = mainRef.current;
-    if (!main) return;
-    main.scrollTop = 0;
-    // Stacked layout: a link clicked further down the page (e.g. in an answer) must bring the new page into view.
-    const headerBottom = headerRef.current?.getBoundingClientRect().bottom ?? 0;
-    if (main.getBoundingClientRect().top < headerBottom - 1) main.scrollIntoView({ block: "start" });
-
-    // Navigating from inside the page (or losing focus) starts the reader at the new heading;
-    // from the sidebar or Ask panel focus stays put and the change is announced instead.
-    const active = document.activeElement;
-    if (!active || active === document.body || main.contains(active)) {
-      main.querySelector<HTMLElement>("h1")?.focus({ preventScroll: true });
-    } else {
-      setAnnouncement(title);
+  useEffect(() => {
+    if (replayAt === null) return;
+    if (replayAt >= filings.length) {
+      setReplayAt(null);
+      return;
     }
-  }, [routeKey]);
+    const filing = filings[replayAt];
+    setSourcePath(filing.sourcePath);
+    navigate({ type: "wiki", slug: filing.wikiSlug });
+    const id = window.setTimeout(() => setReplayAt(replayAt + 1), 800);
+    return () => window.clearTimeout(id);
+  }, [replayAt]);
 
-  const skipToMain = (event: MouseEvent) => {
-    event.preventDefault();
-    mainRef.current?.focus();
-  };
+  useEffect(() => {
+    const page = route.type === "wiki" ? route.slug : route.type === "graph" ? "graph" : "index";
+    document.title = `folio — ${page}`;
+  }, [route]);
 
-  const jumpToAsk = () => {
-    const panel = document.getElementById(ASK_PANEL_ID);
-    if (!panel) return;
-    panel.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
-    document.getElementById(ASK_HEADING_ID)?.focus({ preventScroll: true });
-  };
+  const activePath = replayAt !== null && replayAt < filings.length ? filings[replayAt].sourcePath : null;
 
   return (
-    <div className="app-shell">
-      {/* Hash links are routes here, so the skip link moves focus itself instead of changing the hash. */}
-      <a className="skip-link" href="#main-content" onClick={skipToMain}>
-        Skip to main content
+    <div className="os">
+      <a className="skip-link" href="#wiki-window">
+        Skip to wiki
       </a>
-
-      <header className="app-header" ref={headerRef}>
-        <div className="app-brand">
-          <button type="button" className="app-title" onClick={() => navigate({ type: "index" })}>
-            <span className="app-mark" aria-hidden="true">
-              <GraphIcon />
-            </span>
-            <span className="app-title-text">
-              LLM Wiki<span className="app-title-tail"> Playground</span>
-            </span>
-          </button>
-          <p className="app-subtitle">
-            Karpathy-style agent wiki · {isLlmConfigured() ? "LLM ask mode" : "mock ask mode"}
-          </p>
+      <header className="menu-bar">
+        <div className="menu-brand">
+          <span className="menu-mark" aria-hidden="true" />
+          folio
         </div>
-        <div className="app-header-actions">
+        <p className="menu-caption">LLM wiki · raw files in, compiled pages out</p>
+        <div className="menu-actions">
           <InstallButton />
-          <button type="button" className="header-button ask-jump" onClick={jumpToAsk}>
-            <SearchIcon />
-            <span className="header-button-label">Ask</span>
-          </button>
+          <time dateTime={new Date().toISOString()}>{clock}</time>
         </div>
       </header>
 
-      <div className="app-body">
-        <Sidebar route={route} onNavigate={navigate} />
+      <main className="desk">
+        <SourcesPane
+          selectedPath={sourcePath}
+          activePath={activePath}
+          replaying={replayAt !== null}
+          onSelect={setSourcePath}
+          onReplay={() => setReplayAt(0)}
+          onOpenWiki={(slug) => navigate({ type: "wiki", slug })}
+        />
+        <div id="wiki-window">
+          <WikiPane
+            route={route}
+            onNavigate={navigate}
+            onOpenSource={setSourcePath}
+          />
+        </div>
+        <AgentPane onNavigate={navigate} onOpenSource={setSourcePath} />
+      </main>
 
-        <main id="main-content" className="app-main" ref={mainRef} tabIndex={-1}>
-          {route.type === "index" && <IndexPage onNavigate={navigate} />}
-          {route.type === "wiki" && <TopicPage key={route.slug} slug={route.slug} onNavigate={navigate} />}
-          {route.type === "graph" && <LinkGraph onNavigate={navigate} />}
-        </main>
-
-        <AskPanel onNavigate={navigate} />
-      </div>
-
-      <p className="sr-only" role="status" aria-live="polite">
-        {announcement}
-      </p>
+      <footer className="status-bar">
+        <span>~/sources → ~/wiki</span>
+        <span>concept index is local · no API key</span>
+      </footer>
     </div>
   );
+}
+
+function formatClock(date: Date): string {
+  return date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 }
