@@ -61,7 +61,13 @@ export async function performAction(
     return { ok: true, detail: `wait ${action.ms}ms` }
   }
 
-  const el = findByRole(root, action.role, action.name)
+  const deadline = Date.now() + 2500
+  let el: HTMLElement | null = null
+  while (Date.now() < deadline) {
+    el = findByRole(root, action.role, action.name)
+    if (el) break
+    await sleep(50)
+  }
   if (!el) {
     return {
       ok: false,
@@ -69,7 +75,7 @@ export async function performAction(
     }
   }
   el.click()
-  await sleep(180)
+  await sleep(220)
   return { ok: true, detail: `${action.kind} ${action.role} "${action.name}"` }
 }
 

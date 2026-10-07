@@ -23,18 +23,18 @@ export const ASSERT_GOAL = 'the invoice preview shows a prorated amount'
 
 const LIVE_ACTIONS: LocatorAction[] = [
   { kind: 'click', role: 'button', name: 'Upgrade to Pro' },
-  { kind: 'wait', ms: 220 },
+  { kind: 'wait', ms: 500 },
   { kind: 'click', role: 'button', name: 'Confirm upgrade' },
 ]
 
 const HANDOFF_ACTIONS_SCRAMBLED: LocatorAction[] = [
   { kind: 'click', role: 'button', name: 'Go Pro now' },
-  { kind: 'wait', ms: 220 },
+  { kind: 'wait', ms: 500 },
   { kind: 'click', role: 'button', name: 'Lock it in' },
 ]
 
 export type RunnerHooks = {
-  root: HTMLElement
+  getRoot: () => HTMLElement
   forceLive: boolean
   onTrace: (event: TraceEvent) => void
   onCache: (cache: Record<string, CacheEntry>) => void
@@ -71,7 +71,7 @@ async function runActions(
       status: 'running',
       detail: mode === 'replay' ? 'from .e2e/cache' : 'model tool call',
     })
-    const result = await performAction(hooks.root, action)
+    const result = await performAction(hooks.getRoot(), action)
     hooks.onTrace({
       id,
       type: 'action',
@@ -176,7 +176,7 @@ export async function runDemoTest(hooks: RunnerHooks): Promise<RunSummary> {
       modelCalls: 1,
     })
 
-    const liveActions = discoverLiveActions(hooks.root)
+    const liveActions = discoverLiveActions(hooks.getRoot())
     const live = await runActions(hooks, liveActions, 'live')
 
     if (!live.ok) {
@@ -216,7 +216,7 @@ export async function runDemoTest(hooks: RunnerHooks): Promise<RunSummary> {
     label: "expect(screen.getByRole('status')).toContainText('Pro')",
     status: 'running',
   })
-  const status = readStatus(hooks.root) || ''
+  const status = readStatus(hooks.getRoot()) || ''
   const expectOk = /pro/i.test(status)
   hooks.onTrace({
     id: expectId,
@@ -235,7 +235,7 @@ export async function runDemoTest(hooks: RunnerHooks): Promise<RunSummary> {
     status: 'running',
     modelCalls: 1,
   })
-  const invoice = hooks.root.querySelector('[data-invoice]')?.textContent || ''
+  const invoice = hooks.getRoot().querySelector('[data-invoice]')?.textContent || ''
   const assertOk = /prorat/i.test(invoice)
   hooks.onTrace({
     id: assertId,
@@ -255,7 +255,7 @@ export async function runDemoTest(hooks: RunnerHooks): Promise<RunSummary> {
       cache,
       pendingRecording.goal,
       pendingRecording.actions,
-      effectFingerprint(hooks.root),
+      effectFingerprint(hooks.getRoot()),
     )
     hooks.onCache(cache)
     await emit(hooks, {

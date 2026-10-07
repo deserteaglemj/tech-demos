@@ -30,12 +30,16 @@ export default function App() {
     setHighlightLine(null)
 
     const result = await runDemoTest({
-      root: appRootRef.current,
+      getRoot: () => {
+        const el = appRootRef.current
+        if (!el) throw new Error('App under test is not mounted')
+        return el
+      },
       forceLive,
       resetApp: () =>
         new Promise<void>((resolve) => {
           setResetToken((n) => n + 1)
-          window.setTimeout(resolve, 60)
+          window.setTimeout(resolve, 80)
         }),
       onCache: (next) => startTransition(() => setCache(next)),
       onTrace: (event) => {
