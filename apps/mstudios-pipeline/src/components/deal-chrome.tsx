@@ -12,9 +12,11 @@ import {
   getStageConfig,
   getTeamMember,
   getVerticalConfig,
+  getWebsiteStatusConfig,
   type DealFit,
   type DealStage,
   type DealVertical,
+  type WebsiteStatus,
 } from "@/data/deals"
 
 export function StageBadge({ stage }: { stage: DealStage }) {
@@ -27,9 +29,27 @@ export function StageBadge({ stage }: { stage: DealStage }) {
   )
 }
 
-export function FitBadge({ fit }: { fit: DealFit }) {
+export function FitBadge({
+  fit,
+  score,
+}: {
+  fit: DealFit
+  score?: number
+}) {
   const config = getFitConfig(fit)
-  return <Badge variant={config.badge}>{config.label}</Badge>
+  return (
+    <Badge variant={config.badge}>{score != null ? `Fit ${score}` : config.label}</Badge>
+  )
+}
+
+export function WebsiteStatusBadge({ status }: { status: WebsiteStatus }) {
+  const config = getWebsiteStatusConfig(status)
+  return (
+    <Badge variant={config.badge} className="gap-1.5 whitespace-nowrap">
+      <span className={`size-1.5 rounded-full ${config.dot}`} />
+      {config.label}
+    </Badge>
+  )
 }
 
 const VERTICAL_ICON: Record<DealVertical, typeof StoreIcon> = {

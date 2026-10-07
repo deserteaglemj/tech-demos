@@ -5,6 +5,7 @@ import {
   TAG_LIBRARY,
   TEAM,
   VERTICALS,
+  WEBSITE_STATUSES,
   type Deal,
 } from "@/data/deals"
 
@@ -61,6 +62,18 @@ export const dealFilterFields: FilterField[] = [
               ? "bg-amber-500"
               : "bg-rose-500"
       ),
+    })),
+  },
+  {
+    id: "websiteStatus",
+    label: "Website",
+    type: "select",
+    defaultOperator: "is_any_of",
+    pinSelected: true,
+    options: WEBSITE_STATUSES.map((s) => ({
+      value: s.value,
+      label: s.label,
+      icon: dot(s.dot),
     })),
   },
   {

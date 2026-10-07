@@ -7,10 +7,12 @@ import { Badge } from "@/components/reui/badge"
 import { generateDeals, type Deal } from "@/data/deals"
 import { DealsDataGrid } from "@/components/deals-data-grid"
 import { DealsKanban } from "@/components/deals-kanban"
+import { DealRecord } from "@/components/deal-record"
 import { ErrorBoundary } from "@/components/error-boundary"
 
 function App() {
   const [deals, setDeals] = useState<Deal[]>(() => generateDeals())
+  const [selected, setSelected] = useState<Deal | null>(null)
 
   return (
     <div className="min-h-svh bg-muted/30">
@@ -30,7 +32,7 @@ function App() {
             </div>
           </div>
           <Badge variant="secondary" className="hidden sm:inline-flex">
-            {deals.length} prospects
+            {deals.length} accounts
           </Badge>
         </div>
       </header>
@@ -49,15 +51,22 @@ function App() {
           </TabsList>
 
           <TabsContent value="grid" className="mt-4">
-            <DealsDataGrid deals={deals} />
+            <DealsDataGrid deals={deals} onSelect={setSelected} />
           </TabsContent>
           <TabsContent value="kanban" className="mt-4">
             <ErrorBoundary label="Kanban board">
-              <DealsKanban deals={deals} onDealsChange={setDeals} />
+              <DealsKanban
+                deals={deals}
+                onDealsChange={setDeals}
+                onSelect={setSelected}
+              />
             </ErrorBoundary>
           </TabsContent>
         </Tabs>
       </main>
+      {selected && (
+        <DealRecord deal={selected} onClose={() => setSelected(null)} />
+      )}
     </div>
   )
 }

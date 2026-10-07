@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 
-import { FITS, STAGES, type Deal } from "@/data/deals"
+import { STAGES, WEBSITE_STATUSES, type Deal } from "@/data/deals"
 import { filterRecordsByQuery } from "@/lib/filter-query"
 import { dealFilterFields, getDealFieldValue } from "@/lib/deal-filter-fields"
 import {
@@ -35,6 +35,7 @@ import {
   OwnerAvatar,
   StageBadge,
   VerticalTag,
+  WebsiteStatusBadge,
 } from "@/components/deal-chrome"
 
 function formatRelativeTime(iso: string): string {
@@ -51,7 +52,13 @@ function formatRelativeTime(iso: string): string {
   })
 }
 
-export function DealsDataGrid({ deals }: { deals: Deal[] }) {
+export function DealsDataGrid({
+  deals,
+  onSelect,
+}: {
+  deals: Deal[]
+  onSelect: (deal: Deal) => void
+}) {
   const [globalSearch, setGlobalSearch] = useState("")
   const [query, setQuery] = useState<FilterQuery>(() => createFilterQuery())
   const [sorting, setSorting] = useState<SortingState>([
@@ -72,7 +79,9 @@ export function DealsDataGrid({ deals }: { deals: Deal[] }) {
         deal.businessName.toLowerCase().includes(needle) ||
         deal.city.toLowerCase().includes(needle) ||
         deal.id.toLowerCase().includes(needle) ||
-        deal.problem.toLowerCase().includes(needle)
+        deal.problem.toLowerCase().includes(needle) ||
+        deal.niche.toLowerCase().includes(needle) ||
+        (deal.listedWebsite ?? "").toLowerCase().includes(needle)
     )
   }, [filteredByBuilder, globalSearch])
 
@@ -104,7 +113,7 @@ export function DealsDataGrid({ deals }: { deals: Deal[] }) {
           <div className="min-w-0 space-y-0.5">
             <div className="line-clamp-1">{row.original.city}</div>
             <div className="text-muted-foreground line-clamp-1 text-xs">
-              {row.original.phone}
+              {row.original.niche}
             </div>
           </div>
         ),
@@ -133,27 +142,129 @@ export function DealsDataGrid({ deals }: { deals: Deal[] }) {
         cell: ({ row }) => <StageBadge stage={row.original.stage} />,
       },
       {
-        accessorKey: "fit",
-        id: "fit",
+        accessorKey: "fitScore",
+        id: "fitScore",
+        header: ({ column }) => (
+          <DataGridColumnHeader column={column} title="Fit" />
+        ),
+        size: 100,
+        cell: ({ row }) => (
+          <FitBadge fit={row.original.fit} score={row.original.fitScore} />
+        ),
+      },
+      {
+        accessorKey: "websiteStatus",
+        id: "websiteStatus",
         header: ({ column }) => (
           <DataGridColumnHeader
             column={column}
-            title="Fit"
+            title="Site status"
             filter={
               <DataGridColumnFilter
                 column={column}
-                title="Fit"
-                options={FITS.map((p) => ({
-                  label: p.label,
-                  value: p.value,
+                title="Site status"
+                options={WEBSITE_STATUSES.map((s) => ({
+                  label: s.label,
+                  value: s.value,
                 }))}
               />
             }
           />
         ),
-        size: 130,
+        size: 140,
         filterFn: filterFn_arrHas,
-        cell: ({ row }) => <FitBadge fit={row.original.fit} />,
+        cell: ({ row }) => (
+          <WebsiteStatusBadge status={row.original.websiteStatus} />
+        ),
+      },
+      {
+        id: "listedWebsite",
+        accessorKey: "listedWebsite",
+        header: "Their site",
+        size: 120,
+        cell: ({ row }) =>
+          row.original.listedWebsite ? (
+            <a
+              href={row.original.listedWebsite}
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary text-sm underline-offset-2 hover:underline"
+              onClick={(event) => event.stopPropagation()}
+            >
+              Open
+            </a>
+          ) : (
+            <span className="text-muted-foreground text-sm">None</span>
+          ),
+      },
+      {
+        id: "previewUrl",
+        accessorKey: "previewUrl",
+        header: "Preview",
+        size: 120,
+        cell: ({ row }) =>
+          row.original.previewUrl ? (
+            <a
+              href={row.original.previewUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary text-sm underline-offset-2 hover:underline"
+              onClick={(event) => event.stopPropagation()}
+            >
+              Preview
+            </a>
+          ) : (
+            <span className="text-muted-foreground text-sm">—</span>
+          ),
+      },
+      {
+        id: "paymentStatus",
+        accessorKey: "paymentStatus",
+        header: "Payment",
+        size: 120,
+        cell: () => <span className="text-muted-foreground text-sm">None</span>,
+      },
+      {
+        id: "contractUrl",
+        accessorKey: "contractUrl",
+        header: "Contract",
+        size: 140,
+        cell: ({ row }) =>
+          row.original.contractUrl ? (
+            <a
+              href={row.original.contractUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm underline"
+              onClick={(event) => event.stopPropagation()}
+            >
+              Contract
+            </a>
+          ) : (
+            <span className="text-muted-foreground text-sm">None on file</span>
+          ),
+      },
+      {
+        id: "lastPayment",
+        accessorKey: "lastPayment",
+        header: "Last payment",
+        size: 130,
+        cell: ({ row }) => (
+          <span className="text-muted-foreground text-sm">
+            {row.original.lastPayment ?? "—"}
+          </span>
+        ),
+      },
+      {
+        accessorKey: "seo",
+        id: "seo",
+        header: "SEO note",
+        size: 280,
+        cell: ({ row }) => (
+          <span className="text-muted-foreground line-clamp-2 text-xs">
+            {row.original.seo}
+          </span>
+        ),
       },
       {
         accessorKey: "owner",
@@ -201,7 +312,8 @@ export function DealsDataGrid({ deals }: { deals: Deal[] }) {
       table={table}
       recordCount={searched.length}
       tableLayout={{ rowBorder: true, headerBackground: true }}
-      emptyMessage="No prospects match these filters."
+      emptyMessage="No accounts match these filters."
+      onRowClick={onSelect}
     >
       <div className="flex w-full flex-col gap-4">
         <div className="flex flex-col gap-3">
@@ -225,7 +337,7 @@ export function DealsDataGrid({ deals }: { deals: Deal[] }) {
               }
             />
             <div className="text-muted-foreground ms-auto text-sm">
-              {searched.length} of {deals.length} prospects
+              {searched.length} of {deals.length} accounts
             </div>
           </div>
           <Filters

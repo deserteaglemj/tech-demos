@@ -21,7 +21,12 @@ import {
   type Deal,
   type DealStage,
 } from "@/data/deals"
-import { FitBadge, OwnerAvatar, VerticalTag } from "@/components/deal-chrome"
+import {
+  FitBadge,
+  OwnerAvatar,
+  VerticalTag,
+  WebsiteStatusBadge,
+} from "@/components/deal-chrome"
 
 function dealsToColumns(deals: Deal[]): Record<DealStage, Deal[]> {
   const columns: Record<DealStage, Deal[]> = {
@@ -44,10 +49,12 @@ function DealCard({
   deal,
   asHandle,
   isOverlay,
+  onSelect,
 }: {
   deal: Deal
   asHandle?: boolean
   isOverlay?: boolean
+  onSelect?: (deal: Deal) => void
 }) {
   const content = (
     <Card className="cursor-grab gap-0 py-3 shadow-sm active:cursor-grabbing">
@@ -56,9 +63,10 @@ function DealCard({
           <span className="text-muted-foreground font-mono text-[11px]">
             {deal.id}
           </span>
-          <FitBadge fit={deal.fit} />
+          <FitBadge fit={deal.fit} score={deal.fitScore} />
         </div>
         <p className="line-clamp-2 text-sm font-medium">{deal.businessName}</p>
+        <WebsiteStatusBadge status={deal.websiteStatus} />
         <p className="text-muted-foreground line-clamp-2 text-xs">
           {deal.city}
         </p>
@@ -82,7 +90,15 @@ function DealCard({
   return (
     <KanbanItem value={deal.id} disabled={isOverlay}>
       {asHandle && !isOverlay ? (
-        <KanbanItemHandle>{content}</KanbanItemHandle>
+        <KanbanItemHandle>
+          <button
+            type="button"
+            className="w-full text-left"
+            onClick={() => onSelect?.(deal)}
+          >
+            {content}
+          </button>
+        </KanbanItemHandle>
       ) : (
         content
       )}
@@ -94,10 +110,12 @@ function DealColumn({
   stage,
   deals,
   isOverlay,
+  onSelect,
 }: {
   stage: DealStage
   deals: Deal[]
   isOverlay?: boolean
+  onSelect?: (deal: Deal) => void
 }) {
   const config = getStageConfig(stage)
   return (
@@ -128,6 +146,7 @@ function DealColumn({
             deal={deal}
             asHandle={!isOverlay}
             isOverlay={isOverlay}
+            onSelect={onSelect}
           />
         ))}
       </KanbanColumnContent>
@@ -138,9 +157,11 @@ function DealColumn({
 export function DealsKanban({
   deals,
   onDealsChange,
+  onSelect,
 }: {
   deals: Deal[]
   onDealsChange: (deals: Deal[]) => void
+  onSelect: (deal: Deal) => void
 }) {
   // Same ownership model as the ReUI ticket board: local columns, parent
   // notified only on drop (`onValueCommit`), never on the live drag preview.
@@ -168,6 +189,7 @@ export function DealsKanban({
             key={stage.value}
             stage={stage.value}
             deals={columns[stage.value]}
+            onSelect={onSelect}
           />
         ))}
       </KanbanBoard>
