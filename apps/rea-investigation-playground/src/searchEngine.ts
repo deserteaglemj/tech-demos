@@ -57,7 +57,7 @@ export const SAMPLE_NOTES: Note[] = [
   },
   {
     id: "n2",
-    body: "SyncQueue holds pending mutations until the window ready event fires.",
+    body: "The sync queue holds pending mutations until the window ready event fires.",
   },
   {
     id: "n3",
