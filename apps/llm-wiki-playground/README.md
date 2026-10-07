@@ -5,6 +5,48 @@ work — index page, clickable interlinked topic pages, a link-graph browser,
 and an "Ask the wiki" panel that answers questions **without any API key**
 by retrieving from the local wiki text.
 
+## Install
+
+The default local mock mode needs no API key.
+
+### One-shot launcher
+
+```bash
+cd apps/llm-wiki-playground
+./install.sh
+```
+
+The script installs Bun when needed, installs dependencies, and starts the
+app at `http://127.0.0.1:5173/`.
+
+### Bun development server
+
+```bash
+cd apps/llm-wiki-playground
+bun install
+bun run dev
+```
+
+### Install as a Chrome app
+
+Build and preview the portable static production bundle:
+
+```bash
+cd apps/llm-wiki-playground
+bun run build
+bun run preview
+```
+
+Open `http://127.0.0.1:4173/` in Chrome, then use the browser's **Install**
+action (from the address bar or menu) to install LLM Wiki Playground. PWA
+installation works on localhost (or an HTTPS static host).
+
+Run tests with:
+
+```bash
+bun test
+```
+
 ## Run it
 
 ```bash

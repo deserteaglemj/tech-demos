@@ -10,11 +10,16 @@ const STOPWORDS = new Set([
   "i", "you", "me", "my", "your", "explain", "tell", "please",
 ]);
 
+function normalizeToken(token: string): string {
+  return token.length > 3 && token.endsWith("s") ? token.slice(0, -1) : token;
+}
+
 function tokenize(text: string): string[] {
   return text
     .toLowerCase()
     .match(/[a-z0-9]+/g)
-    ?.filter((t) => t.length > 1 && !STOPWORDS.has(t)) ?? [];
+    ?.filter((t) => t.length > 1 && !STOPWORDS.has(t))
+    .map(normalizeToken) ?? [];
 }
 
 /** Swaps `[[slug]]` markup for the target page's real title (plain text, no link). */
@@ -37,19 +42,46 @@ interface ScoredPage {
   score: number;
 }
 
+function longestTitlePhrase(
+  queryTokens: string[],
+  titleTokens: string[],
+): number {
+  let longest = 0;
+
+  for (let queryStart = 0; queryStart < queryTokens.length; queryStart += 1) {
+    for (let titleStart = 0; titleStart < titleTokens.length; titleStart += 1) {
+      let length = 0;
+      while (
+        queryStart + length < queryTokens.length
+        && titleStart + length < titleTokens.length
+        && queryTokens[queryStart + length] === titleTokens[titleStart + length]
+      ) {
+        length += 1;
+      }
+      longest = Math.max(longest, length);
+    }
+  }
+
+  return longest;
+}
+
 function scorePages(queryTokens: string[]): ScoredPage[] {
   const scored: ScoredPage[] = [];
   for (const page of wikiIndex.pages.values()) {
-    const titleTokens = new Set(tokenize(page.title));
+    const titleTokenList = tokenize(page.title);
+    const titleTokens = new Set(titleTokenList);
     const bodyTokens = tokenize(page.body);
     const bodyCounts = new Map<string, number>();
     for (const t of bodyTokens) bodyCounts.set(t, (bodyCounts.get(t) ?? 0) + 1);
 
     let score = 0;
-    for (const qt of queryTokens) {
+    for (const qt of new Set(queryTokens)) {
       if (titleTokens.has(qt)) score += 5;
       score += (bodyCounts.get(qt) ?? 0) * 1;
     }
+    const titlePhraseLength = longestTitlePhrase(queryTokens, titleTokenList);
+    if (titlePhraseLength > 1) score += titlePhraseLength * 8;
+
     if (score > 0) scored.push({ page, score });
   }
   return scored.sort((a, b) => b.score - a.score);
