@@ -2,13 +2,20 @@ import { useRef, type MouseEvent, type RefObject } from "react";
 import { Player, type PlayerRef } from "@remotion/player";
 import "@hyperframes/player";
 import {
-  LumenDesk,
-  LUMEN_DURATION_FRAMES,
-  LUMEN_FPS,
-  LUMEN_HEIGHT,
-  LUMEN_WIDTH,
-} from "./remotion/LumenDesk";
-import { SHARED_PROMPT, SCORES, VERDICT, average } from "./bakeoff";
+  ImStudiosConversion,
+  IM_DURATION_FRAMES,
+  IM_FPS,
+  IM_HEIGHT,
+  IM_WIDTH,
+} from "./remotion/ImStudiosConversion";
+import {
+  SHARED_PROMPT,
+  SCORES,
+  VERDICT,
+  GUIDE_A,
+  GUIDE_B,
+  average,
+} from "./bakeoff";
 
 const HF_AVG = average("hyperframes");
 const RM_AVG = average("remotion");
@@ -45,8 +52,8 @@ export default function App() {
         <div className="hero-copy">
           <p className="brand">Bake-Off</p>
           <p className="lede">
-            Same prompt. Two guided chats — HyperFrames vs Remotion. Watch both outputs, then read
-            the scorecards and verdict.
+            Same handoff prompt. HyperFrames-guided vs Remotion-guided — IM STUDIOS conversion
+            video. Play both, then read the ratings and verdict.
           </p>
           <div className="cta-row">
             <button type="button" className="cta" onClick={playBoth}>
@@ -60,24 +67,18 @@ export default function App() {
 
         <section className="prompt-card" aria-label="Shared agent prompt">
           <div className="prompt-meta">
-            <span>Shared prompt</span>
-            <span>Both chats got this verbatim</span>
+            <span>Shared conversion brief</span>
+            <span>From HANDOFF.md · Phase 4</span>
           </div>
           <pre className="prompt-body">{SHARED_PROMPT}</pre>
           <div className="guide-row">
             <article>
               <h3>Guide A — HyperFrames</h3>
-              <p>
-                Author a single HTML composition: <code>class=&quot;clip&quot;</code>, data timing
-                attrs, paused GSAP on <code>window.__timelines</code>. No React.
-              </p>
+              <p>{GUIDE_A}</p>
             </article>
             <article>
               <h3>Guide B — Remotion</h3>
-              <p>
-                Author a React composition with <code>useCurrentFrame</code>,{" "}
-                <code>interpolate</code>, and <code>AbsoluteFill</code> at 30fps.
-              </p>
+              <p>{GUIDE_B}</p>
             </article>
           </div>
         </section>
@@ -86,7 +87,10 @@ export default function App() {
       <section className="outputs" aria-label="Agent outputs">
         <div className="section-head">
           <h2>Outputs</h2>
-          <p>Left is HyperFrames HTML. Right is Remotion React. Same brief, different guides.</p>
+          <p>
+            Left: HyperFrames HTML+GSAP. Right: Remotion React. Same IM STUDIOS conversion brief —
+            book a shoot.
+          </p>
         </div>
 
         <div className="stage">
@@ -122,11 +126,11 @@ export default function App() {
               <Player
                 ref={remotionRef}
                 className="remotion-player"
-                component={LumenDesk}
-                durationInFrames={LUMEN_DURATION_FRAMES}
-                compositionWidth={LUMEN_WIDTH}
-                compositionHeight={LUMEN_HEIGHT}
-                fps={LUMEN_FPS}
+                component={ImStudiosConversion}
+                durationInFrames={IM_DURATION_FRAMES}
+                compositionWidth={IM_WIDTH}
+                compositionHeight={IM_HEIGHT}
+                fps={IM_FPS}
                 controls
                 loop
                 autoPlay={false}
@@ -145,9 +149,7 @@ export default function App() {
       <section ref={scoresRef as RefObject<HTMLElement>} className="scores">
         <div className="section-head">
           <h2>Ratings</h2>
-          <p>
-            Six axes, scored 1–10 for this mini only — not a universal ranking of either framework.
-          </p>
+          <p>Six axes for this IM STUDIOS conversion mini — not a universal framework ranking.</p>
         </div>
 
         <div className="score-table" role="table" aria-label="Bake-off scorecards">
@@ -201,15 +203,11 @@ export default function App() {
       </section>
 
       <footer className="footer">
-        Exact prompt + guide notes: <code>PROMPT.md</code>
+        Local agent handoff: <code>HANDOFF.md</code>
         {" · "}
-        Sources:{" "}
-        <a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noreferrer">
-          HyperFrames
-        </a>
-        {" · "}
-        <a href="https://www.remotion.dev" target="_blank" rel="noreferrer">
-          Remotion
+        Site:{" "}
+        <a href="https://imstudios.ca/" target="_blank" rel="noreferrer">
+          imstudios.ca
         </a>
         {" · "}
         <code>bun run render:hf</code>

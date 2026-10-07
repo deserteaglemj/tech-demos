@@ -1,40 +1,38 @@
-# Shared agent prompt
+# Shared conversion brief (bake-off)
 
-Both “guides” received this exact brief. Nothing else differed except the framework skill/docs each chat was told to follow.
+Both guides received this exact brief. Full local-agent install + skills instructions live in **`HANDOFF.md`**.
 
 ---
 
 **Prompt**
 
-> Create a 6-second product launch sting for **Lumen Desk**, a focus lamp for late-night makers.
+> Make a 12-second website conversion video for **IM STUDIOS** (https://imstudios.ca/).
 >
-> Specs: 1280×720, 30fps, no audio for this bake-off.
-> Mood: late desk, warm amber accent `#E8A04A` on near-black `#0B0C0A`.
-> Beats:
-> 1. Soft amber glow / lamp motif appears
-> 2. Brand **LUMEN DESK** lands as the hero
-> 3. Tagline: *Light that stays with you*
-> 4. End card CTA: **Shop the lamp**
+> Goal: get a visitor to **book / inquire**.
 >
-> Keep it demable in one sitting. Prefer crisp type and simple motion over clutter.
+> Specs: 1280×720, 30fps. Silent OK for v1.
+> Brand: **IM STUDIOS** must be the hero-level signal—not a nav eyebrow.
+> Offer: creative photo + video · wedding cinema · commercial · Stoney Creek, ON · 20+ years.
+> Tone: cinematic, warm, modern-timeless. Sentiment + personality. Avoid generic AI purple gradients.
+>
+> Beat sheet:
+> 1. Atmosphere / light open
+> 2. Brand lockup **IM STUDIOS**
+> 3. One-line promise (photo + video that balances sentiment and humour)
+> 4. Service chips: Wedding · Commercial · Events
+> 5. CTA: **Book a shoot** + `imstudios.ca`
 
 ---
 
 ## Guide A — HyperFrames
 
-System note given to that chat:
-
-> You are authoring with **HyperFrames**. Write a single `index.html` composition: `class="clip"` + `data-start` / `data-duration` / `data-track-index`, paused GSAP timeline registered on `window.__timelines`, no React, no bundler.
+> Load `/product-launch-video` + `/hyperframes-core`. Write a single HTML composition with `class="clip"`, data timing attrs, paused GSAP on `window.__timelines`.
 
 ## Guide B — Remotion
 
-System note given to that chat:
+> Load `/remotion-best-practices` + `/remotion-markup`. Write a React composition with `useCurrentFrame`, `interpolate`/`spring`, and `AbsoluteFill` at 30fps.
 
-> You are authoring with **Remotion**. Write a React composition using `useCurrentFrame`, `interpolate`, and `AbsoluteFill`. Frame math at 30fps. Registerable in a Remotion Player.
-
----
-
-Outputs live in:
+Outputs:
 
 - HyperFrames → `public/hyperframes/index.html`
-- Remotion → `src/remotion/LumenDesk.tsx`
+- Remotion → `src/remotion/ImStudiosConversion.tsx`

@@ -1,14 +1,20 @@
-export const SHARED_PROMPT = `Create a 6-second product launch sting for Lumen Desk, a focus lamp for late-night makers.
+export const SHARED_PROMPT = `Make a 12-second website conversion video for IM STUDIOS (https://imstudios.ca/).
 
-Specs: 1280×720, 30fps, no audio for this bake-off.
-Mood: late desk, warm amber accent #E8A04A on near-black #0B0C0A.
-Beats:
-1. Soft amber glow / lamp motif appears
-2. Brand LUMEN DESK lands as the hero
-3. Tagline: Light that stays with you
-4. End card CTA: Shop the lamp
+Goal: get a visitor to book / inquire.
 
-Keep it demable in one sitting. Prefer crisp type and simple motion over clutter.`;
+Specs: 1280×720, 30fps. Silent OK for v1.
+Brand: IM STUDIOS must be the hero-level signal—not a nav eyebrow.
+Offer: creative photo + video · wedding cinema · commercial · Stoney Creek, ON · 20+ years.
+Tone: cinematic, warm, modern-timeless. Sentiment + personality. Avoid generic AI purple gradients.
+
+Beat sheet:
+1. Atmosphere / light open
+2. Brand lockup IM STUDIOS
+3. One-line promise (photo + video that balances sentiment and humour)
+4. Service chips: Wedding · Commercial · Events
+5. CTA: Book a shoot + imstudios.ca
+
+Prefer crisp type and intentional motion over clutter. One composition. Demable in one sitting.`;
 
 export type ScoreAxis = {
   id: string;
@@ -18,49 +24,49 @@ export type ScoreAxis = {
   note: string;
 };
 
-/** Honest bake-off scores for this mini — same brief, different guides. */
+/** Scores for the IM STUDIOS conversion bake-off mini. */
 export const SCORES: ScoreAxis[] = [
   {
     id: "brief",
     label: "Brief fidelity",
     hyperframes: 9,
     remotion: 9,
-    note: "Both hit glow → brand → tagline → CTA in 6s.",
+    note: "Both hit brand → promise → services → CTA in 12s.",
   },
   {
-    id: "motion",
-    label: "Motion quality",
-    hyperframes: 8,
+    id: "conversion",
+    label: "Conversion clarity",
+    hyperframes: 9,
     remotion: 9,
-    note: "Remotion spring on the lamp reads a hair snappier; HyperFrames GSAP ease is clean.",
+    note: "CTA + imstudios.ca hold ≥2s; offer readable without audio.",
+  },
+  {
+    id: "brand",
+    label: "Brand presence",
+    hyperframes: 9,
+    remotion: 9,
+    note: "IM STUDIOS is hero type, not a corner mark.",
   },
   {
     id: "agent",
     label: "Agent authorability",
     hyperframes: 9,
     remotion: 7,
-    note: "Plain HTML + data-* is easier for agents to emit without a React project graph.",
+    note: "HyperFrames HTML+data-* is faster for agents; Remotion needs the React graph.",
   },
   {
-    id: "inspect",
-    label: "Human inspectability",
-    hyperframes: 9,
-    remotion: 7,
-    note: "HyperFrames opens as a page in DevTools; Remotion needs the Player/Studio loop.",
+    id: "motion",
+    label: "Motion quality",
+    hyperframes: 8,
+    remotion: 9,
+    note: "Remotion spring on the brand lockup feels slightly tighter.",
   },
   {
     id: "ecosystem",
     label: "Ecosystem / Player maturity",
     hyperframes: 6,
     remotion: 9,
-    note: "Remotion Player + Lambda history is deeper; HyperFrames is newer but moving fast.",
-  },
-  {
-    id: "license",
-    label: "License friction",
-    hyperframes: 9,
-    remotion: 6,
-    note: "Apache 2.0 vs Remotion’s seat-based license for larger teams.",
+    note: "Remotion Player/Lambda history is deeper for product embeds.",
   },
 ];
 
@@ -71,9 +77,15 @@ export function average(side: "hyperframes" | "remotion"): number {
 
 export const VERDICT = {
   winner: "hyperframes" as const,
-  title: "HyperFrames mini — narrow win",
+  title: "HyperFrames mini — conversion handoff win",
   summary:
-    "For this agent-authored product sting, HyperFrames edges it: same visual brief, less framework scaffolding, Apache 2.0. Remotion still wins if your team already lives in React and wants the mature Player/Lambda path.",
+    "For an agent-installed, skills-driven IM STUDIOS website sting, HyperFrames wins the mini: same conversion beats, less scaffolding, Apache 2.0. Use Remotion when the Player must live inside a React site or you need mature Lambda.",
   loserNote:
-    "Remotion is not “worse video” — its spring timing is excellent. It loses the mini on agent handoff + license friction for this specific bake-off.",
+    "Remotion’s spring on the brand lockup is excellent. It loses this handoff on agent install friction, not on picture quality.",
 };
+
+export const GUIDE_A =
+  "Author HyperFrames HTML: class=\"clip\", data timing attrs, paused GSAP on window.__timelines. Load /product-launch-video + /hyperframes-core first.";
+
+export const GUIDE_B =
+  "Author Remotion React with useCurrentFrame, interpolate/spring, AbsoluteFill. Load /remotion-best-practices + /remotion-markup first.";

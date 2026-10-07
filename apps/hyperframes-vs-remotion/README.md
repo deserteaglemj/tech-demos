@@ -1,8 +1,8 @@
-# Bake-Off — HyperFrames vs Remotion
+# Bake-Off — HyperFrames vs Remotion (IM STUDIOS)
 
-Same agent prompt, two guides. Compare the outputs, read the ratings, see the verdict.
+Same conversion brief, two guides. Plus a paste-ready **`HANDOFF.md`** for your local AI agent to install both stacks, pull all skills, find work-fit uses, and ship the video.
 
-## Run
+## Run the demo
 
 ```bash
 cd apps/hyperframes-vs-remotion
@@ -10,16 +10,24 @@ bun install
 bun run dev
 ```
 
-## What’s in the demo
+## Local agent handoff
 
-1. **Shared prompt** — Lumen Desk 6s product sting (exact text in `PROMPT.md`)
-2. **Output A** — HyperFrames HTML + GSAP (`public/hyperframes/`)
-3. **Output B** — Remotion React (`src/remotion/LumenDesk.tsx`)
-4. **Ratings + verdict** — scored axes and a HyperFrames / Remotion mini call
+Paste **`HANDOFF.md`** into Cursor / Claude Code / Codex. It covers:
 
-## CLI smoke
+1. Official Remotion + HyperFrames install commands  
+2. Installing **all** related agent skills  
+3. Finding where either fits *your* work (not generic examples)  
+4. Acceptance test: IM STUDIOS 12s conversion video → `imstudios.ca` CTA  
+
+## What’s on screen
+
+1. Shared IM STUDIOS conversion prompt  
+2. Output A — HyperFrames · Output B — Remotion  
+3. Ratings + verdict  
+
+## Render
 
 ```bash
 bun run lint:hf
-bun run render:hf   # out/hyperframes-title.mp4 (6s)
+bun run render:hf   # out/imstudios-conversion.mp4 (12s)
 ```

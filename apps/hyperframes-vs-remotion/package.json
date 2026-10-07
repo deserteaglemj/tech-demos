@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint:hf": "hyperframes lint public/hyperframes",
-    "render:hf": "hyperframes render public/hyperframes -o out/hyperframes-title.mp4 --fps 30",
+    "render:hf": "hyperframes render public/hyperframes -o out/imstudios-conversion.mp4 --fps 30",
     "check:hf": "hyperframes check public/hyperframes"
   },
   "dependencies": {

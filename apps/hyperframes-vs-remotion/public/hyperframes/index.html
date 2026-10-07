@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1280, height=720" />
-    <title>Lumen Desk — HyperFrames output</title>
+    <title>IM STUDIOS — conversion sting</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
@@ -22,129 +22,152 @@
         width: 1280px;
         height: 720px;
         overflow: hidden;
-        background: #0b0c0a;
+        background: #100e0c;
       }
       #stage {
         position: relative;
         width: 1280px;
         height: 720px;
         overflow: hidden;
-        background: radial-gradient(ellipse 70% 55% at 50% 38%, #1a140c 0%, #0b0c0a 68%);
+        background:
+          radial-gradient(ellipse 80% 60% at 50% 40%, #2a2118 0%, #100e0c 70%),
+          #100e0c;
       }
       .clip {
         position: absolute;
         inset: 0;
         display: grid;
         place-items: center;
-        font-family: Inter, Arial, Helvetica, sans-serif;
+        text-align: center;
       }
-      #glow {
-        background: radial-gradient(circle at 50% 42%, rgba(232, 160, 74, 0.45), transparent 42%);
+      #veil {
+        background: radial-gradient(circle at 50% 45%, rgba(212, 160, 98, 0.28), transparent 48%);
         opacity: 0;
-      }
-      #lamp {
-        opacity: 0;
-      }
-      #lamp::after {
-        content: "";
-        width: 88px;
-        height: 88px;
-        border-radius: 50%;
-        background: radial-gradient(circle at 35% 30%, #ffe2b0, #e8a04a 55%, #8a5318 100%);
-        box-shadow: 0 0 60px rgba(232, 160, 74, 0.55);
       }
       #brand {
-        font-size: 92px;
-        font-weight: 800;
-        letter-spacing: -0.04em;
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 118px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #f4ebe0;
+        opacity: 0;
+        white-space: nowrap;
         line-height: 1;
-        color: #f6f1e8;
-        opacity: 0;
-        white-space: nowrap;
       }
-      #tagline {
-        font-size: 34px;
+      #promise {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        font-size: 28px;
         font-weight: 500;
-        letter-spacing: -0.02em;
-        color: rgba(246, 241, 232, 0.82);
+        letter-spacing: -0.01em;
+        color: rgba(244, 235, 224, 0.86);
+        opacity: 0;
+        max-width: 840px;
+        line-height: 1.35;
+        padding: 0 2rem;
+      }
+      #services {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #d4a062;
         opacity: 0;
         white-space: nowrap;
-        /* sit slightly under brand center */
-        padding-top: 140px;
-        align-content: center;
       }
       #cta {
-        opacity: 0;
-        font-size: 28px;
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        font-size: 26px;
         font-weight: 700;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #0b0c0a;
+        color: #100e0c;
+        background: #d4a062;
         width: max-content;
         height: max-content;
-        max-width: 90%;
         inset: 0;
         margin: auto;
-        padding: 0.7rem 1.4rem;
+        padding: 0.85rem 1.6rem;
         border-radius: 999px;
-        background: #e8a04a;
+        opacity: 0;
+      }
+      #url {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        color: rgba(244, 235, 224, 0.75);
+        opacity: 0;
+        padding-top: 120px;
       }
     </style>
   </head>
   <body>
     <div
       id="stage"
-      data-composition-id="lumen-desk"
+      data-composition-id="imstudios-conversion"
       data-start="0"
       data-width="1280"
       data-height="720"
-      data-duration="6"
+      data-duration="12"
       data-fps="30"
     >
-      <div id="glow" class="clip" data-start="0" data-duration="6" data-track-index="0"></div>
-      <div id="lamp" class="clip" data-start="0" data-duration="2.2" data-track-index="1"></div>
-      <div id="brand" class="clip" data-start="1.2" data-duration="3.2" data-track-index="2">
-        LUMEN DESK
+      <div id="veil" class="clip" data-start="0" data-duration="12" data-track-index="0"></div>
+      <div id="brand" class="clip" data-start="0.4" data-duration="4.2" data-track-index="1">
+        IM STUDIOS
       </div>
-      <div id="tagline" class="clip" data-start="2.4" data-duration="2.4" data-track-index="3">
-        Light that stays with you
+      <div id="promise" class="clip" data-start="3.2" data-duration="3.6" data-track-index="2">
+        Photo + video that balances sentiment and humour — for weddings, commercial, and events.
       </div>
-      <div id="cta" class="clip" data-start="4.4" data-duration="1.6" data-track-index="4">
-        Shop the lamp
+      <div id="services" class="clip" data-start="5.8" data-duration="3.2" data-track-index="3">
+        Wedding · Commercial · Events
+      </div>
+      <div id="cta" class="clip" data-start="8.6" data-duration="3.4" data-track-index="4">
+        Book a shoot
+      </div>
+      <div id="url" class="clip" data-start="9.0" data-duration="3.0" data-track-index="5">
+        imstudios.ca
       </div>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
-      tl.to("#glow", { opacity: 1, duration: 0.8, ease: "power2.out" }, 0);
-      tl.fromTo(
-        "#lamp",
-        { opacity: 0, scale: 0.7 },
-        { opacity: 1, scale: 1, duration: 0.7, ease: "power2.out" },
-        0.15,
-      );
-      tl.to("#lamp", { opacity: 0, scale: 1.15, duration: 0.45, ease: "power1.in" }, 1.7);
+      tl.to("#veil", { opacity: 1, duration: 1.1, ease: "power2.out" }, 0);
       tl.fromTo(
         "#brand",
-        { opacity: 0, y: 28 },
-        { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
-        1.25,
+        { opacity: 0, y: 36, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: "power2.out" },
+        0.45,
       );
+      tl.to("#brand", { opacity: 0, y: -18, duration: 0.45, ease: "power1.in" }, 4.2);
       tl.fromTo(
-        "#tagline",
-        { opacity: 0, y: 18 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-        2.45,
+        "#promise",
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+        3.3,
       );
-      tl.to(["#brand", "#tagline"], { opacity: 0, duration: 0.35, ease: "power1.in" }, 4.2);
+      tl.to("#promise", { opacity: 0, duration: 0.4, ease: "power1.in" }, 6.4);
+      tl.fromTo(
+        "#services",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+        5.9,
+      );
+      tl.to("#services", { opacity: 0, duration: 0.35, ease: "power1.in" }, 8.6);
       tl.fromTo(
         "#cta",
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" },
-        4.45,
+        { opacity: 0, y: 16, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power2.out" },
+        8.7,
       );
-      tl.to("#cta", { opacity: 0, duration: 0.35, ease: "power1.in" }, 5.65);
+      tl.fromTo(
+        "#url",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.45, ease: "power2.out" },
+        9.15,
+      );
+      tl.to(["#cta", "#url", "#veil"], { opacity: 0, duration: 0.4, ease: "power1.in" }, 11.5);
       window.__timelines = window.__timelines || {};
-      window.__timelines["lumen-desk"] = tl;
+      window.__timelines["imstudios-conversion"] = tl;
       tl.seek(0);
     </script>
   </body>

@@ -1,7 +1,7 @@
 # PLAN — hyperframes-vs-remotion
 
 ## Goal
-Same-prompt agent bake-off: one brief guided by HyperFrames patterns vs the same brief guided by Remotion patterns, then rate both outputs and declare a verdict.
+Same-prompt agent bake-off for an IM STUDIOS conversion video, plus a paste-ready `HANDOFF.md` that installs Remotion + HyperFrames, pulls all skills, and finds work-fit uses.
 
 ## Source
 - Tech: HyperFrames (HeyGen) — https://github.com/heygen-com/hyperframes
