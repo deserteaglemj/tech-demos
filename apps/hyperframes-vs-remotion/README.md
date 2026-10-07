@@ -1,6 +1,6 @@
-# Side by Frame — HyperFrames vs Remotion
+# Bake-Off — HyperFrames vs Remotion
 
-Interactive comparison of [HyperFrames](https://github.com/heygen-com/hyperframes) (HeyGen) and [Remotion](https://www.remotion.dev) using the same 3-second HELLO title card from HyperFrames’ own comparison guide.
+Same agent prompt, two guides. Compare the outputs, read the ratings, see the verdict.
 
 ## Run
 
@@ -10,23 +10,16 @@ bun install
 bun run dev
 ```
 
-Open the Vite URL (default `http://localhost:5173`).
+## What’s in the demo
 
-## What you get
+1. **Shared prompt** — Lumen Desk 6s product sting (exact text in `PROMPT.md`)
+2. **Output A** — HyperFrames HTML + GSAP (`public/hyperframes/`)
+3. **Output B** — Remotion React (`src/remotion/LumenDesk.tsx`)
+4. **Ratings + verdict** — scored axes and a HyperFrames / Remotion mini call
 
-- **Left:** HyperFrames HTML composition via `@hyperframes/player`
-- **Right:** Remotion React composition via `@remotion/player`
-- Authoring snippets + decision matrix (build step, timing model, license, agents)
-
-## HyperFrames CLI smoke
-
-Requires Node 22+, FFmpeg, and Chrome (system Chrome or chrome-headless-shell).
+## CLI smoke
 
 ```bash
 bun run lint:hf
-bun run render:hf   # writes out/hyperframes-title.mp4 (~3s)
+bun run render:hf   # out/hyperframes-title.mp4 (6s)
 ```
-
-## Stack
-
-Bun · Vite · React · `hyperframes` / `@hyperframes/player` · `remotion` / `@remotion/player`

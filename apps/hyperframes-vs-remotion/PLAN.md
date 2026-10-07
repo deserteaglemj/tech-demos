@@ -1,44 +1,44 @@
 # PLAN — hyperframes-vs-remotion
 
 ## Goal
-Install HyperFrames, prove local render works, and ship a side-by-side studio that compares the same 3s title card in HyperFrames HTML vs Remotion React.
+Same-prompt agent bake-off: one brief guided by HyperFrames patterns vs the same brief guided by Remotion patterns, then rate both outputs and declare a verdict.
 
 ## Source
 - Tech: HyperFrames (HeyGen) — https://github.com/heygen-com/hyperframes
-- Comparison guide: https://hyperframes.heygen.com/guides/hyperframes-vs-remotion
-- Foil: Remotion (already planned in `apps/remotion-promo-studio/`)
+- Foil: Remotion — https://www.remotion.dev
+- Method: identical user prompt; different framework “guides”
 
 ## MVP scope (in)
-- HyperFrames composition: fade-in / hold / fade-out “HELLO” title card (3s @ 30fps, 1280×720)
-- Remotion composition: identical animation via `useCurrentFrame` + `interpolate`
-- Comparison studio UI: dual players, authoring snippets, decision matrix
-- CLI smoke: `hyperframes lint` + `hyperframes render` of the HTML composition
-- README: `bun install && bun run dev` (+ optional `bun run render:hf`)
+- One shared prompt (product launch sting for “Lumen Desk”)
+- Output A: HyperFrames HTML + GSAP composition (agent-style HyperFrames guide)
+- Output B: Remotion React composition (agent-style Remotion guide)
+- Demo UI: show the prompt → play both outputs → scorecards → verdict
+- CLI smoke: `bun run lint:hf` + `bun run render:hf`
+- README with run instructions
 
 ## Out of scope
-- AWS Lambda / HeyGen cloud render
-- Agent skills install / Remotion→HyperFrames migration skill
-- Audio, multi-scene promos, Studio desktop app
+- Live multi-agent orchestration / skills install in the browser
+- Cloud/Lambda render, audio beds, multi-minute explainers
 
 ## Stack
 - Bun + Vite + React + TypeScript
-- `hyperframes` CLI + `@hyperframes/player`
+- `hyperframes` + `@hyperframes/player`
 - `remotion` + `@remotion/player`
 - Run: `cd apps/hyperframes-vs-remotion && bun install && bun run dev`
 
 ## File sketch
-- `package.json`, `vite.config.ts`, `tsconfig.json`, `index.html`
-- `public/hyperframes/index.html` — HyperFrames composition
-- `src/remotion/TitleCard.tsx` — Remotion composition
-- `src/App.tsx` — dual-player comparison studio
-- `README.md`, this `PLAN.md`
+- `PROMPT.md` — exact shared prompt + guide notes
+- `public/hyperframes/index.html` — HyperFrames output
+- `src/remotion/LumenDesk.tsx` — Remotion output
+- `src/bakeoff.ts` — ratings + verdict data
+- `src/App.tsx` — prompt / outputs / scores / verdict studio
 
 ## Acceptance criteria
-- [ ] `bun install && bun run dev` serves the comparison studio
-- [ ] HyperFrames player and Remotion Player both play the same HELLO title card
-- [ ] `bun run render:hf` produces a 3s MP4 via HyperFrames
-- [ ] UI surfaces authoring + license / build-step differences
-- [ ] PR includes ≥1 screenshot and ≥1 video of the running studio
+- [ ] Demo shows the exact shared prompt
+- [ ] Both framework outputs play the Lumen Desk sting
+- [ ] Scorecards + verdict are visible
+- [ ] `bun install && bun run dev` works; `bun run render:hf` produces MP4
+- [ ] PR includes ≥1 screenshot and ≥1 video
 
 ## Validation
-Capture screenshot + video from the running dual-player UI and attach both to the PR. Not optional.
+Screenshot + video of prompt → dual outputs → ratings/verdict. Not optional.

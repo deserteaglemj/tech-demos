@@ -1,57 +1,21 @@
 import { useRef, type MouseEvent, type RefObject } from "react";
 import { Player, type PlayerRef } from "@remotion/player";
 import "@hyperframes/player";
-import { TitleCard } from "./remotion/TitleCard";
+import {
+  LumenDesk,
+  LUMEN_DURATION_FRAMES,
+  LUMEN_FPS,
+  LUMEN_HEIGHT,
+  LUMEN_WIDTH,
+} from "./remotion/LumenDesk";
+import { SHARED_PROMPT, SCORES, VERDICT, average } from "./bakeoff";
 
-const HF_SNIPPET = `<div id="stage" data-composition-id="title-card"
-     data-width="1280" data-height="720"
-     data-duration="3" data-fps="30">
-  <div id="title" class="clip"
-       data-start="0" data-duration="3"
-       data-track-index="0">HELLO</div>
-</div>
-
-<script>
-  const tl = gsap.timeline({ paused: true });
-  tl.to("#title", { opacity: 1, duration: 0.5 }, 0);
-  tl.to("#title", { opacity: 1, duration: 2.0 }, 0.5);
-  tl.to("#title", { opacity: 0, duration: 0.5 }, 2.5);
-  window.__timelines["title-card"] = tl;
-</script>`;
-
-const RM_SNIPPET = `import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-
-export const TitleCard = () => {
-  const frame = useCurrentFrame();
-  const opacity = interpolate(
-    frame,
-    [0, 15, 75, 90],
-    [0, 1, 1, 0],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-  );
-
-  return (
-    <AbsoluteFill style={{ backgroundColor: "#0a0a0a",
-      justifyContent: "center", alignItems: "center" }}>
-      <div style={{ fontSize: 120, fontWeight: 800,
-        color: "#fff", opacity, whiteSpace: "nowrap" }}>HELLO</div>
-    </AbsoluteFill>
-  );
-};`;
-
-const MATRIX: Array<[string, string, string]> = [
-  ["What you write", "HTML + CSS + seekable GSAP/CSS/Lottie", "React + TypeScript components"],
-  ["Timing model", "Renderer seeks a paused timeline to each frame", "Pure function of useCurrentFrame()"],
-  ["Build step", "None — index.html plays as-is", "Bundler required (Webpack/Vite)"],
-  ["Agent handoff", "Plain HTML files agents already write", "JSX project + Remotion APIs"],
-  ["Existing web art", "GSAP/Lottie pages drop in close to as-is", "Rewrite as React compositions"],
-  ["Ecosystem age", "Newer (HeyGen, 2026) — fast-moving", "Mature since 2021 — templates, Lambda, Player"],
-  ["License", "Apache 2.0", "Remotion License (paid for larger teams)"],
-];
+const HF_AVG = average("hyperframes");
+const RM_AVG = average("remotion");
 
 export default function App() {
   const remotionRef = useRef<PlayerRef>(null);
-  const codeRef = useRef<HTMLElement>(null);
+  const scoresRef = useRef<HTMLElement>(null);
   const hfHostRef = useRef<HTMLElement | null>(null);
 
   const playBoth = (event: MouseEvent<HTMLButtonElement>) => {
@@ -59,7 +23,6 @@ export default function App() {
     if (remotion) {
       remotion.pause();
       remotion.seekTo(0);
-      // Remotion requires the user gesture event for play() under autoplay policy.
       remotion.play(event);
     }
 
@@ -72,34 +35,65 @@ export default function App() {
     }
   };
 
-  const scrollCode = () => {
-    codeRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollScores = () => {
+    scoresRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <div className="app">
       <header className="hero">
         <div className="hero-copy">
-          <p className="brand">Side by Frame</p>
+          <p className="brand">Bake-Off</p>
           <p className="lede">
-            Same three-second HELLO title card — HyperFrames HTML on the left, Remotion React on
-            the right. Both seek a browser frame-by-frame into MP4.
+            Same prompt. Two guided chats — HyperFrames vs Remotion. Watch both outputs, then read
+            the scorecards and verdict.
           </p>
           <div className="cta-row">
             <button type="button" className="cta" onClick={playBoth}>
-              Play both
+              Play both outputs
             </button>
-            <button type="button" className="cta ghost" onClick={scrollCode}>
-              Compare source
+            <button type="button" className="cta ghost" onClick={scrollScores}>
+              Jump to ratings
             </button>
           </div>
         </div>
 
-        <div className="stage" aria-label="Dual composition players">
+        <section className="prompt-card" aria-label="Shared agent prompt">
+          <div className="prompt-meta">
+            <span>Shared prompt</span>
+            <span>Both chats got this verbatim</span>
+          </div>
+          <pre className="prompt-body">{SHARED_PROMPT}</pre>
+          <div className="guide-row">
+            <article>
+              <h3>Guide A — HyperFrames</h3>
+              <p>
+                Author a single HTML composition: <code>class=&quot;clip&quot;</code>, data timing
+                attrs, paused GSAP on <code>window.__timelines</code>. No React.
+              </p>
+            </article>
+            <article>
+              <h3>Guide B — Remotion</h3>
+              <p>
+                Author a React composition with <code>useCurrentFrame</code>,{" "}
+                <code>interpolate</code>, and <code>AbsoluteFill</code> at 30fps.
+              </p>
+            </article>
+          </div>
+        </section>
+      </header>
+
+      <section className="outputs" aria-label="Agent outputs">
+        <div className="section-head">
+          <h2>Outputs</h2>
+          <p>Left is HyperFrames HTML. Right is Remotion React. Same brief, different guides.</p>
+        </div>
+
+        <div className="stage">
           <div className="lane hf">
             <div className="lane-meta">
-              <strong>HyperFrames</strong>
-              <span className="badge">HTML · GSAP seek</span>
+              <strong>Output A · HyperFrames</strong>
+              <span className="badge">HTML · GSAP</span>
             </div>
             <div className="player-shell">
               <hyperframes-player
@@ -114,22 +108,25 @@ export default function App() {
                 height={720}
               />
             </div>
+            <p className="lane-score">
+              Score <em>{HF_AVG}</em> / 10
+            </p>
           </div>
 
           <div className="lane rm">
             <div className="lane-meta">
-              <strong>Remotion</strong>
-              <span className="badge">React · frame fn</span>
+              <strong>Output B · Remotion</strong>
+              <span className="badge">React · frames</span>
             </div>
             <div className="player-shell">
               <Player
                 ref={remotionRef}
                 className="remotion-player"
-                component={TitleCard}
-                durationInFrames={90}
-                compositionWidth={1280}
-                compositionHeight={720}
-                fps={30}
+                component={LumenDesk}
+                durationInFrames={LUMEN_DURATION_FRAMES}
+                compositionWidth={LUMEN_WIDTH}
+                compositionHeight={LUMEN_HEIGHT}
+                fps={LUMEN_FPS}
                 controls
                 loop
                 autoPlay={false}
@@ -138,101 +135,84 @@ export default function App() {
                 style={{ width: "100%", height: "100%" }}
               />
             </div>
+            <p className="lane-score">
+              Score <em>{RM_AVG}</em> / 10
+            </p>
           </div>
-        </div>
-      </header>
-
-      <section ref={codeRef as RefObject<HTMLElement>}>
-        <div className="section-head">
-          <h2>Authoring, not pixels</h2>
-          <p>
-            The frames match. The mental model does not. HyperFrames declares clips in markup and
-            seeks a paused GSAP timeline. Remotion computes style from the current frame number.
-          </p>
-        </div>
-        <div className="code-grid">
-          <article className="code-panel">
-            <header>
-              <span>hyperframes/index.html</span>
-              <span>seconds</span>
-            </header>
-            <pre>{HF_SNIPPET}</pre>
-          </article>
-          <article className="code-panel">
-            <header>
-              <span>TitleCard.tsx</span>
-              <span>frames @ 30fps</span>
-            </header>
-            <pre>{RM_SNIPPET}</pre>
-          </article>
         </div>
       </section>
 
-      <section>
+      <section ref={scoresRef as RefObject<HTMLElement>} className="scores">
         <div className="section-head">
-          <h2>Where they actually differ</h2>
+          <h2>Ratings</h2>
           <p>
-            Both open headless Chrome and encode with FFmpeg. Pick the authoring surface that fits
-            your team — not the newer logo.
+            Six axes, scored 1–10 for this mini only — not a universal ranking of either framework.
           </p>
         </div>
-        <div className="matrix" role="table" aria-label="HyperFrames versus Remotion">
-          <div className="matrix-row" role="row">
+
+        <div className="score-table" role="table" aria-label="Bake-off scorecards">
+          <div className="score-row head" role="row">
             <div role="columnheader">Axis</div>
             <div role="columnheader">HyperFrames</div>
             <div role="columnheader">Remotion</div>
+            <div role="columnheader">Why</div>
           </div>
-          {MATRIX.map(([axis, hf, rm]) => (
-            <div className="matrix-row" role="row" key={axis}>
-              <div role="cell">{axis}</div>
-              <div role="cell">{hf}</div>
-              <div role="cell">{rm}</div>
+          {SCORES.map((row) => (
+            <div className="score-row" role="row" key={row.id}>
+              <div role="cell">{row.label}</div>
+              <div role="cell" className="num hf-num">
+                {row.hyperframes}
+              </div>
+              <div role="cell" className="num rm-num">
+                {row.remotion}
+              </div>
+              <div role="cell" className="why">
+                {row.note}
+              </div>
             </div>
           ))}
+          <div className="score-row totals" role="row">
+            <div role="cell">Average</div>
+            <div role="cell" className="num hf-num">
+              {HF_AVG}
+            </div>
+            <div role="cell" className="num rm-num">
+              {RM_AVG}
+            </div>
+            <div role="cell" className="why">
+              Out of 10 across {SCORES.length} axes
+            </div>
+          </div>
         </div>
       </section>
 
-      <section>
+      <section className="verdict-section">
         <div className="section-head">
-          <h2>Pick for the work, not the hype</h2>
+          <h2>Verdict</h2>
         </div>
-        <div className="verdict">
-          <article>
-            <h3>Choose HyperFrames when…</h3>
-            <p>
-              You want agent-authored HTML, no React build, Apache 2.0, or you already have GSAP /
-              Lottie / web pages that should become video with minimal rewrite.
-            </p>
-          </article>
-          <article>
-            <h3>Choose Remotion when…</h3>
-            <p>
-              Your team lives in React/TypeScript, you need the mature Player + Lambda ecosystem,
-              or you prefer a pure frame function with typed props over timeline contracts.
-            </p>
-          </article>
-        </div>
+        <article className={`verdict-card winner-${VERDICT.winner}`}>
+          <p className="verdict-kicker">
+            {VERDICT.winner === "hyperframes" ? "HyperFrames mini" : "Remotion mini"}
+          </p>
+          <h3>{VERDICT.title}</h3>
+          <p>{VERDICT.summary}</p>
+          <p className="verdict-aside">{VERDICT.loserNote}</p>
+        </article>
       </section>
 
       <footer className="footer">
+        Exact prompt + guide notes: <code>PROMPT.md</code>
+        {" · "}
         Sources:{" "}
         <a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noreferrer">
-          heygen-com/hyperframes
-        </a>
-        {" · "}
-        <a
-          href="https://hyperframes.heygen.com/guides/hyperframes-vs-remotion"
-          target="_blank"
-          rel="noreferrer"
-        >
-          official comparison
+          HyperFrames
         </a>
         {" · "}
         <a href="https://www.remotion.dev" target="_blank" rel="noreferrer">
-          remotion.dev
+          Remotion
         </a>
         {" · "}
-        local render: <code>bun run render:hf</code>
+        <code>bun run render:hf</code>
       </footer>
     </div>
   );
