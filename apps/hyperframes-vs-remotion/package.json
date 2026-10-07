@@ -1,0 +1,29 @@
+{
+  "name": "hyperframes-vs-remotion",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint:hf": "hyperframes lint public/hyperframes",
+    "render:hf": "hyperframes render public/hyperframes -o out/imstudios-conversion.mp4 --fps 30",
+    "check:hf": "hyperframes check public/hyperframes"
+  },
+  "dependencies": {
+    "@hyperframes/player": "^0.8.140",
+    "@remotion/player": "4.0.534",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "remotion": "4.0.534"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "hyperframes": "^0.8.140",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.3"
+  }
+}

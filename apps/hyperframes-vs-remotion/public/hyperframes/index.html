@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>IM STUDIOS — conversion sting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        background: #100e0c;
+      }
+      #stage {
+        position: relative;
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        background:
+          radial-gradient(ellipse 80% 60% at 50% 40%, #2a2118 0%, #100e0c 70%),
+          #100e0c;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        text-align: center;
+      }
+      #veil {
+        background: radial-gradient(circle at 50% 45%, rgba(212, 160, 98, 0.28), transparent 48%);
+        opacity: 0;
+      }
+      #brand {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 118px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: #f4ebe0;
+        opacity: 0;
+        white-space: nowrap;
+        line-height: 1;
+      }
+      #promise {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: rgba(244, 235, 224, 0.86);
+        opacity: 0;
+        max-width: 840px;
+        line-height: 1.35;
+        padding: 0 2rem;
+      }
+      #services {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #d4a062;
+        opacity: 0;
+        white-space: nowrap;
+      }
+      #cta {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #100e0c;
+        background: #d4a062;
+        width: max-content;
+        height: max-content;
+        inset: 0;
+        margin: auto;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        opacity: 0;
+      }
+      #url {
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        color: rgba(244, 235, 224, 0.75);
+        opacity: 0;
+        padding-top: 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="stage"
+      data-composition-id="imstudios-conversion"
+      data-start="0"
+      data-width="1280"
+      data-height="720"
+      data-duration="12"
+      data-fps="30"
+    >
+      <div id="veil" class="clip" data-start="0" data-duration="12" data-track-index="0"></div>
+      <div id="brand" class="clip" data-start="0.4" data-duration="4.2" data-track-index="1">
+        IM STUDIOS
+      </div>
+      <div id="promise" class="clip" data-start="3.2" data-duration="3.6" data-track-index="2">
+        Photo + video that balances sentiment and humour — for weddings, commercial, and events.
+      </div>
+      <div id="services" class="clip" data-start="5.8" data-duration="3.2" data-track-index="3">
+        Wedding · Commercial · Events
+      </div>
+      <div id="cta" class="clip" data-start="8.6" data-duration="3.4" data-track-index="4">
+        Book a shoot
+      </div>
+      <div id="url" class="clip" data-start="9.0" data-duration="3.0" data-track-index="5">
+        imstudios.ca
+      </div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#veil", { opacity: 1, duration: 1.1, ease: "power2.out" }, 0);
+      tl.fromTo(
+        "#brand",
+        { opacity: 0, y: 36, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: "power2.out" },
+        0.45,
+      );
+      tl.to("#brand", { opacity: 0, y: -18, duration: 0.45, ease: "power1.in" }, 4.2);
+      tl.fromTo(
+        "#promise",
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+        3.3,
+      );
+      tl.to("#promise", { opacity: 0, duration: 0.4, ease: "power1.in" }, 6.4);
+      tl.fromTo(
+        "#services",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" },
+        5.9,
+      );
+      tl.to("#services", { opacity: 0, duration: 0.35, ease: "power1.in" }, 8.6);
+      tl.fromTo(
+        "#cta",
+        { opacity: 0, y: 16, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power2.out" },
+        8.7,
+      );
+      tl.fromTo(
+        "#url",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.45, ease: "power2.out" },
+        9.15,
+      );
+      tl.to(["#cta", "#url", "#veil"], { opacity: 0, duration: 0.4, ease: "power1.in" }, 11.5);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["imstudios-conversion"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
