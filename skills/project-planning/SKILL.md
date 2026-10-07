@@ -20,7 +20,7 @@ Keep plans short (under ~80 lines). Prefer one vertical slice over polish.
 
 ## Hard constraints (copy into every plan's out-of-scope / notes)
 
-- Model for the build agent: **Claude Sonnet 5** only. Do not plan or request Fable 5.
+- Model for the build agent: **Cursor Auto** only. Do not plan or request Fable 5 (or any other pinned model).
 - No Cloudflare setup unless the owner explicitly asks.
 - No root monorepo scaffolding changes beyond what `apps/<slug>/` needs.
 - Validation artifacts must come from the live Studio/Player/UI, not placeholders.
