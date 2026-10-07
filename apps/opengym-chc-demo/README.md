@@ -27,6 +27,15 @@ Open the Vite URL (default `http://localhost:5173`).
 
 Data persists in `localStorage`. Use **Reset** to restore seed state.
 
+## Download walkthrough video
+
+Full-app walkthrough MP4 (every page, ~85s):
+
+- In the running app: **Settings → Download MP4**
+- File in repo: [`public/demo/full-app-walkthrough.mp4`](./public/demo/full-app-walkthrough.mp4)
+- Direct download (this branch):
+  https://github.com/deserteaglemj/tech-demos/raw/cursor/opengym-chc-demo-56d1/apps/opengym-chc-demo/public/demo/full-app-walkthrough.mp4
+
 ## Stack
 
 Bun · Vite · React · TypeScript

@@ -935,6 +935,22 @@ button {
   border: 1px solid var(--line);
 }
 
+.demo-video {
+  display: block;
+  width: 100%;
+  margin: 0.75rem 0 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #000;
+  max-height: 280px;
+}
+
+a.download-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

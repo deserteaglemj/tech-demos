@@ -73,6 +73,31 @@ export function Settings({ state, onGo, onUnits, onReset }: Props) {
       </div>
 
       <div className="settings-card">
+        <h3>Walkthrough video</h3>
+        <p className="lede">
+          Full ~85s tour of every page. Play here or download the MP4.
+        </p>
+        <video
+          className="demo-video"
+          controls
+          playsInline
+          preload="metadata"
+          src="/demo/full-app-walkthrough.mp4"
+        >
+          <track kind="captions" />
+        </video>
+        <div className="inline-actions">
+          <a
+            className="btn-primary download-link"
+            href="/demo/full-app-walkthrough.mp4"
+            download="chc-opengym-full-app-walkthrough.mp4"
+          >
+            Download MP4
+          </a>
+        </div>
+      </div>
+
+      <div className="settings-card">
         <h3>Demo</h3>
         <p className="lede">
           Clears localStorage and restores the Founding 8 seed week.

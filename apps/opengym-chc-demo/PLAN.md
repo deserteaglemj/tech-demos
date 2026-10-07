@@ -47,7 +47,7 @@ Mirror openGym’s primary chrome and pages with seeded CHC data:
 - [x] All 8 pages reachable and interactive with seeded data
 - [x] Tab bar matches openGym Home / Plan / Start / Stats / Exercises
 - [x] CHC branding reads clearly on every surface
-- [ ] PR includes screenshots of each page + one full walkthrough video
+- [x] PR includes screenshots of each page + one full walkthrough video
 
 ## Validation
 Screenshot every page + one video walking the full app. Not optional.
