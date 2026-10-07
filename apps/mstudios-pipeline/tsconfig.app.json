@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "esnext",
+    /* "node" is needed only because several ReUI registry files (copy-and-own
+       vendor code under src/components/reui) guard dev-only warnings with
+       `process.env.NODE_ENV` - a Next.js/webpack idiom that Vite's build
+       still string-replaces correctly, but that otherwise has no ambient
+       type without this. */
+    "types": ["vite/client", "node"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    /* Off, not because unused-var hygiene doesn't matter, but because ESLint's
+       @typescript-eslint/no-unused-vars already covers it for hand-authored
+       app code (and lints it), while these two tsc flags would otherwise also
+       fail the build on a handful of pre-existing unused symbols inside the
+       vendored, copy-and-own src/components/reui registry code. */
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"]
+}
