@@ -133,7 +133,6 @@ export default function App() {
                 controls
                 loop
                 autoPlay={false}
-                initiallyShowClickToPlay={false}
                 acknowledgeRemotionLicense
                 style={{ width: "100%", height: "100%" }}
               />
