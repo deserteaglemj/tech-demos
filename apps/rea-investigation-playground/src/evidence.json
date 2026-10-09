@@ -1,0 +1,359 @@
+{
+  "evidence_id": "ev_a811eca5cb59a30dc4eddbec2bfd428058aaf1bffb45718f7b8e02251b94c55c",
+  "subject": {
+    "name": "inkdesk",
+    "digest": {
+      "sha256": "7b23f007a6673a736a403d3992023e832699b4dff3eca7b4ab0368b90b977b85"
+    },
+    "format": "directory"
+  },
+  "provider": {
+    "id": "rea-javascript-application",
+    "name": "REA JavaScript application analyzer",
+    "version": "1"
+  },
+  "operation": "analyze_javascript_application",
+  "confidence": "derived",
+  "authority": "shipped-artifact",
+  "root_artifact_sha256": "7b23f007a6673a736a403d3992023e832699b4dff3eca7b4ab0368b90b977b85",
+  "statistics": {
+    "relevant_files": 5,
+    "nested_asar_containers": 0,
+    "text_bytes_read": 2113,
+    "invalid_utf8_files": 0,
+    "parsed_javascript_files": 4,
+    "visited_ast_nodes": 404,
+    "findings": 10,
+    "modules": 0,
+    "parse_failures": 0,
+    "truncated_scopes": 0
+  },
+  "summary": {
+    "browser_windows": 0,
+    "explicit_web_preferences": 0,
+    "preload_entrypoints": 0,
+    "context_bridge_apis": 0,
+    "exposed_api_members": 0,
+    "ipc": {
+      "operations": 0,
+      "literal_channels": 0,
+      "dynamic_channel_operations": 0,
+      "renderer_transmissions": 0,
+      "renderer_listeners": 0,
+      "main_handlers": 0,
+      "paired_renderer_transmissions": 0,
+      "ambiguous_renderer_transmissions": 0,
+      "unpaired_literal_renderer_transmissions": 0
+    },
+    "sender_validation_observations": 0,
+    "utility_processes": 0,
+    "resolved_utility_entrypoints": 0,
+    "native_addon_bindings": 0,
+    "resolved_native_addon_bindings": 0
+  },
+  "limitations": [
+    "CommonJS and ESM binding relationships were recovered from inert syntax and resolved only within the inventoried artifact container.",
+    "JavaScript and HTML were parsed as inert text; bundle bootstrap code was never executed.",
+    "Static imports, entrypoints, workers, endpoints, and storage relationships do not prove runtime execution.",
+    "Static paths and relationships may remain unresolved when expressions are dynamic or obfuscated.",
+    "Webpack/Rspack factories were recovered from AST literals; REA did not invoke push handlers or bundle bootstrap code."
+  ],
+  "modules": [
+    {
+      "node_id": "jag_node_7d8b0daa443baea89c09f0dd8b344a48fa2a267e64bebede8dbf9edd793c17a2",
+      "kind": "javascript-module",
+      "path": "src/sync.js",
+      "exports": [
+        "SyncQueue"
+      ],
+      "import_count": 0,
+      "export_count": 1,
+      "module_format": "esm",
+      "confidence": "exact",
+      "authority": "ast-static-analysis",
+      "limitations": [
+        "Cross-function mutation and dynamic property resolution remain unknown.",
+        "Local call, argument, return, and closure relations are static candidates and do not prove runtime invocation.",
+        "Promise ownership covers explicit unshadowed Promise construction, static factories, aggregation, chaining, and await syntax only."
+      ]
+    },
+    {
+      "node_id": "jag_node_833837383f12506141a9081ba22d6f1a294856d0695ff925b675383ffe1e3ce7",
+      "kind": "javascript-module",
+      "path": "src/window.js",
+      "exports": [
+        "createWindow"
+      ],
+      "import_count": 0,
+      "export_count": 1,
+      "module_format": "esm",
+      "confidence": "exact",
+      "authority": "ast-static-analysis",
+      "limitations": [
+        "Cross-function mutation and dynamic property resolution remain unknown.",
+        "Local call, argument, return, and closure relations are static candidates and do not prove runtime invocation.",
+        "Promise ownership covers explicit unshadowed Promise construction, static factories, aggregation, chaining, and await syntax only."
+      ]
+    },
+    {
+      "node_id": "jag_node_9d84d6c83d1790e77778367960666674048946d63977eeb9a68126b98738d36b",
+      "kind": "javascript-module",
+      "path": "src/search.js:SearchIndex:return-shapes",
+      "exports": [],
+      "import_count": 0,
+      "export_count": 0,
+      "confidence": "high",
+      "authority": "static-relationship-inference",
+      "limitations": [
+        "Cross-function mutation and dynamic property resolution remain unknown.",
+        "Local call, argument, return, and closure relations are static candidates and do not prove runtime invocation.",
+        "No direct return value was retained; runtime return behavior remains unknown."
+      ]
+    },
+    {
+      "node_id": "jag_node_a237c900beb5055f0a549fb6bd378c0ad12081860aabc0fcd25eae448e11c680",
+      "kind": "javascript-module",
+      "path": "src/main.js:boot",
+      "exports": [],
+      "import_count": 0,
+      "export_count": 0,
+      "confidence": "exact",
+      "authority": "ast-static-analysis",
+      "limitations": [
+        "Cross-function mutation and dynamic property resolution remain unknown.",
+        "Local call, argument, return, and closure relations are static candidates and do not prove runtime invocation.",
+        "Promise ownership covers explicit unshadowed Promise construction, static factories, aggregation, chaining, and await syntax only."
+      ]
+    },
+    {
+      "node_id": "jag_node_b5ab63d8b393c60ec2a0aaf072be6458ad5eb92d069c04f3fde6aaee3f3cb94f",
+      "kind": "javascript-module",
+      "path": "src/window.js:createWindow:return-shapes",
+      "exports": [],
+      "import_count": 0,
+      "export_count": 0,
+      "confidence": "high",
+      "authority": "static-relationship-inference",
+      "limitations": [
+        "Cross-function mutation and dynamic property resolution remain unknown.",
+        "Local call, argument, return, and closure relations are static candidates and do not prove runtime invocation.",
+        "Promise ownership covers explicit unshadowed Promise construction, static factories, aggregation, chaining, and await syntax only."
+      ]
+    },
+    {
+      "node_id": "jag_node_c7541c3f28384a64134fee7ed20523ea3376e6d4c57757b7f0617b1ad6778970",
+      "kind": "javascript-module",
+      "path": "src/sync.js:SyncQueue:return-shapes",
+      "exports": [],
+      "import_count": 0,
+      "export_count": 0,
+      "confidence": "high",
+      "authority": "static-relationship-inference",
+      "limitations": [
+        "Cross-function mutation and dynamic property resolution remain unknown.",
+        "Local call, argument, return, and closure relations are static candidates and do not prove runtime invocation.",
+        "No direct return value was retained; runtime return behavior remains unknown."
+      ]
+    },
+    {
+      "node_id": "jag_node_e79c174f6c4af5fe8575fa62d5a909dbff20301013fb1ace586a97a81bc222ed",
+      "kind": "javascript-module",
+      "path": "src/search.js",
+      "exports": [
+        "SearchIndex"
+      ],
+      "import_count": 0,
+      "export_count": 1,
+      "module_format": "esm",
+      "confidence": "exact",
+      "authority": "ast-static-analysis",
+      "limitations": [
+        "Cross-function mutation and dynamic property resolution remain unknown.",
+        "Local call, argument, return, and closure relations are static candidates and do not prove runtime invocation.",
+        "Promise ownership covers explicit unshadowed Promise construction, static factories, aggregation, chaining, and await syntax only."
+      ]
+    },
+    {
+      "node_id": "jag_node_fbbbfeb70069165099a548e8608d5eeb4f3c2f150b3adf7a9889bf85b9c85f42",
+      "kind": "javascript-module",
+      "path": "src/main.js",
+      "exports": [
+        "boot"
+      ],
+      "import_count": 3,
+      "export_count": 1,
+      "module_format": "esm",
+      "confidence": "exact",
+      "authority": "ast-static-analysis",
+      "limitations": [
+        "Cross-function mutation and dynamic property resolution remain unknown.",
+        "Local call, argument, return, and closure relations are static candidates and do not prove runtime invocation.",
+        "Promise ownership covers explicit unshadowed Promise construction, static factories, aggregation, chaining, and await syntax only."
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "relation": "maps_to",
+      "from": "src/main.js",
+      "to": "src/main.js",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "imports",
+      "from": "src/main.js",
+      "to": "src/window.js",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "contains",
+      "from": "artifact root",
+      "to": "src/main.js",
+      "confidence": "exact",
+      "authority": "artifact-bytes"
+    },
+    {
+      "relation": "contains",
+      "from": "package.json",
+      "to": "artifact root",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "contains",
+      "from": "src/window.js",
+      "to": "src/window.js",
+      "confidence": "exact",
+      "authority": "ast-static-analysis"
+    },
+    {
+      "relation": "contains",
+      "from": "artifact root",
+      "to": "src/sync.js",
+      "confidence": "exact",
+      "authority": "artifact-bytes"
+    },
+    {
+      "relation": "exposes",
+      "from": "src/window.js",
+      "to": "src/window.js:createWindow:return-shapes",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "loads",
+      "from": "package.json",
+      "to": "src/main.js",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "exposes",
+      "from": "src/search.js",
+      "to": "src/search.js:SearchIndex:return-shapes",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "exposes",
+      "from": "src/sync.js",
+      "to": "src/sync.js:SyncQueue:return-shapes",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "contains",
+      "from": "src/sync.js",
+      "to": "src/sync.js",
+      "confidence": "exact",
+      "authority": "ast-static-analysis"
+    },
+    {
+      "relation": "contains",
+      "from": "src/search.js",
+      "to": "src/search.js",
+      "confidence": "exact",
+      "authority": "ast-static-analysis"
+    },
+    {
+      "relation": "contains",
+      "from": "artifact root",
+      "to": "src/search.js",
+      "confidence": "exact",
+      "authority": "artifact-bytes"
+    },
+    {
+      "relation": "imports",
+      "from": "src/main.js",
+      "to": "src/window.js",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "imports",
+      "from": "src/main.js",
+      "to": "src/search.js",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "contains",
+      "from": "src/main.js",
+      "to": "src/main.js",
+      "confidence": "exact",
+      "authority": "ast-static-analysis"
+    },
+    {
+      "relation": "imports",
+      "from": "src/main.js",
+      "to": "src/search.js",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "contains",
+      "from": "artifact root",
+      "to": "src/window.js",
+      "confidence": "exact",
+      "authority": "artifact-bytes"
+    },
+    {
+      "relation": "imports",
+      "from": "src/main.js",
+      "to": "src/sync.js",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "contains",
+      "from": "artifact root",
+      "to": "package.json",
+      "confidence": "exact",
+      "authority": "artifact-bytes"
+    },
+    {
+      "relation": "exposes",
+      "from": "src/main.js",
+      "to": "src/main.js:boot",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    },
+    {
+      "relation": "imports",
+      "from": "src/main.js",
+      "to": "src/sync.js",
+      "confidence": "high",
+      "authority": "static-relationship-inference"
+    }
+  ],
+  "node_kinds": [
+    "artifact",
+    "electron-main",
+    "javascript-asset",
+    "javascript-module",
+    "package"
+  ],
+  "storage_hits": 0
+}

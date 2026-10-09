@@ -1,0 +1,34 @@
+{
+  "source": {
+    "url": "https://resend.com/",
+    "title": "Resend · Email for developers"
+  },
+  "stolen_feature": {
+    "name": "Preview mode toggles",
+    "description": "Paired switches: Email view mode + Email appearance mode controlling a live product preview.",
+    "a11y_switches": [
+      {
+        "role": "switch",
+        "name": "Email view mode"
+      },
+      {
+        "role": "switch",
+        "name": "Email appearance mode"
+      }
+    ]
+  },
+  "evidence": {
+    "list_targets": "ev_73601523d202e809c9f53f179d3d63c5d6742d403c703fd3c8e7327d39f1465c",
+    "inspect_web_page": "ev_3117cbf358bb8767dc8470ffde388b90c1c98854800d2818d632ff15ba0b5df8",
+    "analyze_web_bundle": "ev_28820e6c9cf56b0e78167417e68fa38b80ef6e451fd10b626397c431daf032f9",
+    "capture_web_screenshot": "ev_7aca87654fd4550558aba52f7c2ac2a9ee693de006e297bb0501774bbe755627"
+  },
+  "providers": [
+    "rea-cdp-browser"
+  ],
+  "applied_to": {
+    "brand": "M Studios",
+    "site": "https://www.mstudios.tv/",
+    "adaptation": "Brand board preview with Desktop/Mobile view + Light/Dark appearance switches"
+  }
+}

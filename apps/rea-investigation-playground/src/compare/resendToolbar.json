@@ -1,0 +1,41 @@
+{
+  "header": "<header class=\"flex h-12 items-center border-b border-slate-6 px-4\"><div class=\"flex w-full justify-between\"><div class=\"flex items-center gap-2\"><div aria-hidden=\"true\" class=\"h-2.5 w-2.5 rounded-full bg-red-10\"></div><div aria-hidden=\"true\" class=\"h-2.5 w-2.5 rounded-full bg-yellow-10\"></div><div aria-hidden=\"true\" class=\"h-2.5 w-2.5 rounded-full bg-green-10\"></div></div><div class=\"flex justify-end gap-2\"><span role=\"switch\" tabindex=\"0\" id=\"base-ui-_R_pq4ltabsdb_\" aria-checked=\"true\" data-checked=\"\"><span aria-label=\"Email view mode\" class=\"group hidden items-center rounded-lg border border-slate-6 md:flex\" data-checked=\"\"><div class=\"inline-flex h-8 w-8 items-center justify-center rounded-l-lg text-default transition duration-200 ease-in-out hover:text-emphasis group-data-unchecked:bg-slate-2 group-data-unchecked:text-white\"><svg fill=\"none\" height=\"16\" viewBox=\"0 0 24 24\" width=\"16\" style=\"width:16px;height:16px\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"currentColor\" d=\"M18.154 3.004A3 3 0 0 1 21 6v8l-.004.154a3 3 0 0 1-2.842 2.842L18 17h-4.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h.5a1 1 0 1 1 0 2h-4a1 1 0 1 1 0-2h.5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H6a3 3 0 0 1-2.996-2.846L3 14V6a3 3 0 0 1 3-3h12zM6 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z\"></path></svg></div><div class=\"inline-flex h-8 w-8 items-center justify-center rounded-r-lg text-default transition duration-200 ease-in-out hover:text-emphasis group-data-checked:bg-slate-2 group-data-checked:text-white\"><svg fill=\"none\" height=\"16\" viewBox=\"0 0 24 24\" width=\"16\" style=\"width:16px;height:16px\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"currentColor\" d=\"M16.154 2.004A3 3 0 0 1 19 5v14l-.004.154a3 3 0 0 1-2.842 2.842L16 22H8a3 3 0 0 1-2.996-2.846L5 19V5a3 3 0 0 1 2.846-2.996L8 2h8zM8 4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm4 11a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3\"></path></svg></div></span></span><input id=\"base-ui-_R_pq4ltabsdbH1_\" style=\"clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:1px;height:1px;margin:-1px;position:fixed;top:0;left:0\" tabindex=\"-1\" type=\"checkbox\" aria-hidden=\"true\" value=\"on\"><span role=\"switch\" tabindex=\"0\" id=\"base-ui-_R_19q4ltabsdb_\" aria-checked=\"true\" data-checked=\"\"><span aria-label=\"Email appearance mode\" class=\"group hidden items-center rounded-lg border border-slate-6 md:flex\" data-checked=\"\"><div class=\"inline-flex h-8 w-8 items-center justify-center rounded-l-lg text-default transition duration-200 ease-in-out hover:text-emphasis group-data-unchecked:bg-slate-2 group-data-unchecked:text-white\"><svg fill=\"none\" height=\"16\" viewBox=\"0 0 24 24\" width=\"16\" style=\"width:16px;height:16px\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"currentColor\" d=\"M7.2 5.8v-.3a8 8 0 0 0 5 14.3l-.5 1 .5 1h-.5a10 10 0 0 1-9.4-9.5v-.5A10 10 0 0 1 9 2.3q.7-.2.6.6l-.1.4-.4 2.5v.4a9 9 0 0 0 8.6 8.5h.4q1.5 0 2.9-.4.8 0 .6.6l-.1.4a10 10 0 0 1-9.4 6.5l-.5-1 .5-1a8 8 0 0 0 6.3-3h-.3c-6 0-11-5-11-11\"></path></svg></div><div class=\"inline-flex h-8 w-8 items-center justify-center rounded-r-lg text-default transition duration-200 ease-in-out hover:text-emphasis group-data-checked:bg-slate-2 group-data-checked:text-white\"><svg fill=\"none\" height=\"16\" viewBox=\"0 0 24 24\" width=\"16\" style=\"width:16px;height:16px\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"currentColor\" d=\"M12 18a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0v-2a1 1 0 0 1 1-1m-5.655-1.754a1 1 0 1 1 1.414 1.414l-1.414 1.414A1 1 0 1 1 4.93 17.66zm9.9 0a1 1 0 0 1 1.413 0l1.414 1.414a1 1 0 1 1-1.414 1.414l-1.414-1.414a1 1 0 0 1 0-1.414M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8m0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-6.995.995a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2zm16 0a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2zM4.93 4.933a1 1 0 0 1 1.414 0l1.414 1.414A1 1 0 1 1 6.345 7.76L4.93 6.347a1 1 0 0 1 0-1.414m12.727 0a1 1 0 1 1 1.414 1.414L17.658 7.76a1 1 0 1 1-1.414-1.414zM12 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1\"></path></svg></div></span></span><input id=\"base-ui-_R_19q4ltabsdbH1_\" style=\"clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:1px;height:1px;margin:-1px;position:fixed;top:0;left:0\" tabindex=\"-1\" type=\"checkbox\" aria-hidden=\"true\" value=\"on\"></div></div></header>",
+  "toolbarIcons": [
+    {
+      "tag": "SPAN",
+      "aria": "Email view mode",
+      "dataChecked": "",
+      "class": "group hidden items-center rounded-lg border border-slate-6 md:flex"
+    },
+    {
+      "tag": "svg",
+      "aria": null,
+      "dataChecked": null,
+      "class": "[object SVGAnimatedString]"
+    },
+    {
+      "tag": "svg",
+      "aria": null,
+      "dataChecked": null,
+      "class": "[object SVGAnimatedString]"
+    },
+    {
+      "tag": "SPAN",
+      "aria": "Email appearance mode",
+      "dataChecked": "",
+      "class": "group hidden items-center rounded-lg border border-slate-6 md:flex"
+    },
+    {
+      "tag": "svg",
+      "aria": null,
+      "dataChecked": null,
+      "class": "[object SVGAnimatedString]"
+    },
+    {
+      "tag": "svg",
+      "aria": null,
+      "dataChecked": null,
+      "class": "[object SVGAnimatedString]"
+    }
+  ]
+}
